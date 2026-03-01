@@ -6,15 +6,16 @@
   <title>Shayan | Indie Games</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=VT323&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0a0012;
-      --text: #d0f8ff;
-      --neon: #00eaff;
-      --neon-alt: #ff00d4;
-      --card: #140028;
-      --border: #00eaff33;
+      --bg: #000000;
+      --text: #f0f0f0;
+      --text-dim: #aaaaaa;
+      --card: #111111;
+      --border: #333333;
+      --accent: #dddddd;
+      --spark: #4a2a00; /* desaturated warm for subtle fire feel in B&W */
     }
 
     * {
@@ -26,42 +27,79 @@
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'VT323', monospace;
-      line-height: 1.5;
+      font-family: 'Roboto Mono', monospace;
+      line-height: 1.6;
       min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Subtle rising fire sparks background (Minecraft fireplace vibe) */
+    .sparks {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .spark {
+      position: absolute;
+      bottom: -20px;
+      width: 3px;
+      height: 3px;
+      background: var(--spark);
+      border-radius: 50%;
+      opacity: 0;
+      box-shadow: 0 0 6px rgba(255, 140, 0, 0.15); /* faint warm glow */
+      animation: rise linear infinite;
+    }
+
+    @keyframes rise {
+      0% {
+        transform: translateY(0) scale(0.5);
+        opacity: 0;
+      }
+      10% { opacity: 0.6; }
+      80% { opacity: 0.4; }
+      100% {
+        transform: translateY(-120vh) scale(0.2);
+        opacity: 0;
+      }
     }
 
     header {
       text-align: center;
-      padding: 80px 20px 60px;
+      padding: 100px 20px 60px;
     }
 
     h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: clamp(3rem, 12vw, 6rem);
-      color: var(--neon);
-      text-shadow: 0 0 12px var(--neon);
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 2px;
     }
 
     .tagline {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       margin-top: 12px;
-      opacity: 0.85;
+      color: var(--text-dim);
     }
 
     main {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 0 20px 60px;
+      padding: 0 20px 80px;
     }
 
     h2 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2.8rem;
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 2.5rem;
       text-align: center;
-      margin: 60px 0 40px;
-      color: var(--neon);
-      text-shadow: 0 0 10px var(--neon);
+      margin: 80px 0 40px;
+      color: var(--accent);
+      font-weight: 700;
     }
 
     .games {
@@ -73,28 +111,28 @@
     .game {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 6px;
       overflow: hidden;
       transition: all 0.3s ease;
     }
 
     .game:hover {
-      border-color: var(--neon-alt);
-      box-shadow: 0 0 20px rgba(255,0,212,0.25);
-      transform: translateY(-6px);
+      border-color: var(--accent);
+      transform: translateY(-8px);
+      box-shadow: 0 10px 30px rgba(255,255,255,0.05);
     }
 
     .game h3 {
       padding: 16px;
-      background: #1e003a;
-      font-size: 1.8rem;
+      background: #1a1a1a;
+      font-size: 1.6rem;
       text-align: center;
-      color: var(--neon-alt);
+      color: var(--text);
     }
 
     .embed {
       position: relative;
-      padding-bottom: 75%; /* Adjust: 75% for 4:3 games, 56.25% for 16:9 */
+      padding-bottom: 75%; /* 4:3 default; change to 56.25% for widescreen games */
       height: 0;
     }
 
@@ -109,37 +147,41 @@
 
     .about, .contact {
       text-align: center;
-      margin: 60px 0;
-      font-size: 1.4rem;
+      margin: 80px 0;
+      font-size: 1.3rem;
+      color: var(--text-dim);
     }
 
     .links a {
-      color: var(--neon);
-      margin: 0 16px;
+      color: var(--accent);
+      margin: 0 20px;
       text-decoration: none;
-      font-size: 1.6rem;
+      font-size: 1.5rem;
+      transition: color 0.3s;
     }
 
     .links a:hover {
-      color: var(--neon-alt);
-      text-shadow: 0 0 8px var(--neon-alt);
+      color: var(--text);
     }
 
     footer {
       text-align: center;
       padding: 40px;
-      font-size: 1.2rem;
-      opacity: 0.7;
+      font-size: 1.1rem;
+      color: var(--text-dim);
+      border-top: 1px solid var(--border);
     }
 
     @media (max-width: 600px) {
-      h1 { font-size: 4rem; }
-      h2 { font-size: 2.2rem; }
+      h1 { font-size: 4.5rem; }
+      h2 { font-size: 2rem; }
       .games { gap: 30px; }
     }
   </style>
 </head>
 <body>
+
+  <div class="sparks" id="sparks"></div>
 
   <header>
     <h1>SHAYAN</h1>
@@ -154,7 +196,7 @@
         <div class="game">
           <h3>[Placeholder 1]</h3>
           <div class="embed">
-            <!-- Replace src with your game URL e.g. https://yourusername.github.io/placeholder1/ -->
+            <!-- Replace src with your game URL -->
             <iframe src="about:blank" allowfullscreen loading="lazy"></iframe>
           </div>
         </div>
@@ -173,14 +215,14 @@
           </div>
         </div>
 
-        <!-- Duplicate the .game div above to add more placeholders as needed -->
+        <!-- Add more .game blocks here as needed -->
 
       </div>
     </section>
 
     <section class="about">
       <h2>About</h2>
-      <p>Indie dev creating small browser games with HTML5 and JavaScript. Focused on fun, simple mechanics and cyberpunk/neon vibes.</p>
+      <p>Indie dev creating small browser games with HTML5 and JavaScript. Focused on clean mechanics and minimalist design.</p>
     </section>
 
     <section class="contact">
@@ -196,6 +238,27 @@
   <footer>
     © 2026 Shayan
   </footer>
+
+  <script>
+    // Generate subtle rising sparks (very small & slow)
+    const sparksContainer = document.getElementById('sparks');
+    function createSpark() {
+      const spark = document.createElement('div');
+      spark.className = 'spark';
+      spark.style.left = Math.random() * 100 + 'vw';
+      spark.style.animationDuration = (Math.random() * 15 + 20) + 's'; // 20-35s slow rise
+      spark.style.animationDelay = Math.random() * 10 + 's';
+      spark.style.opacity = Math.random() * 0.15 + 0.05; // very subtle
+      sparksContainer.appendChild(spark);
+      
+      // Remove after animation to keep DOM clean
+      spark.addEventListener('animationend', () => spark.remove());
+    }
+
+    // Create initial sparks + keep generating slowly
+    for (let i = 0; i < 20; i++) createSpark();
+    setInterval(createSpark, 2500); // new spark every ~2.5s
+  </script>
 
 </body>
 </html>
