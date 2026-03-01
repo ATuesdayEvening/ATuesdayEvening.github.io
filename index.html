@@ -9,13 +9,13 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@500;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg:        #0a0a0a;
-      --surface:   #111111;
-      --border:    #222222;
-      --text:      #e0e0e0;
-      --text-dim:  #a0a0a0;
-      --accent:    #00d4ff;
-      --accent-dim:#007b99;
+      --bg:        #000000;
+      --surface:   #0d0d0d;
+      --border:    #1a1a1a;
+      --text:      #ffffff;
+      --text-dim:  #cccccc;
+      --text-sub:  #888888;
+      --glow:      0 0 12px rgba(255,255,255,0.6), 0 0 24px rgba(255,255,255,0.3);
     }
 
     * {
@@ -30,22 +30,51 @@
       font-family: 'Manrope', system-ui, sans-serif;
       line-height: 1.6;
       min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Very subtle animated gradient (almost invisible but adds depth) */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #000000, #0a0a0a, #000000);
+      background-size: 300% 300%;
+      animation: slowShift 40s ease infinite;
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    @keyframes slowShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Floating particles — pure white, very faint */
+    .particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(255,255,255,0.4);
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(255,255,255,0.35);
+      animation: float linear infinite;
       opacity: 0;
-      animation: fadeIn 1.4s ease-out forwards;
     }
 
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
-
-    a {
-      color: var(--accent);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    a:hover {
-      color: #ffffff;
+    @keyframes float {
+      0%   { transform: translateY(100vh) scale(0.2); opacity: 0; }
+      25%  { opacity: 0.5; }
+      75%  { opacity: 0.3; }
+      100% { transform: translateY(-120px) scale(0.4); opacity: 0; }
     }
 
     header {
@@ -55,20 +84,23 @@
 
     h1 {
       font-family: 'JetBrains Mono', monospace;
-      font-size: clamp(3.8rem, 12vw, 7.5rem);
+      font-size: clamp(4.5rem, 14vw, 9rem);
       font-weight: 700;
-      letter-spacing: -2px;
-      background: linear-gradient(90deg, var(--accent), #00ff9d, var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      letter-spacing: -3px;
+      color: var(--text);
+      text-shadow: var(--glow);
+      animation: glowPulse 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes glowPulse {
+      from { text-shadow: var(--glow); }
+      to   { text-shadow: 0 0 20px rgba(255,255,255,0.9), 0 0 40px rgba(255,255,255,0.5); }
     }
 
     .tagline {
       font-size: 1.5rem;
       color: var(--text-dim);
-      margin-top: 16px;
-      font-weight: 400;
+      margin-top: 20px;
     }
 
     main {
@@ -82,8 +114,45 @@
       font-size: 2.8rem;
       text-align: center;
       margin: 100px 0 50px;
-      color: var(--accent);
+      color: var(--text);
+      text-shadow: var(--glow);
       font-weight: 700;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 60px 20px 100px;
+    }
+
+    .hero h2 {
+      font-size: 2.6rem;
+      margin-bottom: 20px;
+      text-shadow: var(--glow);
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      color: var(--text-dim);
+      max-width: 700px;
+      margin: 0 auto 32px;
+    }
+
+    .hero button {
+      background: var(--text);
+      color: var(--bg);
+      border: none;
+      padding: 16px 48px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: var(--glow);
+    }
+
+    .hero button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(255,255,255,0.25);
     }
 
     .games {
@@ -102,13 +171,13 @@
 
     .game-card:hover {
       transform: translateY(-12px);
-      border-color: var(--accent);
-      box-shadow: 0 20px 50px rgba(0, 212, 255, 0.12);
+      border-color: var(--text);
+      box-shadow: var(--glow);
     }
 
     .game-header {
-      padding: 24px 24px 12px;
-      background: linear-gradient(to bottom, #1a1a1a, transparent);
+      padding: 24px;
+      background: linear-gradient(to bottom, #111111, transparent);
       text-align: center;
     }
 
@@ -117,16 +186,25 @@
       font-size: 1.9rem;
       color: var(--text);
       margin-bottom: 8px;
+      text-shadow: 0 0 8px rgba(255,255,255,0.3);
     }
 
     .game-header p {
       color: var(--text-dim);
       font-size: 1rem;
+      margin-bottom: 12px;
+    }
+
+    .tech-stack {
+      text-align: center;
+      font-size: 0.95rem;
+      color: var(--text-sub);
+      margin-bottom: 16px;
     }
 
     .embed-container {
       position: relative;
-      padding-bottom: 59.375%; /* 640×380 ratio */
+      padding-bottom: 59.375%;
       height: 0;
       background: #000;
     }
@@ -142,22 +220,30 @@
     .play-button {
       position: absolute;
       inset: 0;
-      background: rgba(10,10,10,0.88);
+      background: rgba(0,0,0,0.88);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--accent);
+      color: var(--text);
       font-size: 2.2rem;
       font-family: 'JetBrains Mono', monospace;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.3s;
       z-index: 10;
+      text-shadow: var(--glow);
     }
 
     .play-button:hover {
-      background: rgba(10,10,10,0.75);
+      background: rgba(0,0,0,0.75);
       color: white;
+      text-shadow: 0 0 16px rgba(255,255,255,0.6);
+    }
+
+    .itch-link {
+      text-align: center;
+      margin: 16px 0;
+      font-size: 1rem;
     }
 
     .about, .contact {
@@ -189,32 +275,44 @@
     }
 
     @media (max-width: 768px) {
-      header { padding: 100px 20px 60px; }
+      .games { grid-template-columns: 1fr; gap: 40px; }
+      .hero { padding: 40px 20px 80px; }
       h1 { font-size: 5rem; }
       h2 { font-size: 2.4rem; }
-      .games { gap: 40px; }
       .social-links a { margin: 0 20px; font-size: 1.4rem; }
+      .play-button { font-size: 1.8rem; }
     }
   </style>
 </head>
 <body>
+
+  <div class="particles" id="particles"></div>
 
   <header>
     <h1>SHAYAN</h1>
     <p class="tagline">Indie Game Developer – Toronto</p>
   </header>
 
+  <!-- Hero -->
+  <section class="hero">
+    <h2>Latest Release: PolySeeker</h2>
+    <p>A fast-paced tower defence adventure built in TurboWarp. Defend your base, upgrade towers, survive waves.</p>
+    <button onclick="document.querySelector('.games').scrollIntoView({behavior:'smooth'})">
+      Play Now
+    </button>
+  </section>
+
   <main>
     <section class="games-section">
       <h2>Play My Games</h2>
       <div class="games">
 
-        <!-- PolySeeker -->
         <div class="game-card">
           <div class="game-header">
             <h3>PolySeeker</h3>
             <p>Tower Defence</p>
           </div>
+          <div class="tech-stack">Made with TurboWarp • HTML5 • itch.io embed</div>
           <div class="embed-container">
             <div class="play-button">Click to Play</div>
             <iframe 
@@ -224,14 +322,17 @@
               loading="lazy">
             </iframe>
           </div>
+          <p class="itch-link">
+            <a href="https://electricevo.itch.io/game" target="_blank">View full page on itch.io →</a>
+          </p>
         </div>
 
-        <!-- Lemons, Limes and Crimes -->
         <div class="game-card">
           <div class="game-header">
             <h3>Lemons, Limes and Crimes</h3>
             <p>Story Game</p>
           </div>
+          <div class="tech-stack">Made with TurboWarp • HTML5 • itch.io embed</div>
           <div class="embed-container">
             <div class="play-button">Click to Play</div>
             <iframe 
@@ -241,15 +342,17 @@
               loading="lazy">
             </iframe>
           </div>
+          <p class="itch-link">
+            <a href="https://electricevo.itch.io/game2" target="_blank">View full page on itch.io →</a>
+          </p>
         </div>
 
-        <!-- Future game slot -->
         <div class="game-card">
           <div class="game-header">
             <h3>Next Project</h3>
             <p>Coming soon...</p>
           </div>
-          <div class="embed-container" style="background:#0f0f0f;">
+          <div class="embed-container" style="background:#0d0d0d;">
             <div class="play-button" style="cursor:default;">TBA</div>
           </div>
         </div>
@@ -277,7 +380,23 @@
   </footer>
 
   <script>
-    // Click-to-play → remove overlay only (iframe loads immediately but waits for user gesture for audio)
+    // Floating particles (white & very faint)
+    const particlesContainer = document.getElementById('particles');
+    function createParticle() {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.width = p.style.height = (Math.random() * 3 + 1) + 'px';
+      p.style.animationDuration = (Math.random() * 40 + 30) + 's';
+      p.style.animationDelay = Math.random() * 20 + 's';
+      particlesContainer.appendChild(p);
+      p.addEventListener('animationend', () => p.remove());
+    }
+
+    for (let i = 0; i < 20; i++) createParticle();
+    setInterval(createParticle, 2500);
+
+    // Play button removal
     document.querySelectorAll('.play-button').forEach(btn => {
       btn.addEventListener('click', () => {
         btn.remove();
