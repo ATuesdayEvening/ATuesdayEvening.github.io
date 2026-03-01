@@ -56,7 +56,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Subtle rising fireplace embers */
+    /* Subtle rising fireplace embers – tuned for better visibility */
     .sparks {
       position: fixed;
       inset: 0;
@@ -68,19 +68,19 @@
     .spark {
       position: absolute;
       bottom: -40px;
-      width: 2px;
-      height: 2px;
+      width: 3px; /* slightly larger for testing */
+      height: 3px;
       background: var(--spark);
       border-radius: 50%;
       opacity: 0;
-      box-shadow: 0 0 10px rgba(255, 140, 0, 0.08);
+      box-shadow: 0 0 12px rgba(255, 140, 0, 0.12); /* slightly stronger glow */
       animation: rise linear infinite;
     }
 
     @keyframes rise {
       0%   { transform: translateY(0) scale(0.3); opacity: 0; }
-      20%  { opacity: 0.45; }
-      80%  { opacity: 0.25; }
+      20%  { opacity: 0.6; } /* increased max opacity */
+      80%  { opacity: 0.35; }
       100% { transform: translateY(-150vh) scale(0.1); opacity: 0; }
     }
 
@@ -250,7 +250,7 @@
         <!-- Game 1: PolySeeker -->
         <div class="game">
           <h3>PolySeeker</h3>
-          <p>Tower Defence</p>
+          <p>A TurboWarp adventure – seek, explore, and discover!</p>
           <div class="embed-wrapper">
             <div class="play-overlay">Click to Play</div>
             <iframe 
@@ -264,8 +264,8 @@
 
         <!-- Game 2 -->
         <div class="game">
-          <h3>Lemons, Limes and Crimes</h3>
-          <p>Story Game</p>
+          <h3>Game 2</h3>
+          <p>Your second TurboWarp creation – [add a short description here!]</p>
           <div class="embed-wrapper">
             <div class="play-overlay">Click to Play</div>
             <iframe 
@@ -309,21 +309,23 @@
   </footer>
 
   <script>
-    // Subtle rising embers
+    // Subtle rising embers – tuned for better visibility
     const sparksContainer = document.getElementById('sparks');
-    function createSpark() {
-      const spark = document.createElement('div');
-      spark.className = 'spark';
-      spark.style.left = Math.random() * 100 + 'vw';
-      spark.style.animationDuration = (Math.random() * 25 + 30) + 's';
-      spark.style.animationDelay = Math.random() * 20 + 's';
-      spark.style.opacity = Math.random() * 0.10 + 0.03;
-      sparksContainer.appendChild(spark);
-      spark.addEventListener('animationend', () => spark.remove());
-    }
+    if (sparksContainer) { // Safety check
+      function createSpark() {
+        const spark = document.createElement('div');
+        spark.className = 'spark';
+        spark.style.left = Math.random() * 100 + 'vw';
+        spark.style.animationDuration = (Math.random() * 25 + 30) + 's';
+        spark.style.animationDelay = Math.random() * 20 + 's';
+        spark.style.opacity = Math.random() * 0.15 + 0.05; // slightly higher for testing
+        sparksContainer.appendChild(spark);
+        spark.addEventListener('animationend', () => spark.remove());
+      }
 
-    for (let i = 0; i < 30; i++) createSpark();
-    setInterval(createSpark, 4000);
+      for (let i = 0; i < 50; i++) createSpark(); // more initial sparks
+      setInterval(createSpark, 3000); // faster generation
+    }
 
     // Click-to-play overlay
     document.querySelectorAll('.play-overlay').forEach(overlay => {
