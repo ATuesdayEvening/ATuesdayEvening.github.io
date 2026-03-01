@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shayan | Indie Games</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=VT323&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0012;
+      --text: #d0f8ff;
+      --neon: #00eaff;
+      --neon-alt: #ff00d4;
+      --card: #140028;
+      --border: #00eaff33;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'VT323', monospace;
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 80px 20px 60px;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(3rem, 12vw, 6rem);
+      color: var(--neon);
+      text-shadow: 0 0 12px var(--neon);
+    }
+
+    .tagline {
+      font-size: 1.6rem;
+      margin-top: 12px;
+      opacity: 0.85;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.8rem;
+      text-align: center;
+      margin: 60px 0 40px;
+      color: var(--neon);
+      text-shadow: 0 0 10px var(--neon);
+    }
+
+    .games {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 40px;
+    }
+
+    .game {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .game:hover {
+      border-color: var(--neon-alt);
+      box-shadow: 0 0 20px rgba(255,0,212,0.25);
+      transform: translateY(-6px);
+    }
+
+    .game h3 {
+      padding: 16px;
+      background: #1e003a;
+      font-size: 1.8rem;
+      text-align: center;
+      color: var(--neon-alt);
+    }
+
+    .embed {
+      position: relative;
+      padding-bottom: 75%; /* Adjust: 75% for 4:3 games, 56.25% for 16:9 */
+      height: 0;
+    }
+
+    .embed iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #000;
+    }
+
+    .about, .contact {
+      text-align: center;
+      margin: 60px 0;
+      font-size: 1.4rem;
+    }
+
+    .links a {
+      color: var(--neon);
+      margin: 0 16px;
+      text-decoration: none;
+      font-size: 1.6rem;
+    }
+
+    .links a:hover {
+      color: var(--neon-alt);
+      text-shadow: 0 0 8px var(--neon-alt);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      font-size: 1.2rem;
+      opacity: 0.7;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 4rem; }
+      h2 { font-size: 2.2rem; }
+      .games { gap: 30px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>SHAYAN</h1>
+    <p class="tagline">Indie Game Developer – Toronto</p>
+  </header>
+
+  <main>
+    <section class="games-section">
+      <h2>Play My Games</h2>
+      <div class="games">
+
+        <div class="game">
+          <h3>[Placeholder 1]</h3>
+          <div class="embed">
+            <!-- Replace src with your game URL e.g. https://yourusername.github.io/placeholder1/ -->
+            <iframe src="about:blank" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <div class="game">
+          <h3>[Placeholder 2]</h3>
+          <div class="embed">
+            <iframe src="about:blank" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <div class="game">
+          <h3>[Placeholder 3]</h3>
+          <div class="embed">
+            <iframe src="about:blank" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <!-- Duplicate the .game div above to add more placeholders as needed -->
+
+      </div>
+    </section>
+
+    <section class="about">
+      <h2>About</h2>
+      <p>Indie dev creating small browser games with HTML5 and JavaScript. Focused on fun, simple mechanics and cyberpunk/neon vibes.</p>
+    </section>
+
+    <section class="contact">
+      <h2>Contact</h2>
+      <div class="links">
+        <a href="https://x.com/yourhandle" target="_blank">X</a>
+        <a href="https://github.com/yourusername" target="_blank">GitHub</a>
+        <a href="https://itch.io/profile/yourprofile" target="_blank">itch.io</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2026 Shayan
+  </footer>
+
+</body>
+</html>
