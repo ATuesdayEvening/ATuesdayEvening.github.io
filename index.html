@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Shayan | Indie Games</title>
+  <title>Shayan | Game Developer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
@@ -206,7 +206,7 @@
       <h2>Play My Games</h2>
       <div class="games">
 
-        <!-- PolySeeker – lazy loaded -->
+        <!-- Game 1: PolySeeker -->
         <div class="game">
           <h3>PolySeeker</h3>
           <p>Tower Defence</p>
@@ -222,7 +222,7 @@
           </div>
         </div>
 
-        <!-- Lemons, Limes and Crimes – lazy loaded -->
+        <!-- Game 2: Lemons, Limes and Crimes -->
         <div class="game">
           <h3>Lemons, Limes and Crimes</h3>
           <p>Story Game</p>
@@ -238,12 +238,35 @@
           </div>
         </div>
 
-        <!-- Placeholder -->
+        <!-- Game 3: The Decayed -->
         <div class="game">
-          <h3>[Placeholder 3]</h3>
+          <h3>The Decayed</h3>
+          <p>Horror / FNAF Style</p>
           <div class="embed-wrapper">
             <div class="play-overlay">Click to Play</div>
-            <iframe src="about:blank" allowfullscreen loading="lazy"></iframe>
+            <iframe 
+              frameborder="0" 
+              src="about:blank"
+              data-src="https://itch.io/embed-upload/12740855?color=000000"
+              allowfullscreen 
+              loading="lazy">
+            </iframe>
+          </div>
+        </div>
+
+        <!-- Game 4: Atomized -->
+        <div class="game">
+          <h3>Atomized</h3>
+          <p>post end of war game like 60 seconds</p>
+          <div class="embed-wrapper">
+            <div class="play-overlay">Click to Play</div>
+            <iframe 
+              frameborder="0" 
+              src="about:blank"
+              data-src="https://itch.io/embed-upload/16742067?color=333333"
+              allowfullscreen 
+              loading="lazy">
+            </iframe>
           </div>
         </div>
 
@@ -252,7 +275,7 @@
 
     <section class="about">
       <h2>About</h2>
-      <p>Indie developer from Toronto building small, satisfying browser games with HTML5 and JavaScript. Focused on clean mechanics, minimalist aesthetics, and that cozy late-night coding vibe.</p>
+      <p>Indie developer from Toronto building small, satisfying browser games with HTML5 and JavaScript. Focused on clean mechanics, cozy late night coding vibe.</p>
     </section>
 
     <section class="contact">
@@ -270,7 +293,7 @@
   </footer>
 
   <script>
-    // Lazy-load embeds on click
+    // True lazy loading: only set src when clicked
     document.querySelectorAll('.play-overlay').forEach(overlay => {
       overlay.addEventListener('click', () => {
         const iframe = overlay.nextElementSibling;
