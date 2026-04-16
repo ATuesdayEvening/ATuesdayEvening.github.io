@@ -8,6 +8,7 @@
     :root {
       --bg: #050308;
       --bg2: #0a0613;
+      --bg3: #12091d;
       --text: #f2ecff;
       --text-dim: #b9add4;
       --card: rgba(13, 8, 24, 0.95);
@@ -17,6 +18,8 @@
       --purple: #9f5cff;
       --purple-soft: #c59bff;
       --shadow: 0 22px 50px rgba(0, 0, 0, 0.45);
+      --max: 1180px;
+      --nav-height: 78px;
     }
 
     * {
@@ -31,44 +34,25 @@
 
     body {
       background:
-        radial-gradient(circle at 50% -10%, rgba(132, 65, 220, 0.22), transparent 28%),
-        linear-gradient(180deg, #09050f 0%, #050308 58%, #030205 100%);
+        radial-gradient(circle at 50% -10%, rgba(120, 72, 220, 0.12), transparent 24%),
+        radial-gradient(circle at 20% 18%, rgba(120, 72, 220, 0.08), transparent 22%),
+        radial-gradient(circle at 80% 10%, rgba(90, 40, 180, 0.08), transparent 22%),
+        linear-gradient(180deg, #020204 0%, #030306 48%, #05030a 100%);
       color: var(--text);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       line-height: 1.6;
       min-height: 100vh;
       position: relative;
       overflow-x: hidden;
-      opacity: 0;
-      animation: fadeIn 1.1s ease-out forwards;
     }
 
     body::before,
-    body::after {
-      content: "";
-      position: fixed;
-      pointer-events: none;
-      z-index: -2;
-      border-radius: 50%;
-      filter: blur(70px);
-      opacity: 0.55;
-    }
-
-    body::before {
-      width: 420px;
-      height: 420px;
-      top: 80px;
-      left: -90px;
-      background: rgba(94, 31, 180, 0.22);
-      animation: floatGlow 12s ease-in-out infinite alternate;
-    }
-
     body::after {
       width: 460px;
       height: 460px;
       top: 180px;
       right: -110px;
-      background: rgba(165, 85, 255, 0.16);
+      background: rgba(165, 85, 255, 0.1);
       animation: floatGlow 14s ease-in-out infinite alternate-reverse;
     }
 
@@ -78,11 +62,17 @@
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: 9999;
+      z-index: 0;
+      opacity: 0.95;
     }
 
-    @keyframes fadeIn {
-      to { opacity: 1; }
+    .topbar,
+    header,
+    main,
+    footer,
+    .soft-player {
+      position: relative;
+      z-index: 1;
     }
 
     @keyframes floatGlow {
@@ -99,7 +89,8 @@
 
     header,
     main > section,
-    footer {
+    footer,
+    .soft-player {
       opacity: 0;
       transform: translateY(26px);
       animation: slideUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
@@ -110,10 +101,98 @@
     .about { animation-delay: 0.45s; }
     .contact { animation-delay: 0.6s; }
     footer { animation-delay: 0.75s; }
+    .soft-player { animation-delay: 0.2s; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(14px);
+      background: rgba(5, 3, 8, 0.7);
+      border-bottom: 1px solid rgba(186, 130, 255, 0.12);
+    }
+
+    .topbar-inner {
+      max-width: var(--max);
+      min-height: var(--nav-height);
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 800;
+      letter-spacing: 0.01em;
+    }
+
+    .brand-mark {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fff, var(--purple-soft) 35%, var(--purple) 75%);
+      box-shadow: 0 0 18px rgba(159, 92, 255, 0.55);
+      flex-shrink: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a,
+    .hero-buttons a,
+    .filter-chip,
+    .scroll-top {
+      color: var(--text);
+      text-decoration: none;
+      padding: 10px 15px;
+      border-radius: 999px;
+      background: rgba(177, 114, 255, 0.1);
+      border: 1px solid rgba(197, 147, 255, 0.18);
+      transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+      font-weight: 700;
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .nav-links a:hover,
+    .hero-buttons a:hover,
+    .filter-chip:hover,
+    .scroll-top:hover,
+    .game-link:hover,
+    .links a:hover,
+    .player-button:hover {
+      transform: translateY(-2px);
+      background: rgba(177, 114, 255, 0.16);
+      border-color: rgba(219, 181, 255, 0.34);
+    }
+
+    .nav-links a:focus-visible,
+    .hero-buttons a:focus-visible,
+    .filter-chip:focus-visible,
+    .scroll-top:focus-visible,
+    .play-overlay:focus-visible,
+    .game-link:focus-visible,
+    .links a:focus-visible,
+    .player-button:focus-visible {
+      outline: 2px solid rgba(222, 188, 255, 0.9);
+      outline-offset: 3px;
+    }
 
     header {
       text-align: center;
-      padding: 130px 20px 70px;
+      padding: 86px 20px 72px;
       max-width: 1100px;
       margin: 0 auto;
     }
@@ -148,10 +227,130 @@
       color: var(--text-dim);
     }
 
+    .hero-meta {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 26px;
+      color: var(--text-dim);
+      font-size: 0.98rem;
+    }
+
+    .hero-stat {
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .hero-buttons .primary {
+      background: linear-gradient(180deg, rgba(180, 114, 255, 0.28), rgba(146, 82, 229, 0.18));
+      border-color: rgba(221, 187, 255, 0.3);
+    }
+
     main {
-      max-width: 1180px;
+      max-width: var(--max);
       margin: 0 auto;
       padding: 0 20px 110px;
+    }
+
+    .soft-player {
+      max-width: var(--max);
+      margin: 0 auto 34px;
+      padding: 0 20px;
+      display: none;
+    }
+
+    .soft-player.show {
+      display: block;
+    }
+
+    .soft-player-panel {
+      position: relative;
+      border-radius: 26px;
+      border: 1px solid var(--border-strong);
+      background: linear-gradient(180deg, rgba(18, 11, 31, 0.98), rgba(8, 5, 14, 0.98));
+      box-shadow: 0 32px 70px rgba(0, 0, 0, 0.58), 0 0 30px rgba(159, 92, 255, 0.14);
+      padding: 18px;
+      overflow: hidden;
+    }
+
+    .soft-player-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      padding: 4px 4px 14px;
+    }
+
+    .soft-player-info h2 {
+      margin: 0;
+      text-align: left;
+      font-size: clamp(1.8rem, 4vw, 2.7rem);
+    }
+
+    .soft-player-info p {
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+
+    .soft-player-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .soft-player-stage {
+      position: relative;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid rgba(182, 130, 255, 0.16);
+      background: #000;
+      min-height: min(78vh, 920px);
+    }
+
+    .soft-player-stage .embed-wrapper {
+      margin: 0;
+      height: min(78vh, 920px);
+      min-height: 560px;
+      padding-bottom: 0;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .soft-player-stage .embed-wrapper iframe,
+    .soft-player-stage .embed-wrapper > iframe,
+    .soft-player-stage .embed-wrapper template + iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .player-button {
+      color: var(--text);
+      text-decoration: none;
+      padding: 11px 15px;
+      border-radius: 999px;
+      background: rgba(177, 114, 255, 0.1);
+      border: 1px solid rgba(197, 147, 255, 0.18);
+      transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+      font-weight: 700;
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+      font: inherit;
     }
 
     h2 {
@@ -167,8 +366,21 @@
       text-align: center;
       color: var(--text-dim);
       max-width: 700px;
-      margin: 0 auto 38px;
+      margin: 0 auto 26px;
       font-size: 1.04rem;
+    }
+
+    .section-tools {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 34px;
+    }
+
+    .filter-chip.active {
+      background: rgba(177, 114, 255, 0.2);
+      border-color: rgba(219, 181, 255, 0.42);
     }
 
     .games {
@@ -186,11 +398,15 @@
       border: 1px solid var(--border);
       border-radius: 22px;
       overflow: hidden;
-      transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+      transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, opacity 0.3s ease;
       box-shadow: var(--shadow);
       position: relative;
       isolation: isolate;
       backdrop-filter: blur(10px);
+    }
+
+    .game.hidden {
+      display: none;
     }
 
     .game::before {
@@ -310,11 +526,9 @@
       letter-spacing: 0.04em;
     }
 
-    .play-overlay:focus-visible,
-    .game-link:focus-visible,
-    .links a:focus-visible {
-      outline: 2px solid rgba(222, 188, 255, 0.9);
-      outline-offset: 3px;
+    .game.playing {
+      border-color: var(--border-strong);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.55), 0 0 28px rgba(159, 92, 255, 0.14);
     }
 
     .game-foot {
@@ -342,13 +556,6 @@
       transition: all 0.25s ease;
       font-weight: 700;
       backdrop-filter: blur(8px);
-    }
-
-    .game-link:hover,
-    .links a:hover {
-      transform: translateY(-2px);
-      background: rgba(177, 114, 255, 0.16);
-      border-color: rgba(219, 181, 255, 0.34);
     }
 
     .about,
@@ -405,13 +612,47 @@
       font-size: 1.05rem;
       color: var(--text-dim);
       border-top: 1px solid rgba(186, 130, 255, 0.1);
-      max-width: 1180px;
+      max-width: var(--max);
       margin: 95px auto 0;
     }
 
+    .footer-top {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .scroll-top {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: opacity 0.25s ease, transform 0.25s ease, background 0.25s ease;
+    }
+
+    .scroll-top.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
     @media (max-width: 768px) {
+      .topbar-inner {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        min-height: auto;
+        flex-direction: column;
+        justify-content: center;
+      }
+
       header {
-        padding-top: 105px;
+        padding-top: 72px;
       }
 
       .games {
@@ -437,6 +678,29 @@
       .play-overlay {
         font-size: 1.7rem;
       }
+
+      .soft-player {
+        padding: 0 14px;
+      }
+
+      .soft-player-panel {
+        padding: 14px;
+        border-radius: 20px;
+      }
+
+      .soft-player-stage {
+        min-height: 62vh;
+      }
+
+      .soft-player-stage .embed-wrapper {
+        min-height: 62vh;
+        height: 62vh;
+      }
+
+      .scroll-top {
+        right: 14px;
+        bottom: 14px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -455,13 +719,14 @@
 
       header,
       main > section,
-      footer {
+      footer,
+      .soft-player {
         opacity: 1;
         transform: none;
       }
 
       #sparkle-canvas {
-        display: none;
+        opacity: 0.7;
       }
     }
   </style>
@@ -469,20 +734,65 @@
 <body>
   <canvas id="sparkle-canvas"></canvas>
 
-  <header>
+  <nav class="topbar" aria-label="Main navigation">
+    <div class="topbar-inner">
+      <a class="brand" href="#top">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>Shayan</span>
+      </a>
+      <div class="nav-links">
+        <a href="#games">Games</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <header id="top">
     <div class="name-pill">Toronto Indie Game Developer</div>
     <h1>SHAYAN</h1>
-    <p class="tagline">Original browser games</p>
+    <p class="tagline">Original browser games with horror, action, puzzle, and story ideas.</p>
+    <div class="hero-meta">
+      <div class="hero-stat">7 games on this page</div>
+      <div class="hero-stat">Playable in browser</div>
+      <div class="hero-stat">Built by one dev</div>
+    </div>
+    <div class="hero-buttons">
+      <a class="primary" href="#games">Play now</a>
+      <a href="https://electricevo.itch.io" target="_blank" rel="noopener noreferrer">Visit itch.io</a>
+    </div>
   </header>
 
+  <section class="soft-player" id="soft-player" aria-live="polite">
+    <div class="soft-player-panel">
+      <div class="soft-player-top">
+        <div class="soft-player-info">
+          <h2 id="player-title">Now Playing</h2>
+          <p id="player-sub">Opened in a larger view</p>
+        </div>
+        <div class="soft-player-actions">
+          <button class="player-button" id="close-player" type="button">Close</button>
+        </div>
+      </div>
+      <div class="soft-player-stage" id="soft-player-stage"></div>
+    </div>
+  </section>
+
   <main>
-    <section class="games-section">
+    <section class="games-section" id="games">
       <h2>Play My Games</h2>
-      <p class="section-sub">Horror, puzzle, story, and arcade projects built to be played right in the browser.</p>
+      <p class="section-sub">Pick a game below. You can filter the list to find horror, story, puzzle, arcade, or roguelike games faster.</p>
+      <div class="section-tools" role="group" aria-label="Game filters">
+        <button class="filter-chip active" type="button" data-filter="all">All</button>
+        <button class="filter-chip" type="button" data-filter="arcade">Arcade</button>
+        <button class="filter-chip" type="button" data-filter="story">Story</button>
+        <button class="filter-chip" type="button" data-filter="horror">Horror</button>
+        <button class="filter-chip" type="button" data-filter="puzzle">Puzzle</button>
+        <button class="filter-chip" type="button" data-filter="roguelike">Roguelike</button>
+      </div>
 
       <div class="games">
-
-        <div class="game">
+        <div class="game" data-genre="arcade">
           <div class="game-head">
             <div>
               <h3>PolySeeker</h3>
@@ -500,7 +810,7 @@
           </div>
         </div>
 
-        <div class="game">
+        <div class="game" data-genre="story">
           <div class="game-head">
             <div>
               <h3>Lemons, Limes and Crimes</h3>
@@ -518,7 +828,7 @@
           </div>
         </div>
 
-        <div class="game">
+        <div class="game" data-genre="horror">
           <div class="game-head">
             <div>
               <h3>The Decayed</h3>
@@ -536,7 +846,7 @@
           </div>
         </div>
 
-        <div class="game">
+        <div class="game" data-genre="puzzle">
           <div class="game-head">
             <div>
               <h3>Atomized</h3>
@@ -549,12 +859,12 @@
             <iframe frameborder="0" src="about:blank" data-src="https://itch.io/embed-upload/16742067?color=333333" allowfullscreen loading="lazy"></iframe>
           </div>
           <div class="game-foot">
-            <div class="game-note">Decisions Matter..</div>
+            <div class="game-note">Decisions matter.</div>
             <a class="game-link" href="https://electricevo.itch.io" target="_blank" rel="noopener noreferrer">itch.io ↗</a>
           </div>
         </div>
 
-        <div class="game">
+        <div class="game" data-genre="roguelike horror">
           <div class="game-head">
             <div>
               <h3>False Scares</h3>
@@ -567,12 +877,12 @@
             <iframe frameborder="0" src="about:blank" data-src="https://itch.io/embed-upload/16773126?color=333333" allowfullscreen loading="lazy"></iframe>
           </div>
           <div class="game-foot">
-            <div class="game-note">An intense replayable FNAF Roguelike.</div>
+            <div class="game-note">An intense replayable FNAF roguelike.</div>
             <a class="game-link" href="https://electricevo.itch.io" target="_blank" rel="noopener noreferrer">itch.io ↗</a>
           </div>
         </div>
 
-        <div class="game">
+        <div class="game" data-genre="roguelike">
           <div class="game-head">
             <div>
               <h3>Old Man Consequences</h3>
@@ -587,12 +897,12 @@
             </template>
           </div>
           <div class="game-foot">
-            <div class="game-note">Roguelike Bossfight game.</div>
+            <div class="game-note">Roguelike boss fight game.</div>
             <a class="game-link" href="https://electricevo.itch.io/consequences" target="_blank" rel="noopener noreferrer">itch.io ↗</a>
           </div>
         </div>
 
-        <div class="game">
+        <div class="game" data-genre="horror">
           <div class="game-head">
             <div>
               <h3>Multicolors Negative</h3>
@@ -611,18 +921,17 @@
             <a class="game-link" href="https://electricevo.itch.io/multicolors-negative" target="_blank" rel="noopener noreferrer">itch.io ↗</a>
           </div>
         </div>
-
       </div>
     </section>
 
-    <section class="about">
+    <section class="about" id="about">
       <div class="about-box">
         <h2>About</h2>
-        <p>I make original browser games with a focus on atmosphere, replayability, and memorable mechanics.</p>
+        <p>I make original browser games with a focus on mood, replay value, and game ideas that stick with people after they finish playing.</p>
       </div>
     </section>
 
-    <section class="contact">
+    <section class="contact" id="contact">
       <div class="contact-box">
         <h2>Contact</h2>
         <p>Follow my work and new releases here.</p>
@@ -636,35 +945,138 @@
   </main>
 
   <footer>
-    © 2026 Shayan • Made in Toronto
+    <div class="footer-top">
+      <span>© 2026 Shayan</span>
+      <span>•</span>
+      <span>Made in Toronto</span>
+    </div>
+    <div>Thanks for playing.</div>
   </footer>
 
+  <button class="scroll-top" type="button" aria-label="Back to top">Top</button>
+
   <script>
-    document.querySelectorAll('.play-overlay').forEach(overlay => {
-      overlay.addEventListener('click', () => {
-        const wrapper = overlay.parentElement;
-        const iframe = wrapper.querySelector('iframe');
-        const template = wrapper.querySelector('.embed-template');
-
-        if (iframe && iframe.dataset.src && iframe.src === 'about:blank') {
-          iframe.src = iframe.dataset.src;
-        } else if (template) {
-          wrapper.appendChild(template.content.cloneNode(true));
-          template.remove();
-        }
-
-        overlay.remove();
-      });
-    });
-
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const softPlayer = document.getElementById('soft-player');
+    const softPlayerStage = document.getElementById('soft-player-stage');
+    const playerTitle = document.getElementById('player-title');
+    const playerSub = document.getElementById('player-sub');
+    const closePlayer = document.getElementById('close-player');
+    const filterButtons = document.querySelectorAll('.filter-chip');
+    const gameCards = document.querySelectorAll('.game');
+    const scrollTopButton = document.querySelector('.scroll-top');
     const canvas = document.getElementById('sparkle-canvas');
     const ctx = canvas.getContext('2d');
+
+    let activeGame = null;
+    let activeWrapper = null;
+    let activePlaceholder = null;
     const particles = [];
+    const stars = [];
+    const mouse = {
+      x: -9999,
+      y: -9999,
+      active: false
+    };
     let animationFrame = null;
     let width = window.innerWidth;
     let height = window.innerHeight;
     let dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+
+    function loadEmbedIntoWrapper(wrapper) {
+      const iframe = wrapper.querySelector('iframe');
+      const template = wrapper.querySelector('.embed-template');
+
+      if (iframe && iframe.dataset.src && iframe.src === 'about:blank') {
+        iframe.src = iframe.dataset.src;
+      } else if (template) {
+        wrapper.appendChild(template.content.cloneNode(true));
+        template.remove();
+      }
+    }
+
+    function restoreGame() {
+      if (!activeWrapper || !activePlaceholder) {
+        return;
+      }
+
+      activePlaceholder.replaceWith(activeWrapper);
+
+      if (activeGame) {
+        activeGame.classList.remove('playing');
+      }
+
+      activeGame = null;
+      activeWrapper = null;
+      activePlaceholder = null;
+      softPlayer.classList.remove('show');
+      softPlayerStage.innerHTML = '';
+    }
+
+    document.querySelectorAll('.play-overlay').forEach((overlay) => {
+      overlay.addEventListener('click', () => {
+        const wrapper = overlay.parentElement;
+        const game = overlay.closest('.game');
+        const title = game.querySelector('h3')?.textContent || 'Now Playing';
+        const sub = game.querySelector('.game-note')?.textContent || 'Opened in a larger view';
+
+        if (activeWrapper && activeWrapper !== wrapper) {
+          restoreGame();
+        }
+
+        loadEmbedIntoWrapper(wrapper);
+        overlay.remove();
+
+        if (!activeWrapper) {
+          activeGame = game;
+          activeWrapper = wrapper;
+          activePlaceholder = document.createComment('soft-player-placeholder');
+          wrapper.parentNode.insertBefore(activePlaceholder, wrapper);
+          softPlayerStage.appendChild(wrapper);
+          softPlayer.classList.add('show');
+          game.classList.add('playing');
+          playerTitle.textContent = title;
+          playerSub.textContent = sub;
+          softPlayer.scrollIntoView({
+            behavior: reduceMotion ? 'auto' : 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    closePlayer.addEventListener('click', restoreGame);
+
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const filter = button.dataset.filter;
+
+        filterButtons.forEach((btn) => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        gameCards.forEach((card) => {
+          const genres = (card.dataset.genre || '').toLowerCase();
+          const show = filter === 'all' || genres.includes(filter);
+          card.classList.toggle('hidden', !show);
+        });
+      });
+    });
+
+    function updateScrollTop() {
+      if (window.scrollY > 500) {
+        scrollTopButton.classList.add('show');
+      } else {
+        scrollTopButton.classList.remove('show');
+      }
+    }
+
+    scrollTopButton.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+    });
+
+    window.addEventListener('scroll', updateScrollTop, { passive: true });
+    updateScrollTop();
 
     function resizeCanvas() {
       width = window.innerWidth;
@@ -677,10 +1089,117 @@
       canvas.style.height = height + 'px';
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      buildStars();
+    }
+
+    function buildStars() {
+      stars.length = 0;
+
+      const area = width * height;
+      const count = Math.max(70, Math.min(170, Math.floor(area / 15000)));
+
+      for (let i = 0; i < count; i += 1) {
+        stars.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          size: 0.8 + Math.random() * 2.1,
+          alpha: 0.28 + Math.random() * 0.45,
+          twinkleOffset: Math.random() * Math.PI * 2,
+          twinkleSpeed: 0.4 + Math.random() * 1.4,
+          drift: 2 + Math.random() * 10,
+          linkRadius: 90 + Math.random() * 90,
+          vx: (Math.random() - 0.5) * 0.015,
+          vy: (Math.random() - 0.5) * 0.015,
+          glow: 4 + Math.random() * 8
+        });
+      }
+    }
+
+    function drawStarField(time) {
+      const t = time * 0.001;
+      const nearbyStars = [];
+
+      for (let i = 0; i < stars.length; i += 1) {
+        const star = stars[i];
+
+        if (!reduceMotion) {
+          star.x += star.vx;
+          star.y += star.vy;
+
+          if (star.x < -10) star.x = width + 10;
+          if (star.x > width + 10) star.x = -10;
+          if (star.y < -10) star.y = height + 10;
+          if (star.y > height + 10) star.y = -10;
+        }
+
+        const pulse = reduceMotion ? 0 : Math.sin(t * star.twinkleSpeed + star.twinkleOffset) * 0.18;
+        const alpha = Math.max(0.14, Math.min(1, star.alpha + pulse));
+
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+        ctx.shadowBlur = star.glow;
+        ctx.shadowColor = `rgba(197, 155, 255, ${alpha * 0.9})`;
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (mouse.active) {
+          const dx = mouse.x - star.x;
+          const dy = mouse.y - star.y;
+          const distance = Math.hypot(dx, dy);
+
+          if (distance < star.linkRadius) {
+            nearbyStars.push(star);
+            const lineAlpha = (1 - distance / star.linkRadius) * 0.45;
+
+            ctx.beginPath();
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = `rgba(197, 155, 255, ${lineAlpha})`;
+            ctx.shadowBlur = 0;
+            ctx.moveTo(star.x, star.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      for (let i = 0; i < nearbyStars.length; i += 1) {
+        const a = nearbyStars[i];
+
+        for (let j = i + 1; j < nearbyStars.length; j += 1) {
+          const b = nearbyStars[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const distance = Math.hypot(dx, dy);
+
+          if (distance < 120) {
+            const alpha = (1 - distance / 120) * 0.18;
+            ctx.beginPath();
+            ctx.lineWidth = 0.8;
+            ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      if (mouse.active) {
+        const cursorGlow = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 120);
+        cursorGlow.addColorStop(0, 'rgba(197, 155, 255, 0.10)');
+        cursorGlow.addColorStop(1, 'rgba(197, 155, 255, 0)');
+        ctx.fillStyle = cursorGlow;
+        ctx.beginPath();
+        ctx.arc(mouse.x, mouse.y, 120, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.shadowBlur = 0;
     }
 
     function addSparkleBurst(x, y) {
-      if (reduceMotion) return;
+      if (reduceMotion) {
+        return;
+      }
 
       const colors = [
         'rgba(255, 255, 255, 0.95)',
@@ -691,7 +1210,7 @@
 
       const count = 14;
 
-      for (let i = 0; i < count; i++) {
+      for (let i = 0; i < count; i += 1) {
         const angle = Math.random() * Math.PI * 2;
         const speed = 1.2 + Math.random() * 3.2;
 
@@ -714,68 +1233,89 @@
       if (particles.length > 220) {
         particles.splice(0, particles.length - 220);
       }
-
-      if (!animationFrame) {
-        animateParticles();
-      }
     }
 
-    function drawParticle(p) {
+    function drawParticle(particle) {
       ctx.save();
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.rotation);
-      ctx.globalAlpha = p.alpha;
-      ctx.fillStyle = p.color;
+      ctx.translate(particle.x, particle.y);
+      ctx.rotate(particle.rotation);
+      ctx.globalAlpha = particle.alpha;
+      ctx.fillStyle = particle.color;
       ctx.shadowBlur = 12;
-      ctx.shadowColor = p.color;
+      ctx.shadowColor = particle.color;
 
-      if (p.shape === 'diamond') {
-        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+      if (particle.shape === 'diamond') {
+        ctx.fillRect(-particle.size / 2, -particle.size / 2, particle.size, particle.size);
       } else {
         ctx.beginPath();
-        ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+        ctx.arc(0, 0, particle.size / 2, 0, Math.PI * 2);
         ctx.fill();
       }
 
       ctx.restore();
     }
 
-    function animateParticles() {
+    function animateScene(time = 0) {
       ctx.clearRect(0, 0, width, height);
+      drawStarField(time);
 
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
+      for (let i = particles.length - 1; i >= 0; i -= 1) {
+        const particle = particles[i];
 
-        p.vy += 0.08;
-        p.x += p.vx;
-        p.y += p.vy;
-        p.rotation += p.spin;
-        p.life -= 1;
-        p.alpha = Math.max(p.life / p.maxLife, 0);
+        particle.vy += 0.08;
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+        particle.rotation += particle.spin;
+        particle.life -= 1;
+        particle.alpha = Math.max(particle.life / particle.maxLife, 0);
 
-        drawParticle(p);
+        drawParticle(particle);
 
-        if (p.life <= 0) {
+        if (particle.life <= 0) {
           particles.splice(i, 1);
         }
       }
 
-      if (particles.length > 0) {
-        animationFrame = requestAnimationFrame(animateParticles);
-      } else {
-        animationFrame = null;
-        ctx.clearRect(0, 0, width, height);
-      }
+      animationFrame = requestAnimationFrame(animateScene);
     }
 
     resizeCanvas();
+    animationFrame = requestAnimationFrame(animateScene);
     window.addEventListener('resize', resizeCanvas);
 
+    window.addEventListener('pointermove', (event) => {
+      mouse.x = event.clientX;
+      mouse.y = event.clientY;
+      mouse.active = true;
+    }, { passive: true });
+
+    window.addEventListener('pointerleave', () => {
+      mouse.active = false;
+    });
+
+    window.addEventListener('blur', () => {
+      mouse.active = false;
+    });
+
     window.addEventListener('pointerdown', (event) => {
-      if (reduceMotion) return;
-      if (event.pointerType === 'mouse' && event.button !== 0) return;
+      if (reduceMotion) {
+        return;
+      }
+
+      if (event.pointerType === 'mouse' && event.button !== 0) {
+        return;
+      }
+
       addSparkleBurst(event.clientX, event.clientY);
     }, { passive: true });
+
+    console.assert(typeof restoreGame === 'function', 'restoreGame should exist');
+    console.assert(typeof loadEmbedIntoWrapper === 'function', 'loadEmbedIntoWrapper should exist');
+    console.assert(filterButtons.length >= 1, 'Filter buttons should exist');
+    console.assert(gameCards.length >= 1, 'Game cards should exist');
+    console.assert(closePlayer instanceof HTMLElement, 'Close button should exist');
+    console.assert(softPlayerStage instanceof HTMLElement, 'Soft player stage should exist');
+    console.assert(stars.length > 0, 'Stars should be created');
   </script>
 </body>
 </html>
