@@ -8,8 +8,8 @@
     :root {
       --bg: #020204;
       --bg-soft: #080610;
-      --panel: rgba(13, 10, 22, 0.88);
-      --panel-strong: rgba(17, 12, 29, 0.96);
+      --panel: rgba(14, 10, 24, 0.92);
+      --panel-2: rgba(11, 8, 18, 0.96);
       --text: #f4efff;
       --text-dim: #b4aacd;
       --line: rgba(195, 158, 255, 0.16);
@@ -171,15 +171,13 @@
     .search-row,
     .chip-row,
     .meta-row,
-    .footer-top {
+    .footer-top,
+    .player-meta-row,
+    .player-bottom-row {
       display: flex;
       align-items: center;
       gap: 12px;
       flex-wrap: wrap;
-    }
-
-    .nav-links {
-      justify-content: center;
     }
 
     a,
@@ -312,49 +310,50 @@
     .player-shell {
       max-width: var(--max);
       margin: 0 auto;
-      padding: 0 20px;
+      padding-left: 20px;
+      padding-right: 20px;
     }
 
     .player-shell {
       display: none;
       margin-bottom: 34px;
-    }
-
-    .player-shell.show {
-      display: block;
-    }
-
-    .player-meta,
-    .player-panel,
-    .player-bottom,
-    .panel-box,
-    .control-panel,
-    .game-card {
+      padding-top: 18px;
+      padding-bottom: 18px;
+      border-radius: 30px;
       background: linear-gradient(180deg, rgba(17, 12, 29, 0.95), rgba(10, 8, 18, 0.94));
       border: 1px solid var(--line);
       box-shadow: var(--shadow);
       backdrop-filter: blur(16px);
     }
 
+    .player-shell.show {
+      display: block;
+    }
+
     .player-meta {
-      border-radius: 24px;
-      padding: 16px 18px;
-      margin-bottom: 14px;
+      padding-left: 18px;
+      padding-right: 18px;
+      padding-bottom: 14px;
     }
 
-    .player-panel {
-      border-radius: 30px;
-      padding: 18px;
-      overflow: hidden;
-    }
-
-    .player-bottom-row {
-      display: flex;
+    .player-meta-row {
       justify-content: space-between;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
+    }
+
+    .player-heading h2 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      line-height: 1.05;
+      margin-bottom: 4px;
+      text-align: left;
+    }
+
+    .player-heading p {
       color: var(--text-dim);
+    }
+
+    .player-frame {
+      padding-left: 18px;
+      padding-right: 18px;
     }
 
     .player-stage {
@@ -386,12 +385,11 @@
     }
 
     .player-bottom {
-      display: flex;
+      padding: 14px 18px 0;
+    }
+
+    .player-bottom-row {
       justify-content: space-between;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
-      padding-top: 14px;
       color: var(--text-dim);
     }
 
@@ -426,6 +424,15 @@
       text-align: center;
       color: var(--text-dim);
       font-size: 1.03rem;
+    }
+
+    .panel-box,
+    .control-panel,
+    .game-card {
+      background: linear-gradient(180deg, rgba(17, 12, 29, 0.95), rgba(10, 8, 18, 0.94));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
     }
 
     .control-panel {
@@ -773,10 +780,17 @@
         padding-right: 14px;
       }
 
-      .player-panel,
+      .player-shell,
       .control-panel,
       .panel-box {
         border-radius: 24px;
+      }
+
+      .player-meta,
+      .player-frame,
+      .player-bottom {
+        padding-left: 14px;
+        padding-right: 14px;
       }
 
       .player-stage {
@@ -874,7 +888,7 @@
       </div>
     </div>
 
-    <div class="player-panel">
+    <div class="player-frame">
       <div class="player-stage" id="player-stage"></div>
     </div>
 
@@ -1246,7 +1260,6 @@
     let activePlaceholder = null;
     let activeTrigger = null;
     let currentFilter = 'all';
-    let visibleCards = [...gameCards];
 
     function resizeCanvas() {
       width = window.innerWidth;
@@ -1258,7 +1271,6 @@
       canvas.style.width = width + 'px';
       canvas.style.height = height + 'px';
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
       buildStars();
     }
 
@@ -1290,7 +1302,6 @@
         if (!reduceMotion) {
           star.x += star.speedX;
           star.y += star.speedY;
-
           if (star.x < -10) star.x = width + 10;
           if (star.x > width + 10) star.x = -10;
           if (star.y < -10) star.y = height + 10;
@@ -1311,7 +1322,6 @@
           const dx = mouse.x - star.x;
           const dy = mouse.y - star.y;
           const distance = Math.hypot(dx, dy);
-
           if (distance < star.linkRadius) {
             nearby.push(star);
             const lineAlpha = (1 - distance / star.linkRadius) * 0.4;
@@ -1357,9 +1367,7 @@
     }
 
     function addSparkleBurst(x, y) {
-      if (reduceMotion) {
-        return;
-      }
+      if (reduceMotion) return;
 
       const colors = [
         'rgba(255, 255, 255, 0.95)',
@@ -1445,12 +1453,12 @@
       }
     }
 
-    function visiblePlayableCards() {
+    function visibleCards() {
       return gameCards.filter((card) => !card.classList.contains('hidden'));
     }
 
     function updatePlayerButtons() {
-      const cards = visiblePlayableCards();
+      const cards = visibleCards();
       const index = cards.indexOf(activeCard);
       const hasCards = cards.length > 0;
       playerPrev.disabled = !hasCards || index <= 0;
@@ -1460,18 +1468,12 @@
     }
 
     function restoreGame(scrollBack = true) {
-      if (!activeWrapper || !activePlaceholder) {
-        return;
-      }
+      if (!activeWrapper || !activePlaceholder) return;
 
       activePlaceholder.replaceWith(activeWrapper);
-
-      if (activeCard) {
-        activeCard.classList.remove('playing');
-      }
+      if (activeCard) activeCard.classList.remove('playing');
 
       const trigger = activeTrigger;
-
       activeCard = null;
       activeWrapper = null;
       activePlaceholder = null;
@@ -1501,10 +1503,7 @@
       }
 
       loadEmbedIntoWrapper(wrapper);
-
-      if (overlay) {
-        overlay.remove();
-      }
+      if (overlay) overlay.remove();
 
       if (!activeWrapper) {
         activeCard = card;
@@ -1525,16 +1524,11 @@
     }
 
     function goToRelativeCard(direction) {
-      const cards = visiblePlayableCards();
-      if (!cards.length || !activeCard) {
-        return;
-      }
-
+      const cards = visibleCards();
+      if (!cards.length || !activeCard) return;
       const index = cards.indexOf(activeCard);
       const nextCard = cards[index + direction];
-      if (nextCard) {
-        openCard(nextCard, nextCard);
-      }
+      if (nextCard) openCard(nextCard, nextCard);
     }
 
     function sortCards(cards, sortValue) {
@@ -1572,24 +1566,23 @@
         card.classList.toggle('hidden', !show);
       });
 
-      const visibleNow = gameCards.filter((card) => !card.classList.contains('hidden'));
-      const sortedVisible = sortCards(visibleNow, sortValue);
-      sortedVisible.forEach((card) => gamesGrid.appendChild(card));
-      visibleCards = sortedVisible;
+      const shown = visibleCards();
+      const sorted = sortCards(shown, sortValue);
+      sorted.forEach((card) => gamesGrid.appendChild(card));
 
-      resultCount.textContent = `${visibleNow.length} game${visibleNow.length === 1 ? '' : 's'}`;
+      resultCount.textContent = `${shown.length} game${shown.length === 1 ? '' : 's'}`;
 
       if (query && currentFilter !== 'all') {
         searchStatus.textContent = `Search and ${currentFilter} filter active`;
       } else if (query) {
-        searchStatus.textContent = `Search active`;
+        searchStatus.textContent = 'Search active';
       } else if (currentFilter !== 'all') {
         searchStatus.textContent = `${currentFilter} filter active`;
       } else {
         searchStatus.textContent = 'Showing all games';
       }
 
-      emptyState.classList.toggle('show', visibleNow.length === 0);
+      emptyState.classList.toggle('show', shown.length === 0);
 
       if (activeCard && activeCard.classList.contains('hidden')) {
         restoreGame(false);
@@ -1657,12 +1650,8 @@
     });
 
     window.addEventListener('pointerdown', (event) => {
-      if (reduceMotion) {
-        return;
-      }
-      if (event.pointerType === 'mouse' && event.button !== 0) {
-        return;
-      }
+      if (reduceMotion) return;
+      if (event.pointerType === 'mouse' && event.button !== 0) return;
       addSparkleBurst(event.clientX, event.clientY);
     }, { passive: true });
 
