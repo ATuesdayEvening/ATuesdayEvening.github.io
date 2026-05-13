@@ -700,13 +700,61 @@
     }
 
     .widget-embed {
-      padding-bottom: 30.25%;
-      min-height: 120px;
+      padding-bottom: 0;
+      height: 167px;
+      min-height: 167px;
       background: rgba(255, 255, 255, 0.04);
     }
 
     .widget-embed .play-overlay {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
+    }
+
+    .external-game-box {
+      position: relative;
+      height: 167px;
+      min-height: 167px;
+      margin-top: 18px;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(182, 130, 255, 0.12);
+      background:
+        radial-gradient(circle at 50% 45%, rgba(111, 70, 220, 0.2), transparent 42%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.94));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 18px;
+    }
+
+    .external-game-box::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(111, 70, 220, 0.12), transparent 52%, rgba(68, 170, 235, 0.08));
+      pointer-events: none;
+    }
+
+    .external-game-link {
+      position: relative;
+      z-index: 1;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 850;
+      font-size: 1.35rem;
+      border-radius: 999px;
+      padding: 12px 18px;
+      border: 1px solid rgba(205, 176, 255, 0.26);
+      background: rgba(177, 114, 255, 0.13);
+      transition: transform 0.22s ease, background 0.22s ease, border-color 0.22s ease;
+    }
+
+    .external-game-link:hover {
+      transform: translateY(-2px);
+      background: rgba(177, 114, 255, 0.2);
+      border-color: rgba(219, 181, 255, 0.42);
     }
 
     .play-overlay:hover {
@@ -1131,7 +1179,7 @@
           </div>
         </article>
 
-        <article class="game-card" data-order="5" data-genre="horror" data-link="https://electricevo.itch.io/game4" data-player-mode="compact" style="--banner: linear-gradient(135deg, #44203f, #140d18);">
+        <article class="game-card" data-order="5" data-genre="horror" data-link="https://electricevo.itch.io/game4" data-player-mode="external" style="--banner: linear-gradient(135deg, #44203f, #140d18);">
           <div class="card-top">
             <div class="card-banner" data-mark="✦"></div>
           </div>
@@ -1152,12 +1200,13 @@
 
             <p class="card-copy">A scary game with a tense mood and quick play.</p>
 
-            <div class="embed-wrapper widget-embed">
-              <button class="play-overlay" type="button">Open Game Page</button>
-              <template class="embed-template">
-                <iframe frameborder="0" src="https://itch.io/embed/4369439" width="552" height="167"><a href="https://electricevo.itch.io/game4">game4? by Electric Evolution Games</a></iframe>
-              </template>
+            <div class="external-game-box">
+              <a class="external-game-link" href="https://electricevo.itch.io/game4" target="_blank" rel="noopener noreferrer">Open on itch.io</a>
             </div>
+
+            <!-- This is the itch.io project-card iframe you gave me. It is not a playable game iframe, so it should not be stretched into the big player.
+            <iframe frameborder="0" src="https://itch.io/embed/4369439" width="552" height="167"><a href="https://electricevo.itch.io/game4">game4? by Electric Evolution Games</a></iframe>
+            -->
 
             <div class="card-actions">
               <div class="action-note">Best if you want a quick scare</div>
@@ -1638,6 +1687,11 @@
     }
 
     function openCard(card, trigger = null) {
+      if (card.dataset.playerMode === 'external') {
+        window.open(card.dataset.link || 'https://electricevo.itch.io', '_blank', 'noopener,noreferrer');
+        return;
+      }
+
       const wrapper = card.querySelector('.embed-wrapper');
       const overlay = wrapper.querySelector('.play-overlay');
       const title = card.querySelector('.card-title')?.textContent || 'Now Playing';
@@ -1840,7 +1894,7 @@
     console.assert(searchInput instanceof HTMLElement, 'Search input should exist');
     console.assert(stars.length > 0, 'Stars should be created');
     console.assert(document.querySelector('[data-link="https://electricevo.itch.io/game4"]'), 'Scary Game card should exist');
-    console.assert(document.querySelector('[data-player-mode="compact"]'), 'Compact itch.io widget mode should exist');
+    console.assert(document.querySelector('[data-player-mode="external"]'), 'External itch.io card mode should exist');
     console.assert(typeof resetEmbedWrapper === 'function', 'Close reset function should exist');
     console.assert(typeof drawSaberLine === 'function', 'Constellation saber line function should exist');
   </script>
