@@ -197,6 +197,525 @@
     .search-button,
     .clear-button,
     .scroll-top {
+      color: var(--text);
+      text-decoration: none;
+      padding: 10px 15px;
+      border-radius: 999px;
+      border: 1px solid rgba(197, 147, 255, 0.18);
+      background: rgba(177, 114, 255, 0.1);
+      backdrop-filter: blur(10px);
+      transition: transform 0.22s ease, background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .button:hover,
+    .nav-links a:hover,
+    .topbar-actions a:hover,
+    .game-link:hover,
+    .links a:hover,
+    .filter-chip:hover,
+    .player-button:hover,
+    .search-button:hover,
+    .clear-button:hover,
+    .scroll-top:hover {
+      transform: translateY(-2px);
+      background: rgba(177, 114, 255, 0.16);
+      border-color: rgba(219, 181, 255, 0.34);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18);
+    }
+
+    .button.primary,
+    .hero-buttons .primary,
+    .search-button {
+      background: linear-gradient(180deg, rgba(180, 114, 255, 0.3), rgba(146, 82, 229, 0.18));
+      border-color: rgba(221, 187, 255, 0.34);
+    }
+
+    .nav-links a:focus-visible,
+    .topbar-actions a:focus-visible,
+    .button:focus-visible,
+    .game-link:focus-visible,
+    .links a:focus-visible,
+    .filter-chip:focus-visible,
+    .player-button:focus-visible,
+    .play-overlay:focus-visible,
+    .search-input:focus-visible,
+    .sort-select:focus-visible,
+    .scroll-top:focus-visible {
+      outline: 2px solid rgba(222, 188, 255, 0.92);
+      outline-offset: 3px;
+    }
+
+    header {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 94px 20px 66px;
+      text-align: center;
+    }
+
+    .name-pill,
+    .meta-pill,
+    .count-pill,
+    .genre,
+    .mini-tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--purple-soft);
+      backdrop-filter: blur(10px);
+    }
+
+    .name-pill {
+      margin-bottom: 22px;
+      font-size: 0.95rem;
+    }
+
+    h1 {
+      font-size: clamp(4.4rem, 13vw, 8.5rem);
+      line-height: 0.92;
+      letter-spacing: -0.06em;
+      font-weight: 900;
+      text-shadow: 0 0 22px rgba(171, 113, 255, 0.2);
+    }
+
+    .tagline {
+      max-width: 760px;
+      margin: 22px auto 0;
+      font-size: clamp(1.1rem, 2vw, 1.45rem);
+      color: var(--text-dim);
+    }
+
+    .quick-stats {
+      justify-content: center;
+      margin-top: 26px;
+    }
+
+    .meta-pill {
+      color: var(--text-dim);
+      font-size: 0.96rem;
+    }
+
+    .hero-buttons {
+      justify-content: center;
+      margin-top: 28px;
+    }
+
+    main,
+    .player-shell {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    .player-shell {
+      display: none;
+      margin-bottom: 34px;
+      padding-top: 18px;
+      padding-bottom: 18px;
+      border-radius: 30px;
+      background: linear-gradient(180deg, rgba(17, 12, 29, 0.95), rgba(10, 8, 18, 0.94));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .player-shell.show {
+      display: block;
+    }
+
+    .player-meta {
+      padding-left: 18px;
+      padding-right: 18px;
+      padding-bottom: 14px;
+    }
+
+    .player-meta-row {
+      justify-content: space-between;
+    }
+
+    .player-heading h2 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      line-height: 1.05;
+      margin-bottom: 4px;
+      text-align: left;
+    }
+
+    .player-heading p {
+      color: var(--text-dim);
+    }
+
+    .player-frame {
+      padding-left: 18px;
+      padding-right: 18px;
+    }
+
+    .player-stage {
+      position: relative;
+      min-height: min(82vh, 940px);
+      border-radius: 24px;
+      border: 1px solid rgba(197, 147, 255, 0.14);
+      overflow: hidden;
+      background: #000;
+    }
+
+    .player-stage .embed-wrapper {
+      margin: 0;
+      height: min(82vh, 940px);
+      min-height: 600px;
+      padding-bottom: 0;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .player-stage .embed-wrapper iframe,
+    .player-stage .embed-wrapper > iframe,
+    .player-stage .embed-wrapper template + iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .player-bottom {
+      padding: 14px 18px 0;
+    }
+
+    .player-bottom-row {
+      justify-content: space-between;
+      color: var(--text-dim);
+    }
+
+    .player-shortcuts {
+      display: inline-flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .mini-tag {
+      color: var(--text-dim);
+      font-size: 0.9rem;
+      padding: 7px 12px;
+    }
+
+    section {
+      margin-bottom: 96px;
+    }
+
+    h2.section-title {
+      text-align: center;
+      font-size: clamp(2.1rem, 5vw, 3.4rem);
+      letter-spacing: -0.05em;
+      line-height: 1.04;
+      margin-bottom: 14px;
+      font-weight: 850;
+    }
+
+    .section-sub {
+      max-width: 760px;
+      margin: 0 auto;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 1.03rem;
+    }
+
+    .panel-box,
+    .control-panel,
+    .game-card {
+      background: linear-gradient(180deg, rgba(17, 12, 29, 0.95), rgba(10, 8, 18, 0.94));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .control-panel {
+      margin-top: 30px;
+      border-radius: 28px;
+      padding: 18px;
+    }
+
+    .search-row {
+      justify-content: space-between;
+    }
+
+    .search-box {
+      flex: 1 1 360px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(197, 147, 255, 0.14);
+    }
+
+    .search-icon {
+      font-size: 1rem;
+      color: var(--text-dim);
+      flex-shrink: 0;
+    }
+
+    .search-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      outline: none;
+      min-width: 0;
+    }
+
+    .search-input::placeholder {
+      color: rgba(180, 170, 205, 0.72);
+    }
+
+    .sort-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: auto;
+    }
+
+    .sort-label,
+    .status-note {
+      color: var(--text-dim);
+      font-size: 0.95rem;
+    }
+
+    .sort-select {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      border: 1px solid rgba(197, 147, 255, 0.14);
+      border-radius: 999px;
+      padding: 10px 14px;
+      outline: none;
+    }
+
+    .chip-row {
+      justify-content: space-between;
+      margin-top: 14px;
+    }
+
+    .filter-group,
+    .status-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-chip.active {
+      background: rgba(177, 114, 255, 0.2);
+      border-color: rgba(219, 181, 255, 0.42);
+    }
+
+    .count-pill {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+      margin-top: 30px;
+      align-items: stretch;
+    }
+
+    .game-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 28px;
+      transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease, opacity 0.28s ease;
+      isolation: isolate;
+    }
+
+    .game-card.hidden {
+      display: none;
+    }
+
+    .game-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--line-strong);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.58), 0 0 26px rgba(159, 92, 255, 0.1);
+    }
+
+    .game-card.playing {
+      border-color: var(--line-strong);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.58), 0 0 30px rgba(159, 92, 255, 0.18);
+    }
+
+    .game-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(150deg, rgba(255, 255, 255, 0.06), transparent 28%, transparent 68%, rgba(159, 92, 255, 0.12));
+      pointer-events: none;
+    }
+
+    .card-top {
+      position: relative;
+      padding: 18px 18px 0;
+    }
+
+    .card-banner {
+      min-height: 112px;
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      overflow: hidden;
+      position: relative;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.16), transparent 24%),
+        radial-gradient(circle at 80% 30%, rgba(255, 255, 255, 0.08), transparent 20%),
+        linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)),
+        var(--banner, linear-gradient(135deg, #1b122f, #100a1c));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
+    }
+
+    .card-banner::after {
+      content: attr(data-mark);
+      position: absolute;
+      right: 16px;
+      bottom: 10px;
+      font-size: 2rem;
+      opacity: 0.9;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+    }
+
+    .card-body {
+      padding: 18px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin-bottom: 4px;
+      font-weight: 800;
+    }
+
+    .card-subtitle {
+      color: var(--text-dim);
+      font-size: 0.98rem;
+    }
+
+    .genre {
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+      color: var(--purple-soft);
+    }
+
+    .meta-row {
+      margin-bottom: 14px;
+    }
+
+    .card-copy {
+      color: var(--text-dim);
+      min-height: 52px;
+    }
+
+    .embed-wrapper {
+      position: relative;
+      padding-bottom: 59.375%;
+      height: 0;
+      background: #000;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(182, 130, 255, 0.12);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+      margin-top: 18px;
+    }
+
+    .embed-wrapper iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #000;
+    }
+
+    .play-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      width: 100%;
+      border: none;
+      cursor: pointer;
+      color: var(--text);
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      text-align: center;
+      padding: 20px;
+      background:
+        radial-gradient(circle at center, rgba(170, 102, 255, 0.18), transparent 35%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.78));
+      transition: background 0.24s ease, letter-spacing 0.24s ease;
+    }
+
+    .play-overlay:hover {
+      background:
+        radial-gradient(circle at center, rgba(188, 126, 255, 0.24), transparent 38%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.34), rgba(0, 0, 0, 0.68));
+      letter-spacing: 0.03em;
+    }
+
+    .card-actions {
+      justify-content: space-between;
+      margin-top: 16px;
+    }
+
+    .action-note {
+      color: var(--text-dim);
+      font-size: 0.94rem;
+    }
+
+    .panel-box {
+      border-radius: 28px;
+      padding: 28px 24px;
+      text-align: center;
+    }
+
+    .panel-box p {
+      max-width: 760px;
+      margin: 0 auto;
+      color: var(--text-dim);
+      font-size: 1.04rem;
+    }
+
+    footer {
+      max-width: var(--max);
+      margin: 96px auto 0;
+      padding: 56px 20px 52px;
+      border-top: 1px solid rgba(186, 130, 255, 0.1);
+      text-align: center;
+      color: var(--text-dim);
+    }
+
+    .footer-top {
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .scroll-top {
       position: fixed;
       right: 22px;
       bottom: 22px;
@@ -609,7 +1128,8 @@
           </div>
         </article>
 
-        <!-- To add a new game later, copy one article card, change data-order, title, tags, link, and the iframe inside the embed area. -->
+        <!-- To add a new game later, copy one full article with class="game-card".
+             Then update data-order, data-genre, data-link, title, tags, description, and iframe. -->
 
         <article class="game-card" data-order="6" data-genre="roguelike" data-link="https://electricevo.itch.io/consequences" style="--banner: linear-gradient(135deg, #4e2d23, #170e0a);">
           <div class="card-top">
@@ -941,8 +1461,8 @@
     }
 
     function createPlayOverlay(wrapper) {
-      const oldOverlay = wrapper.querySelector('.play-overlay');
-      if (oldOverlay) return oldOverlay;
+      const currentOverlay = wrapper.querySelector('.play-overlay');
+      if (currentOverlay) return currentOverlay;
 
       const button = document.createElement('button');
       button.className = 'play-overlay';
@@ -993,8 +1513,6 @@
       const hasCards = cards.length > 0;
       playerPrev.disabled = !hasCards || index <= 0;
       playerNext.disabled = !hasCards || index === -1 || index >= cards.length - 1;
-      playerPrev.style.opacity = playerPrev.disabled ? '0.5' : '1';
-      playerNext.style.opacity = playerNext.disabled ? '0.5' : '1';
     }
 
     function restoreGame(scrollBack = true) {
@@ -1218,11 +1736,12 @@
     updateScrollTop();
     requestAnimationFrame(animateScene);
 
-    console.assert(gameCards.length === 7, 'Expected 7 game cards');
+    console.assert(gameCards.length >= 1, 'Expected at least 1 game card');
     console.assert(filterButtons.length === 6, 'Expected 6 filter buttons');
     console.assert(playerStage instanceof HTMLElement, 'Player stage should exist');
     console.assert(searchInput instanceof HTMLElement, 'Search input should exist');
     console.assert(stars.length > 0, 'Stars should be created');
+    console.assert(document.querySelector('[data-link="https://electricevo.itch.io/game4"]'), 'Scary Game card should exist');
   </script>
 </body>
 </html>
