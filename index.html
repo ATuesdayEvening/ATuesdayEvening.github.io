@@ -254,7 +254,6 @@
       text-align: center;
     }
 
-    .name-pill,
     .meta-pill,
     .count-pill,
     .genre,
@@ -271,10 +270,6 @@
       backdrop-filter: blur(10px);
     }
 
-    .name-pill {
-      margin-bottom: 22px;
-      font-size: 0.95rem;
-    }
 
     h1 {
       font-size: clamp(4.4rem, 13vw, 8.5rem);
@@ -282,6 +277,31 @@
       letter-spacing: -0.06em;
       font-weight: 900;
       text-shadow: 0 0 22px rgba(171, 113, 255, 0.2);
+    }
+
+    .hero-title {
+      min-height: 1em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: min(96vw, 720px);
+    }
+
+    #typed-name {
+      display: inline-block;
+    }
+
+    .typing-caret {
+      display: inline-block;
+      margin-left: 0.08em;
+      color: var(--purple-soft);
+      text-shadow: 0 0 18px rgba(159, 92, 255, 0.65);
+      animation: caretBlink 0.85s steps(1) infinite;
+    }
+
+    @keyframes caretBlink {
+      0%, 48% { opacity: 1; }
+      49%, 100% { opacity: 0; }
     }
 
     .tagline {
@@ -954,8 +974,7 @@
   </nav>
 
   <header id="top">
-    <div class="name-pill">Toronto Indie Game Developer</div>
-    <h1>SHAYAN</h1>
+    <h1 class="hero-title" aria-label="SHAYAN"><span id="typed-name"></span><span class="typing-caret" aria-hidden="true">|</span></h1>
     <p class="tagline">Original browser games with horror, action, puzzle, and story ideas.</p>
 
     <div class="quick-stats">
@@ -1388,6 +1407,7 @@
     const emptyState = document.getElementById('empty-state');
     const scrollTopButton = document.getElementById('scroll-top');
     const totalGames = document.getElementById('total-games');
+    const typedName = document.getElementById('typed-name');
 
     const stars = [];
     const particles = [];
@@ -1405,6 +1425,35 @@
     let activePlaceholder = null;
     let activeTrigger = null;
     let currentFilter = 'all';
+
+    function typeHeroName() {
+      if (!typedName) return;
+
+      const name = 'SHAYAN';
+      typedName.textContent = '';
+
+      if (reduceMotion) {
+        typedName.textContent = name;
+        return;
+      }
+
+      let index = 0;
+
+      function typeNextLetter() {
+        typedName.textContent += name[index];
+        index += 1;
+
+        if (index >= name.length) {
+          return;
+        }
+
+        const randomDelay = 45 + Math.random() * 135;
+        setTimeout(typeNextLetter, randomDelay);
+      }
+
+      const startDelay = 180 + Math.random() * 220;
+      setTimeout(typeNextLetter, startDelay);
+    }
 
     function resizeCanvas() {
       width = window.innerWidth;
@@ -1913,6 +1962,7 @@
       totalGames.textContent = String(gameCards.length);
     }
 
+    typeHeroName();
     resizeCanvas();
     applyFilters();
     updateScrollTop();
@@ -1923,6 +1973,7 @@
     console.assert(playerStage instanceof HTMLElement, 'Player stage should exist');
     console.assert(searchInput instanceof HTMLElement, 'Search input should exist');
     console.assert(stars.length > 0, 'Stars should be created');
+    console.assert(typedName instanceof HTMLElement, 'Typed name target should exist');
     console.assert(document.querySelector('[data-link="https://electricevo.itch.io/game4"]'), 'Scary Game card should exist');
     console.assert(document.querySelector('[data-link="https://electricevo.itch.io/game4"]'), 'SCARY GAME playable card should exist');
     console.assert(document.querySelector('[data-link="https://electricevo.itch.io/game5"]'), 'COMBAT playable card should exist');
