@@ -1179,7 +1179,7 @@
           </div>
         </article>
 
-        <article class="game-card" data-order="5" data-genre="horror" data-link="https://electricevo.itch.io/game4" data-player-mode="external" style="--banner: linear-gradient(135deg, #44203f, #140d18);">
+        <article class="game-card" data-order="5" data-genre="horror" data-link="https://electricevo.itch.io/game4" style="--banner: linear-gradient(135deg, #44203f, #140d18);">
           <div class="card-top">
             <div class="card-banner" data-mark="✦"></div>
           </div>
@@ -1200,13 +1200,12 @@
 
             <p class="card-copy">A scary game with a tense mood and quick play.</p>
 
-            <div class="external-game-box">
-              <a class="external-game-link" href="https://electricevo.itch.io/game4" target="_blank" rel="noopener noreferrer">Open on itch.io</a>
+            <div class="embed-wrapper">
+              <button class="play-overlay" type="button">Click to Play</button>
+              <template class="embed-template">
+                <iframe frameborder="0" src="https://itch.io/embed-upload/17530922?color=000000" allowfullscreen="" width="640" height="380"><a href="https://electricevo.itch.io/game4">Play game4? on itch.io</a></iframe>
+              </template>
             </div>
-
-            <!-- This is the itch.io project-card iframe you gave me. It is not a playable game iframe, so it should not be stretched into the big player.
-            <iframe frameborder="0" src="https://itch.io/embed/4369439" width="552" height="167"><a href="https://electricevo.itch.io/game4">game4? by Electric Evolution Games</a></iframe>
-            -->
 
             <div class="card-actions">
               <div class="action-note">Best if you want a quick scare</div>
@@ -1687,11 +1686,6 @@
     }
 
     function openCard(card, trigger = null) {
-      if (card.dataset.playerMode === 'external') {
-        window.open(card.dataset.link || 'https://electricevo.itch.io', '_blank', 'noopener,noreferrer');
-        return;
-      }
-
       const wrapper = card.querySelector('.embed-wrapper');
       const overlay = wrapper.querySelector('.play-overlay');
       const title = card.querySelector('.card-title')?.textContent || 'Now Playing';
@@ -1894,7 +1888,7 @@
     console.assert(searchInput instanceof HTMLElement, 'Search input should exist');
     console.assert(stars.length > 0, 'Stars should be created');
     console.assert(document.querySelector('[data-link="https://electricevo.itch.io/game4"]'), 'Scary Game card should exist');
-    console.assert(document.querySelector('[data-player-mode="external"]'), 'External itch.io card mode should exist');
+    console.assert(document.querySelector('[data-link="https://electricevo.itch.io/game4"]'), 'False Scares playable card should exist');
     console.assert(typeof resetEmbedWrapper === 'function', 'Close reset function should exist');
     console.assert(typeof drawSaberLine === 'function', 'Constellation saber line function should exist');
   </script>
