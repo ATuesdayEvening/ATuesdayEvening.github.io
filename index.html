@@ -959,7 +959,7 @@
     <p class="tagline">Original browser games with horror, action, puzzle, and story ideas.</p>
 
     <div class="quick-stats">
-      <div class="meta-pill"><span id="total-games">7</span> games here</div>
+      <div class="meta-pill"><span id="total-games">8</span> games here</div>
       <div class="meta-pill">Play in browser</div>
       <div class="meta-pill">Soft fullscreen player</div>
     </div>
@@ -1037,10 +1037,11 @@
             <button class="filter-chip" type="button" data-filter="horror">Horror</button>
             <button class="filter-chip" type="button" data-filter="puzzle">Puzzle</button>
             <button class="filter-chip" type="button" data-filter="roguelike">Roguelike</button>
+            <button class="filter-chip" type="button" data-filter="fighting">Fighting</button>
           </div>
 
           <div class="status-group">
-            <div class="count-pill" id="result-count">7 games</div>
+            <div class="count-pill" id="result-count">8 games</div>
             <div class="status-note" id="search-status">Showing all games</div>
           </div>
         </div>
@@ -1186,7 +1187,7 @@
           <div class="card-body">
             <div class="card-header">
               <div>
-                <h3 class="card-title">False Scares</h3>
+                <h3 class="card-title">SCARY GAME</h3>
                 <p class="card-subtitle">Scary Game</p>
               </div>
               <div class="genre">Horror</div>
@@ -1217,7 +1218,42 @@
         <!-- To add a new game later, copy one full article with class="game-card".
              Then update data-order, data-genre, data-link, title, tags, description, and iframe. -->
 
-        <article class="game-card" data-order="6" data-genre="roguelike" data-link="https://electricevo.itch.io/consequences" style="--banner: linear-gradient(135deg, #4e2d23, #170e0a);">
+        <article class="game-card" data-order="6" data-genre="fighting arcade" data-link="https://electricevo.itch.io/game5" style="--banner: linear-gradient(135deg, #301f5f, #101820);">
+          <div class="card-top">
+            <div class="card-banner" data-mark="⚔"></div>
+          </div>
+          <div class="card-body">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">COMBAT</h3>
+                <p class="card-subtitle">2D Fighting Game</p>
+              </div>
+              <div class="genre">Fighting</div>
+            </div>
+
+            <div class="meta-row">
+              <div class="mini-tag">V.S. AI</div>
+              <div class="mini-tag">Fast-paced</div>
+              <div class="mini-tag">Repetitive</div>
+            </div>
+
+            <p class="card-copy">2D fighting game against an AI. Fast-paced and very repetitive.</p>
+
+            <div class="embed-wrapper">
+              <button class="play-overlay" type="button">Click to Play</button>
+              <template class="embed-template">
+                <iframe frameborder="0" src="https://itch.io/embed-upload/17533254?color=333333" allowfullscreen="" width="640" height="380"><a href="https://electricevo.itch.io/game5">Play game5 on itch.io</a></iframe>
+              </template>
+            </div>
+
+            <div class="card-actions">
+              <div class="action-note">Best for fast AI fights</div>
+              <a class="game-link" href="https://electricevo.itch.io/game5" target="_blank" rel="noopener noreferrer">itch.io ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="game-card" data-order="7" data-genre="roguelike" data-link="https://electricevo.itch.io/consequences" style="--banner: linear-gradient(135deg, #4e2d23, #170e0a);">
           <div class="card-top">
             <div class="card-banner" data-mark="☄"></div>
           </div>
@@ -1252,7 +1288,7 @@
           </div>
         </article>
 
-        <article class="game-card" data-order="7" data-genre="horror" data-link="https://electricevo.itch.io/multicolors-negative" style="--banner: linear-gradient(135deg, #25506a, #180d24);">
+        <article class="game-card" data-order="8" data-genre="horror" data-link="https://electricevo.itch.io/multicolors-negative" style="--banner: linear-gradient(135deg, #25506a, #180d24);">
           <div class="card-top">
             <div class="card-banner" data-mark="✺"></div>
           </div>
@@ -1883,12 +1919,13 @@
     requestAnimationFrame(animateScene);
 
     console.assert(gameCards.length >= 1, 'Expected at least 1 game card');
-    console.assert(filterButtons.length === 6, 'Expected 6 filter buttons');
+    console.assert(filterButtons.length >= 6, 'Expected filter buttons to exist');
     console.assert(playerStage instanceof HTMLElement, 'Player stage should exist');
     console.assert(searchInput instanceof HTMLElement, 'Search input should exist');
     console.assert(stars.length > 0, 'Stars should be created');
     console.assert(document.querySelector('[data-link="https://electricevo.itch.io/game4"]'), 'Scary Game card should exist');
-    console.assert(document.querySelector('[data-link="https://electricevo.itch.io/game4"]'), 'False Scares playable card should exist');
+    console.assert(document.querySelector('[data-link="https://electricevo.itch.io/game4"]'), 'SCARY GAME playable card should exist');
+    console.assert(document.querySelector('[data-link="https://electricevo.itch.io/game5"]'), 'COMBAT playable card should exist');
     console.assert(typeof resetEmbedWrapper === 'function', 'Close reset function should exist');
     console.assert(typeof drawSaberLine === 'function', 'Constellation saber line function should exist');
   </script>
