@@ -545,6 +545,26 @@
       outline: none;
     }
 
+    .sort-select:focus,
+    .search-box:focus-within {
+      background: rgba(177, 114, 255, 0.08);
+      border-color: rgba(219, 181, 255, 0.38);
+      box-shadow: 0 0 0 3px rgba(159, 92, 255, 0.12);
+    }
+
+    .sort-select option {
+      background: #120b20;
+      color: var(--text);
+    }
+
+    .search-input:-webkit-autofill,
+    .search-input:-webkit-autofill:hover,
+    .search-input:-webkit-autofill:focus {
+      -webkit-text-fill-color: var(--text);
+      transition: background-color 9999s ease-in-out 0s;
+      caret-color: var(--text);
+    }
+
     .chip-row {
       justify-content: space-between;
       margin-top: 14px;
@@ -977,12 +997,6 @@
     <h1 class="hero-title" aria-label="SHAYAN"><span id="typed-name"></span><span class="typing-caret" aria-hidden="true">|</span></h1>
     <p class="tagline">Original browser games with horror, action, puzzle, and story ideas.</p>
 
-    <div class="quick-stats">
-      <div class="meta-pill"><span id="total-games">8</span> games here</div>
-      <div class="meta-pill">Play in browser</div>
-      <div class="meta-pill">Soft fullscreen player</div>
-    </div>
-
     <div class="hero-buttons">
       <a class="button primary" href="#games">Play now</a>
       <a class="button" href="https://electricevo.itch.io" target="_blank" rel="noopener noreferrer">Visit itch.io</a>
@@ -1025,8 +1039,6 @@
   <main>
     <section class="games-section" id="games">
       <h2 class="section-title">Play My Games</h2>
-      <p class="section-sub">Search, filter, and sort the list below. Click play to open a bigger in-page view that still lets you scroll.</p>
-
       <div class="control-panel">
         <div class="search-row">
           <div class="search-box">
@@ -1057,6 +1069,7 @@
             <button class="filter-chip" type="button" data-filter="puzzle">Puzzle</button>
             <button class="filter-chip" type="button" data-filter="roguelike">Roguelike</button>
             <button class="filter-chip" type="button" data-filter="fighting">Fighting</button>
+            <button class="filter-chip" type="button" data-filter="dev-favorite">Dev Favorite</button>
           </div>
 
           <div class="status-group">
@@ -1067,7 +1080,7 @@
       </div>
 
       <div class="games-grid" id="games-grid">
-        <article class="game-card" data-order="1" data-genre="arcade" data-link="https://electricevo.itch.io" style="--banner: linear-gradient(135deg, #33215b, #110a1d);">
+        <article class="game-card" data-order="1" data-genre="arcade dev-favorite" data-link="https://electricevo.itch.io" style="--banner: linear-gradient(135deg, #33215b, #110a1d);">
           <div class="card-top">
             <div class="card-banner" data-mark="△"></div>
           </div>
@@ -1199,7 +1212,7 @@
           </div>
         </article>
 
-        <article class="game-card" data-order="5" data-genre="horror" data-link="https://electricevo.itch.io/game4" style="--banner: linear-gradient(135deg, #44203f, #140d18);">
+        <article class="game-card" data-order="5" data-genre="horror dev-favorite" data-link="https://electricevo.itch.io/game4" style="--banner: linear-gradient(135deg, #44203f, #140d18);">
           <div class="card-top">
             <div class="card-banner" data-mark="✦"></div>
           </div>
@@ -1237,7 +1250,7 @@
         <!-- To add a new game later, copy one full article with class="game-card".
              Then update data-order, data-genre, data-link, title, tags, description, and iframe. -->
 
-        <article class="game-card" data-order="6" data-genre="fighting arcade" data-link="https://electricevo.itch.io/game5" style="--banner: linear-gradient(135deg, #301f5f, #101820);">
+        <article class="game-card" data-order="6" data-genre="fighting arcade dev-favorite" data-link="https://electricevo.itch.io/game5" style="--banner: linear-gradient(135deg, #301f5f, #101820);">
           <div class="card-top">
             <div class="card-banner" data-mark="⚔"></div>
           </div>
@@ -1852,12 +1865,14 @@
 
       resultCount.textContent = `${shown.length} game${shown.length === 1 ? '' : 's'}`;
 
+      const activeFilterLabel = filterButtons.find((button) => button.dataset.filter === currentFilter)?.textContent || currentFilter;
+
       if (query && currentFilter !== 'all') {
-        searchStatus.textContent = `Search and ${currentFilter} filter active`;
+        searchStatus.textContent = `Search and ${activeFilterLabel} filter active`;
       } else if (query) {
         searchStatus.textContent = 'Search active';
       } else if (currentFilter !== 'all') {
-        searchStatus.textContent = `${currentFilter} filter active`;
+        searchStatus.textContent = `${activeFilterLabel} filter active`;
       } else {
         searchStatus.textContent = 'Showing all games';
       }
