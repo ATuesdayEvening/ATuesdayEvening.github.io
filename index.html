@@ -3,23 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#05030a" />
+  <meta name="description" content="Original browser game passion projects by Shayan." />
   <title>Shayan | Indie Games</title>
   <style>
     :root {
-      --bg: #020204;
-      --bg-soft: #080610;
-      --panel: rgba(14, 10, 24, 0.92);
-      --panel-2: rgba(11, 8, 18, 0.96);
-      --text: #f4efff;
-      --text-dim: #b4aacd;
-      --line: rgba(195, 158, 255, 0.16);
-      --line-strong: rgba(205, 176, 255, 0.34);
+      color-scheme: dark;
+      --bg: #030205;
+      --bg-soft: #090611;
+      --panel: rgba(15, 10, 26, 0.90);
+      --panel-solid: #0f0a1a;
+      --text: #f6f1ff;
+      --text-dim: #b9aed0;
+      --line: rgba(198, 158, 255, 0.16);
+      --line-strong: rgba(212, 180, 255, 0.36);
       --purple: #9f5cff;
-      --purple-soft: #d2b2ff;
-      --shadow: 0 24px 70px rgba(0, 0, 0, 0.52);
+      --purple-soft: #d1b0ff;
+      --blue: #4da8f0;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.48);
       --max: 1200px;
-      --nav-height: 78px;
       --radius: 24px;
+      --nav-height: 72px;
     }
 
     * {
@@ -30,20 +34,21 @@
 
     html {
       scroll-behavior: smooth;
+      scroll-padding-top: calc(var(--nav-height) + 22px);
+      background: var(--bg);
     }
 
     body {
       min-height: 100vh;
       overflow-x: hidden;
       color: var(--text);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.6;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
       background:
-        radial-gradient(circle at 50% -10%, rgba(124, 82, 220, 0.12), transparent 24%),
-        radial-gradient(circle at 20% 18%, rgba(112, 70, 210, 0.08), transparent 22%),
-        radial-gradient(circle at 80% 10%, rgba(90, 40, 180, 0.08), transparent 22%),
-        linear-gradient(180deg, #020204 0%, #04040a 50%, #06030d 100%);
-      position: relative;
+        radial-gradient(circle at 50% -12%, rgba(126, 75, 220, 0.17), transparent 29%),
+        radial-gradient(circle at 10% 28%, rgba(95, 60, 180, 0.10), transparent 24%),
+        radial-gradient(circle at 92% 20%, rgba(64, 127, 210, 0.08), transparent 22%),
+        linear-gradient(180deg, #050309 0%, #030205 52%, #06030b 100%);
     }
 
     body::before,
@@ -53,27 +58,27 @@
       z-index: -2;
       pointer-events: none;
       border-radius: 50%;
-      filter: blur(70px);
+      filter: blur(90px);
       opacity: 0.42;
       will-change: transform;
     }
 
     body::before {
-      width: 380px;
-      height: 380px;
-      left: -90px;
-      top: 90px;
-      background: rgba(94, 31, 180, 0.14);
-      animation: floatGlow 18s ease-in-out infinite alternate;
+      width: 430px;
+      height: 430px;
+      left: -130px;
+      top: 100px;
+      background: rgba(105, 52, 210, 0.18);
+      animation: floatGlow 15s ease-in-out infinite alternate;
     }
 
     body::after {
-      width: 440px;
-      height: 440px;
-      right: -120px;
-      top: 180px;
-      background: rgba(165, 85, 255, 0.08);
-      animation: floatGlow 22s ease-in-out infinite alternate-reverse;
+      width: 500px;
+      height: 500px;
+      right: -170px;
+      top: 210px;
+      background: rgba(60, 135, 220, 0.11);
+      animation: floatGlow 18s ease-in-out infinite alternate-reverse;
     }
 
     #space-canvas {
@@ -84,14 +89,14 @@
       pointer-events: none;
       z-index: 0;
       opacity: 0.92;
-      contain: strict;
     }
 
     .topbar,
     header,
     main,
     footer,
-    .player-shell {
+    .player-shell,
+    .scroll-top {
       position: relative;
       z-index: 1;
     }
@@ -101,85 +106,13 @@
       to { transform: translate3d(0, 20px, 0) scale(1.06); }
     }
 
-    @keyframes slideUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    @keyframes caretBlink {
+      0%, 48% { opacity: 1; }
+      49%, 100% { opacity: 0; }
     }
 
-    header,
-    main > section,
-    footer,
-    .player-shell {
-      opacity: 0;
-      transform: translateY(24px);
-      animation: slideUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
-
-    header { animation-delay: 0.08s; }
-    .player-shell { animation-delay: 0.12s; }
-    .games-section { animation-delay: 0.18s; }
-    .about { animation-delay: 0.28s; }
-    .contact { animation-delay: 0.36s; }
-    footer { animation-delay: 0.44s; }
-
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      backdrop-filter: blur(14px);
-      background: rgba(4, 4, 8, 0.76);
-      border-bottom: 1px solid rgba(195, 158, 255, 0.1);
-    }
-
-    .topbar-inner {
-      max-width: var(--max);
-      min-height: var(--nav-height);
-      margin: 0 auto;
-      padding: 0 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      color: var(--text);
-      text-decoration: none;
-      font-weight: 800;
-      letter-spacing: 0.02em;
-    }
-
-    .brand-mark {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #fff, var(--purple-soft) 35%, var(--purple) 74%);
-      box-shadow: 0 0 18px rgba(159, 92, 255, 0.55);
-      flex-shrink: 0;
-    }
-
-    .nav-links,
-    .topbar-actions,
-    .hero-buttons,
-    .card-actions,
-    .player-actions,
-    .links,
-    .quick-stats,
-    .search-row,
-    .chip-row,
-    .meta-row,
-    .footer-top,
-    .player-meta-row,
-    .player-bottom-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
+    @keyframes reveal {
+      to { opacity: 1; transform: translateY(0); }
     }
 
     a,
@@ -189,127 +122,203 @@
       font: inherit;
     }
 
-    .button,
-    .nav-links a,
-    .topbar-actions a,
-    .game-link,
-    .links a,
-    .filter-chip,
-    .player-button,
-    .search-button,
-    .clear-button,
-    .scroll-top {
-      color: var(--text);
-      text-decoration: none;
-      padding: 10px 15px;
-      border-radius: 999px;
-      border: 1px solid rgba(197, 147, 255, 0.18);
-      background: rgba(177, 114, 255, 0.1);
-      backdrop-filter: blur(8px);
-      transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
-      cursor: pointer;
-      font-weight: 700;
+    button,
+    select {
+      color: inherit;
     }
 
-    .button:hover,
-    .nav-links a:hover,
-    .topbar-actions a:hover,
-    .game-link:hover,
-    .links a:hover,
-    .filter-chip:hover,
-    .player-button:hover,
-    .search-button:hover,
-    .clear-button:hover,
-    .scroll-top:hover {
-      transform: translateY(-2px);
-      background: rgba(177, 114, 255, 0.16);
-      border-color: rgba(219, 181, 255, 0.34);
-      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18);
+    .progress-track {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 1200;
+      height: 2px;
+      pointer-events: none;
+    }
+
+    .progress-bar {
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--purple), var(--blue));
+      box-shadow: 0 0 14px rgba(159, 92, 255, 0.65);
+      transform-origin: left;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 1100;
+      min-height: var(--nav-height);
+      border-bottom: 1px solid rgba(198, 158, 255, 0.10);
+      background: rgba(4, 3, 8, 0.72);
+      backdrop-filter: blur(16px) saturate(120%);
+    }
+
+    .topbar-inner {
+      width: min(var(--max), calc(100% - 32px));
+      min-height: var(--nav-height);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 850;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 12px;
+      height: 12px;
+      flex: 0 0 12px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fff, var(--purple-soft) 34%, var(--purple) 72%);
+      box-shadow: 0 0 18px rgba(159, 92, 255, 0.62);
+    }
+
+    .nav-links,
+    .top-actions,
+    .hero-buttons,
+    .search-row,
+    .chip-row,
+    .filter-group,
+    .status-group,
+    .meta-row,
+    .card-actions,
+    .player-actions,
+    .player-bottom-row,
+    .links,
+    .footer-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links {
+      justify-content: center;
+    }
+
+    .nav-link,
+    .button,
+    .filter-chip,
+    .icon-button,
+    .game-link,
+    .share-button,
+    .player-button,
+    .links a,
+    .scroll-top {
+      border: 1px solid rgba(198, 158, 255, 0.18);
+      border-radius: 999px;
+      background: rgba(177, 114, 255, 0.08);
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 760;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .nav-link {
+      padding: 8px 13px;
+      color: var(--text-dim);
+    }
+
+    .nav-link.active {
+      color: var(--text);
+      background: rgba(177, 114, 255, 0.17);
+      border-color: rgba(216, 181, 255, 0.35);
+    }
+
+    .button,
+    .filter-chip,
+    .icon-button,
+    .game-link,
+    .share-button,
+    .player-button,
+    .links a,
+    .scroll-top {
+      padding: 10px 15px;
     }
 
     .button.primary,
-    .hero-buttons .primary,
-    .search-button {
-      background: linear-gradient(180deg, rgba(180, 114, 255, 0.3), rgba(146, 82, 229, 0.18));
-      border-color: rgba(221, 187, 255, 0.34);
+    .filter-chip.active {
+      background: linear-gradient(180deg, rgba(176, 110, 255, 0.29), rgba(133, 70, 220, 0.18));
+      border-color: rgba(220, 185, 255, 0.36);
     }
 
-    .nav-links a:focus-visible,
-    .topbar-actions a:focus-visible,
-    .button:focus-visible,
-    .game-link:focus-visible,
-    .links a:focus-visible,
-    .filter-chip:focus-visible,
-    .player-button:focus-visible,
-    .play-overlay:focus-visible,
-    .search-input:focus-visible,
-    .sort-select:focus-visible,
-    .scroll-top:focus-visible {
-      outline: 2px solid rgba(222, 188, 255, 0.92);
+    .effects-toggle {
+      white-space: nowrap;
+      font-size: 0.9rem;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .nav-link:hover,
+      .button:hover,
+      .filter-chip:hover,
+      .icon-button:hover,
+      .game-link:hover,
+      .share-button:hover,
+      .player-button:hover,
+      .links a:hover,
+      .scroll-top:hover {
+        transform: translateY(-2px);
+        background: rgba(177, 114, 255, 0.15);
+        border-color: rgba(220, 185, 255, 0.34);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+      }
+    }
+
+    :focus-visible {
+      outline: 2px solid rgba(226, 197, 255, 0.96);
       outline-offset: 3px;
     }
 
     header {
-      max-width: 1120px;
+      width: min(1060px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 94px 20px 66px;
+      padding: clamp(80px, 10vw, 126px) 0 70px;
       text-align: center;
     }
 
-    .meta-pill,
-    .count-pill,
-    .genre,
-    .mini-tag {
-      display: inline-flex;
-      align-items: center;
+    .hero-title-wrap {
+      display: flex;
       justify-content: center;
-      gap: 8px;
-      padding: 9px 14px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.04);
-      color: var(--purple-soft);
-      backdrop-filter: blur(8px);
-    }
-
-    h1 {
-      font-size: clamp(4.4rem, 13vw, 8.5rem);
-      line-height: 0.92;
-      letter-spacing: -0.06em;
-      font-weight: 900;
-      text-shadow: 0 0 22px rgba(171, 113, 255, 0.2);
+      min-height: clamp(4.5rem, 13vw, 8.4rem);
     }
 
     .hero-title {
-      min-height: 1em;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: min(96vw, 720px);
-    }
-
-    #typed-name {
+      position: relative;
       display: inline-block;
+      font-size: clamp(4.5rem, 13vw, 8.4rem);
+      line-height: 0.92;
+      letter-spacing: -0.065em;
+      font-weight: 950;
+      text-shadow: 0 0 28px rgba(170, 108, 255, 0.22);
     }
 
     .typing-caret {
-      display: inline-block;
-      margin-left: 0.08em;
+      position: absolute;
+      left: calc(100% + 0.08em);
+      top: -0.01em;
       color: var(--purple-soft);
-      text-shadow: 0 0 18px rgba(159, 92, 255, 0.65);
-      animation: caretBlink 0.85s steps(1) infinite;
-    }
-
-    @keyframes caretBlink {
-      0%, 48% { opacity: 1; }
-      49%, 100% { opacity: 0; }
+      font-weight: 500;
+      letter-spacing: 0;
+      text-shadow: 0 0 18px rgba(159, 92, 255, 0.68);
+      animation: caretBlink 0.82s steps(1) infinite;
     }
 
     .tagline {
-      max-width: 760px;
+      max-width: 720px;
       margin: 22px auto 0;
-      font-size: clamp(1.1rem, 2vw, 1.45rem);
       color: var(--text-dim);
+      font-size: clamp(1.08rem, 2vw, 1.42rem);
     }
 
     .hero-buttons {
@@ -317,352 +326,296 @@
       margin-top: 28px;
     }
 
+    .hero-hint {
+      margin-top: 17px;
+      color: rgba(185, 174, 208, 0.74);
+      font-size: 0.9rem;
+    }
+
     main,
     .player-shell {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding-left: 20px;
-      padding-right: 20px;
-    }
-
-    .player-shell {
-      display: none;
-      margin-bottom: 34px;
-      padding-top: 18px;
-      padding-bottom: 18px;
-      border-radius: 30px;
-      background: linear-gradient(180deg, rgba(17, 12, 29, 0.95), rgba(10, 8, 18, 0.94));
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(14px);
-      contain: layout paint style;
-    }
-
-    .player-shell.show {
-      display: block;
-    }
-
-    .player-meta {
-      padding-left: 18px;
-      padding-right: 18px;
-      padding-bottom: 14px;
-    }
-
-    .player-meta-row {
-      justify-content: space-between;
-    }
-
-    .player-heading h2 {
-      font-size: clamp(1.8rem, 4vw, 2.6rem);
-      line-height: 1.05;
-      margin-bottom: 4px;
-      text-align: left;
-    }
-
-    .player-heading p {
-      color: var(--text-dim);
-    }
-
-    .player-frame {
-      padding-left: 18px;
-      padding-right: 18px;
-    }
-
-    .player-stage {
-      position: relative;
-      min-height: min(82vh, 940px);
-      border-radius: 24px;
-      border: 1px solid rgba(197, 147, 255, 0.14);
-      overflow: hidden;
-      background: #000;
-      contain: strict;
-    }
-
-    .player-stage .embed-wrapper {
-      margin: 0;
-      height: min(82vh, 940px);
-      min-height: 600px;
-      padding-bottom: 0;
-      border: none;
-      border-radius: 0;
-      box-shadow: none;
-    }
-
-    .player-stage .embed-wrapper iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    .player-bottom {
-      padding: 14px 18px 0;
-    }
-
-    .player-bottom-row {
-      justify-content: space-between;
-      color: var(--text-dim);
-    }
-
-    .player-shortcuts {
-      display: inline-flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .mini-tag {
-      color: var(--text-dim);
-      font-size: 0.9rem;
-      padding: 7px 12px;
+      width: min(var(--max), calc(100% - 32px));
+      margin-inline: auto;
     }
 
     section {
-      margin-bottom: 96px;
-      content-visibility: auto;
-      contain-intrinsic-size: 1px 900px;
+      margin-bottom: 90px;
     }
 
-    h2.section-title {
+    .section-title {
       text-align: center;
-      font-size: clamp(2.1rem, 5vw, 3.4rem);
-      letter-spacing: -0.05em;
+      font-size: clamp(2.15rem, 5vw, 3.5rem);
       line-height: 1.04;
-      margin-bottom: 14px;
-      font-weight: 850;
+      letter-spacing: -0.05em;
+      font-weight: 900;
+      margin-bottom: 18px;
     }
 
-    .panel-box,
     .control-panel,
-    .game-card {
-      background: linear-gradient(180deg, rgba(17, 12, 29, 0.95), rgba(10, 8, 18, 0.94));
+    .game-card,
+    .panel-box,
+    .player-shell {
       border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(17, 12, 29, 0.93), rgba(10, 8, 18, 0.94));
       box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(15px);
     }
 
     .control-panel {
-      margin-top: 30px;
-      border-radius: 28px;
-      padding: 18px;
-      contain: layout paint style;
+      padding: 17px;
+      border-radius: 26px;
     }
 
     .search-row {
-      justify-content: space-between;
+      align-items: stretch;
     }
 
     .search-box {
-      flex: 1 1 360px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      border-radius: 18px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(197, 147, 255, 0.14);
-    }
-
-    .search-icon {
-      font-size: 1rem;
-      color: var(--text-dim);
-      flex-shrink: 0;
-    }
-
-    .search-input {
-      width: 100%;
-      background: transparent;
-      border: none;
-      color: var(--text);
-      outline: none;
+      flex: 1 1 390px;
       min-width: 0;
-    }
-
-    .search-input::placeholder {
-      color: rgba(180, 170, 205, 0.72);
-    }
-
-    .sort-wrap {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-left: auto;
+      padding: 10px 13px;
+      border-radius: 17px;
+      border: 1px solid rgba(198, 158, 255, 0.14);
+      background: rgba(255, 255, 255, 0.032);
+      transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .sort-label,
-    .status-note {
-      color: var(--text-dim);
-      font-size: 0.95rem;
-    }
-
-    .sort-select {
-      background: rgba(255, 255, 255, 0.04);
-      color: var(--text);
-      border: 1px solid rgba(197, 147, 255, 0.14);
-      border-radius: 999px;
-      padding: 10px 14px;
-      outline: none;
-    }
-
-    .sort-select:focus,
     .search-box:focus-within {
       background: rgba(177, 114, 255, 0.08);
       border-color: rgba(219, 181, 255, 0.38);
-      box-shadow: 0 0 0 3px rgba(159, 92, 255, 0.12);
+      box-shadow: 0 0 0 3px rgba(159, 92, 255, 0.11);
+    }
+
+    .search-input {
+      min-width: 0;
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text);
+    }
+
+    .search-input::placeholder {
+      color: rgba(185, 174, 208, 0.68);
+    }
+
+    .sort-select {
+      min-width: 132px;
+      padding: 10px 14px;
+      border: 1px solid rgba(198, 158, 255, 0.17);
+      border-radius: 999px;
+      outline: none;
+      background: #120c1f;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .sort-select:focus {
+      border-color: rgba(219, 181, 255, 0.42);
+      box-shadow: 0 0 0 3px rgba(159, 92, 255, 0.11);
     }
 
     .sort-select option {
-      background: #120b20;
       color: var(--text);
+      background: #120c1f;
     }
 
     .chip-row {
       justify-content: space-between;
-      margin-top: 14px;
+      margin-top: 13px;
+      align-items: flex-start;
     }
 
-    .filter-group,
+    .filter-group {
+      flex: 1 1 630px;
+    }
+
+    .filter-chip {
+      padding: 8px 12px;
+      font-size: 0.9rem;
+    }
+
+    .filter-count {
+      display: inline-grid;
+      place-items: center;
+      min-width: 1.6em;
+      height: 1.6em;
+      margin-left: 5px;
+      padding-inline: 0.35em;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-dim);
+      font-size: 0.75em;
+    }
+
     .status-group {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .filter-chip.active {
-      background: rgba(177, 114, 255, 0.2);
-      border-color: rgba(219, 181, 255, 0.42);
+      justify-content: flex-end;
+      color: var(--text-dim);
+      font-size: 0.91rem;
     }
 
     .count-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 36px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.035);
       color: var(--text);
-      font-weight: 700;
+      font-weight: 780;
     }
 
     .games-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 28px;
-      margin-top: 30px;
+      gap: 24px;
+      margin-top: 26px;
       align-items: stretch;
+    }
+
+    .games-grid.compact {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
     }
 
     .game-card {
       position: relative;
-      overflow: hidden;
-      border-radius: 28px;
-      transition: transform 0.24s ease, border-color 0.24s ease, box-shadow 0.24s ease, opacity 0.24s ease;
+      overflow: clip;
+      border-radius: var(--radius);
       isolation: isolate;
-      contain: layout paint style;
       content-visibility: auto;
-      contain-intrinsic-size: 430px 520px;
+      contain-intrinsic-size: 540px;
+      transition: transform 0.24s ease, border-color 0.24s ease, box-shadow 0.24s ease, opacity 0.24s ease;
     }
 
     .game-card.hidden {
       display: none;
     }
 
-    .game-card:hover {
-      transform: translateY(-8px);
-      border-color: var(--line-strong);
-      box-shadow: 0 26px 58px rgba(0, 0, 0, 0.54), 0 0 22px rgba(159, 92, 255, 0.08);
+    .game-card.reveal-pending {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+
+    .game-card.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .game-card:hover {
+        transform: translateY(-7px);
+        border-color: var(--line-strong);
+        box-shadow: 0 30px 72px rgba(0, 0, 0, 0.56), 0 0 24px rgba(159, 92, 255, 0.09);
+      }
     }
 
     .game-card.playing {
       border-color: var(--line-strong);
-      box-shadow: 0 26px 58px rgba(0, 0, 0, 0.54), 0 0 26px rgba(159, 92, 255, 0.16);
+      box-shadow: 0 26px 70px rgba(0, 0, 0, 0.58), 0 0 30px rgba(159, 92, 255, 0.14);
     }
 
-    .game-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(150deg, rgba(255, 255, 255, 0.06), transparent 28%, transparent 68%, rgba(159, 92, 255, 0.12));
-      pointer-events: none;
-    }
-
-    .card-top {
-      position: relative;
-      padding: 18px 18px 0;
-    }
-
-    .card-banner {
-      height: 7px;
-      min-height: 7px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      overflow: hidden;
-      position: relative;
-      background:
-        linear-gradient(90deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)),
-        var(--banner, linear-gradient(135deg, #1b122f, #100a1c));
-      box-shadow:
-        0 0 18px rgba(159, 92, 255, 0.12),
-        inset 0 0 0 1px rgba(255,255,255,0.03);
-    }
-
-    .card-banner::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
-      opacity: 0.2;
-      transform: translateX(-35%);
+    .card-accent {
+      height: 8px;
+      background: var(--accent, linear-gradient(90deg, var(--purple), var(--blue)));
+      box-shadow: 0 0 18px rgba(159, 92, 255, 0.18);
     }
 
     .card-body {
-      padding: 18px;
+      padding: 19px;
     }
 
     .card-header {
       display: flex;
-      justify-content: space-between;
       align-items: flex-start;
-      gap: 14px;
+      justify-content: space-between;
+      gap: 13px;
       margin-bottom: 12px;
     }
 
     .card-title {
-      font-size: 1.5rem;
-      line-height: 1.08;
+      font-size: 1.48rem;
+      line-height: 1.09;
       letter-spacing: -0.03em;
+      font-weight: 880;
       margin-bottom: 4px;
-      font-weight: 800;
     }
 
-    .card-subtitle {
+    .card-subtitle,
+    .card-copy,
+    .action-note,
+    .player-heading p,
+    .panel-box p {
       color: var(--text-dim);
-      font-size: 0.98rem;
+    }
+
+    .genre,
+    .mini-tag,
+    .featured-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.038);
+      color: var(--purple-soft);
+      white-space: nowrap;
     }
 
     .genre {
-      font-size: 0.78rem;
-      font-weight: 800;
+      padding: 7px 10px;
+      font-size: 0.74rem;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
-      white-space: nowrap;
-      color: var(--purple-soft);
+      letter-spacing: 0.07em;
+      font-weight: 850;
+    }
+
+    .featured-badge {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      z-index: 3;
+      padding: 6px 10px;
+      background: rgba(134, 73, 220, 0.32);
+      border-color: rgba(221, 187, 255, 0.38);
+      color: #f3e8ff;
+      font-size: 0.72rem;
+      font-weight: 850;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      pointer-events: none;
     }
 
     .meta-row {
-      margin-bottom: 14px;
+      margin-bottom: 13px;
+    }
+
+    .mini-tag {
+      padding: 6px 10px;
+      color: var(--text-dim);
+      font-size: 0.84rem;
     }
 
     .card-copy {
-      color: var(--text-dim);
-      min-height: 52px;
+      min-height: 49px;
+      font-size: 0.96rem;
     }
 
-    .embed-wrapper {
+    .embed-wrapper,
+    .embed-placeholder {
       position: relative;
-      padding-bottom: 59.375%;
-      height: 0;
-      background: #000;
-      border-radius: 20px;
+      width: 100%;
+      aspect-ratio: 640 / 380;
+      margin-top: 16px;
       overflow: hidden;
-      border: 1px solid rgba(182, 130, 255, 0.12);
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
-      margin-top: 18px;
-      contain: strict;
+      border: 1px solid rgba(190, 145, 255, 0.13);
+      border-radius: 17px;
+      background: #000;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.018);
     }
 
     .embed-wrapper iframe {
@@ -670,8 +623,16 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      border: none;
+      border: 0;
       background: #000;
+    }
+
+    .embed-placeholder {
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at center, rgba(159, 92, 255, 0.08), #050307 58%);
+      color: rgba(185, 174, 208, 0.68);
+      font-size: 0.9rem;
     }
 
     .play-overlay {
@@ -679,98 +640,118 @@
       inset: 0;
       z-index: 2;
       width: 100%;
-      border: none;
+      border: 0;
       cursor: pointer;
       color: var(--text);
-      font-size: 1.5rem;
-      font-weight: 800;
+      font-size: 1.34rem;
+      font-weight: 850;
       letter-spacing: 0.01em;
-      text-align: center;
-      padding: 20px;
       background:
-        radial-gradient(circle at center, rgba(170, 102, 255, 0.18), transparent 35%),
-        linear-gradient(180deg, rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.78));
+        radial-gradient(circle at center, rgba(165, 94, 255, 0.18), transparent 38%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.43), rgba(0, 0, 0, 0.80));
       transition: background 0.2s ease, letter-spacing 0.2s ease;
     }
 
-    .play-overlay:hover {
-      background:
-        radial-gradient(circle at center, rgba(188, 126, 255, 0.24), transparent 38%),
-        linear-gradient(180deg, rgba(0, 0, 0, 0.34), rgba(0, 0, 0, 0.68));
-      letter-spacing: 0.03em;
+    @media (hover: hover) and (pointer: fine) {
+      .play-overlay:hover {
+        letter-spacing: 0.035em;
+        background:
+          radial-gradient(circle at center, rgba(182, 119, 255, 0.25), transparent 40%),
+          linear-gradient(180deg, rgba(0, 0, 0, 0.34), rgba(0, 0, 0, 0.69));
+      }
     }
 
     .card-actions {
       justify-content: space-between;
-      margin-top: 16px;
+      margin-top: 15px;
     }
 
     .action-note {
-      color: var(--text-dim);
-      font-size: 0.94rem;
+      flex: 1 1 150px;
+      font-size: 0.9rem;
     }
 
-    .panel-box {
+    .game-link,
+    .share-button {
+      padding: 8px 11px;
+      font-size: 0.86rem;
+    }
+
+    .share-button.copied {
+      border-color: rgba(141, 240, 198, 0.46);
+      color: #bff8df;
+    }
+
+    .games-grid.compact .card-body {
+      padding: 16px;
+    }
+
+    .games-grid.compact .card-title {
+      font-size: 1.3rem;
+    }
+
+    .games-grid.compact .card-copy,
+    .games-grid.compact .action-note {
+      font-size: 0.88rem;
+    }
+
+    .player-shell {
+      display: none;
+      margin-bottom: 34px;
+      padding: 17px;
       border-radius: 28px;
-      padding: 28px 24px;
-      text-align: center;
-      contain: layout paint style;
     }
 
-    .panel-box p {
-      max-width: 760px;
-      margin: 0 auto;
+    .player-shell.show {
+      display: block;
+    }
+
+    .player-meta-row,
+    .player-bottom-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .player-heading h2 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      line-height: 1.06;
+      letter-spacing: -0.035em;
+    }
+
+    .player-stage {
+      position: relative;
+      min-height: min(78vh, 850px);
+      margin-top: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(198, 158, 255, 0.14);
+      border-radius: 20px;
+      background: #000;
+    }
+
+    .player-stage .embed-wrapper {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto;
+      margin: 0;
+      border: 0;
+      border-radius: 0;
+    }
+
+    .player-bottom-row {
+      margin-top: 13px;
       color: var(--text-dim);
-      font-size: 1.04rem;
-    }
-
-    footer {
-      max-width: var(--max);
-      margin: 96px auto 0;
-      padding: 56px 20px 52px;
-      border-top: 1px solid rgba(186, 130, 255, 0.1);
-      text-align: center;
-      color: var(--text-dim);
-    }
-
-    .footer-top {
-      justify-content: center;
-      margin-bottom: 10px;
-    }
-
-    .scroll-top {
-      position: fixed;
-      right: 22px;
-      bottom: 22px;
-      z-index: 999;
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(10px);
-      transition: opacity 0.18s ease, transform 0.18s ease, background 0.18s ease;
-    }
-
-    .player-button:disabled {
-      cursor: not-allowed;
-      opacity: 0.5;
-      transform: none;
-    }
-
-    .player-button:disabled:hover {
-      transform: none;
-      background: rgba(177, 114, 255, 0.1);
-      border-color: rgba(197, 147, 255, 0.18);
-      box-shadow: none;
-    }
-
-    .scroll-top.show {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
+      font-size: 0.9rem;
     }
 
     .empty-state {
       display: none;
       margin-top: 26px;
+      padding: 28px;
       text-align: center;
       color: var(--text-dim);
     }
@@ -779,492 +760,546 @@
       display: block;
     }
 
-    @media (hover: none) {
-      .game-card:hover,
-      .button:hover,
-      .nav-links a:hover,
-      .topbar-actions a:hover,
-      .game-link:hover,
-      .links a:hover,
-      .filter-chip:hover,
-      .player-button:hover,
-      .search-button:hover,
-      .clear-button:hover,
-      .scroll-top:hover {
-        transform: none;
-        box-shadow: none;
-      }
+    .panel-box {
+      max-width: 930px;
+      margin-inline: auto;
+      padding: 29px 24px;
+      border-radius: 26px;
+      text-align: center;
     }
 
-    @media (max-width: 900px) {
-      .search-row,
-      .chip-row,
-      .player-meta-row,
-      .player-bottom-row,
-      .card-actions,
+    .panel-box h2 {
+      margin-bottom: 13px;
+      font-size: clamp(1.8rem, 4vw, 2.55rem);
+      letter-spacing: -0.04em;
+    }
+
+    .links {
+      justify-content: center;
+      margin-top: 22px;
+    }
+
+    footer {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 95px auto 0;
+      padding: 50px 0 48px;
+      border-top: 1px solid rgba(198, 158, 255, 0.10);
+      text-align: center;
+      color: var(--text-dim);
+    }
+
+    .footer-top {
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+
+    .scroll-top {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 1050;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(9px);
+      padding: 10px 13px;
+    }
+
+    .scroll-top.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      z-index: 1400;
+      max-width: min(420px, calc(100% - 32px));
+      padding: 11px 15px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: rgba(14, 9, 24, 0.96);
+      color: var(--text);
+      box-shadow: var(--shadow);
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 12px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .low-power body::before,
+    .low-power body::after {
+      animation: none;
+      filter: blur(70px);
+    }
+
+    .low-power .topbar,
+    .low-power .control-panel,
+    .low-power .game-card,
+    .low-power .panel-box,
+    .low-power .player-shell {
+      backdrop-filter: none;
+    }
+
+    @media (max-width: 880px) {
+      :root { --nav-height: 64px; }
+
       .topbar-inner {
+        width: min(100% - 20px, var(--max));
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+
+      .topbar-inner::-webkit-scrollbar {
+        display: none;
+      }
+
+      .nav-links {
+        flex-wrap: nowrap;
+      }
+
+      .top-actions {
+        margin-left: auto;
+      }
+
+      .nav-link,
+      .effects-toggle {
+        font-size: 0.85rem;
+        padding: 7px 11px;
+      }
+
+      .search-row,
+      .chip-row {
         align-items: stretch;
       }
 
-      .topbar-inner {
-        min-height: auto;
-        padding-top: 12px;
-        padding-bottom: 12px;
-        flex-direction: column;
+      .sort-select,
+      .icon-button {
+        flex: 1 1 145px;
       }
 
-      .sort-wrap {
-        margin-left: 0;
-      }
-
-      .topbar,
-      .button,
-      .nav-links a,
-      .topbar-actions a,
-      .game-link,
-      .links a,
-      .filter-chip,
-      .player-button,
-      .search-button,
-      .clear-button,
-      .scroll-top,
-      .panel-box,
-      .control-panel,
-      .game-card,
-      .player-shell {
-        backdrop-filter: none;
-      }
-
-      body::before,
-      body::after {
-        filter: blur(55px);
-        opacity: 0.34;
+      .status-group {
+        justify-content: flex-start;
       }
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 660px) {
       header {
-        padding-top: 78px;
+        padding-top: 72px;
       }
 
-      .games-grid {
+      .brand span:last-child {
+        display: none;
+      }
+
+      .games-grid,
+      .games-grid.compact {
         grid-template-columns: 1fr;
       }
 
-      .player-shell,
-      main {
-        padding-left: 14px;
-        padding-right: 14px;
+      .game-card {
+        contain-intrinsic-size: 500px;
       }
 
-      .player-shell,
-      .control-panel,
-      .panel-box {
-        border-radius: 24px;
+      .card-header,
+      .card-actions,
+      .player-meta-row,
+      .player-bottom-row {
+        align-items: flex-start;
       }
 
-      .player-meta,
-      .player-frame,
-      .player-bottom {
-        padding-left: 14px;
-        padding-right: 14px;
+      .player-shell {
+        width: calc(100% - 20px);
+        padding: 12px;
+        border-radius: 21px;
       }
 
       .player-stage {
         min-height: 64vh;
+        border-radius: 15px;
       }
 
-      .player-stage .embed-wrapper {
-        height: 64vh;
-        min-height: 64vh;
+      .player-actions {
+        width: 100%;
+      }
+
+      .player-button {
+        flex: 1 1 auto;
+        text-align: center;
       }
 
       .play-overlay {
-        font-size: 1.35rem;
+        font-size: 1.2rem;
       }
 
       .scroll-top {
-        right: 14px;
-        bottom: 14px;
+        right: 12px;
+        bottom: 12px;
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
-      }
-
+      html { scroll-behavior: auto; }
       *, *::before, *::after {
-        animation: none !important;
-        transition: none !important;
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
       }
-
-      header,
-      main > section,
-      footer,
-      .player-shell {
-        opacity: 1;
-        transform: none;
-      }
+      .typing-caret { animation: caretBlink 1.1s steps(1) infinite !important; }
     }
   </style>
 </head>
 <body>
-  <canvas id="space-canvas"></canvas>
+  <canvas id="space-canvas" aria-hidden="true"></canvas>
+  <div class="progress-track" aria-hidden="true"><div class="progress-bar" id="progress-bar"></div></div>
 
   <nav class="topbar" aria-label="Main navigation">
     <div class="topbar-inner">
-      <a class="brand" href="#top">
+      <a class="brand" href="#top" aria-label="Go to top">
         <span class="brand-mark" aria-hidden="true"></span>
         <span>Shayan</span>
       </a>
 
       <div class="nav-links">
-        <a href="#games">Games</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
+        <a class="nav-link active" href="#top" data-section="top">Home</a>
+        <a class="nav-link" href="#games" data-section="games">Games</a>
+        <a class="nav-link" href="#about" data-section="about">About</a>
+        <a class="nav-link" href="#contact" data-section="contact">Contact</a>
       </div>
 
-      <div class="topbar-actions">
-        <a href="#games">Find a game</a>
+      <div class="top-actions">
+        <button class="icon-button effects-toggle" id="effects-toggle" type="button" aria-pressed="false">Effects: Auto</button>
       </div>
     </div>
   </nav>
 
   <header id="top">
-    <h1 class="hero-title" aria-label="SHAYAN"><span id="typed-name"></span><span class="typing-caret" aria-hidden="true">|</span></h1>
+    <div class="hero-title-wrap">
+      <h1 class="hero-title" aria-label="SHAYAN">
+        <span id="typed-name"></span><span class="typing-caret" aria-hidden="true">|</span>
+      </h1>
+    </div>
     <p class="tagline">Original passion projects</p>
 
     <div class="hero-buttons">
       <a class="button primary" href="#games">Play now</a>
+      <button class="button" id="random-game" type="button">Surprise me</button>
       <a class="button" href="https://electricevo.itch.io" target="_blank" rel="noopener noreferrer">Visit itch.io</a>
     </div>
+    <p class="hero-hint">Press <strong>/</strong> to search, <strong>R</strong> for a random game, or <strong>Esc</strong> to close the player.</p>
   </header>
 
-  <section class="player-shell" id="player-shell" aria-live="polite">
-    <div class="player-meta">
-      <div class="player-meta-row">
-        <div class="player-heading">
-          <h2 id="player-title">Now Playing</h2>
-          <p id="player-sub">Opened in a larger view</p>
-        </div>
+  <section class="player-shell" id="player-shell" aria-live="polite" aria-label="Game player">
+    <div class="player-meta-row">
+      <div class="player-heading">
+        <h2 id="player-title">Now Playing</h2>
+        <p id="player-sub">Opened in a larger view</p>
+      </div>
 
-        <div class="player-actions">
-          <button class="player-button" id="player-prev" type="button">Previous</button>
-          <button class="player-button" id="player-next" type="button">Next</button>
-          <a class="player-button" id="player-link" href="https://electricevo.itch.io" target="_blank" rel="noopener noreferrer">Open on itch.io</a>
-          <button class="player-button" id="player-close" type="button">Close</button>
-        </div>
+      <div class="player-actions">
+        <button class="player-button" id="player-prev" type="button">Previous</button>
+        <button class="player-button" id="player-next" type="button">Next</button>
+        <a class="player-button" id="player-link" href="https://electricevo.itch.io" target="_blank" rel="noopener noreferrer">itch.io ↗</a>
+        <button class="player-button" id="player-close" type="button">Close</button>
       </div>
     </div>
 
-    <div class="player-frame">
-      <div class="player-stage" id="player-stage"></div>
-    </div>
+    <div class="player-stage" id="player-stage"></div>
 
-    <div class="player-bottom">
-      <div class="player-bottom-row">
-        <div id="player-status">Pick a game card and hit play.</div>
-        <div class="player-shortcuts">
-          <span class="mini-tag">Esc closes</span>
-          <span class="mini-tag">← → switch</span>
-          <span class="mini-tag">/ focuses search</span>
-        </div>
-      </div>
+    <div class="player-bottom-row">
+      <span id="player-status">Pick a game and press play.</span>
+      <span>← → switch games</span>
     </div>
   </section>
 
   <main>
     <section class="games-section" id="games">
       <h2 class="section-title">Play My Games</h2>
+
       <div class="control-panel">
         <div class="search-row">
-          <div class="search-box">
-            <span class="search-icon" aria-hidden="true">⌕</span>
-            <input class="search-input" id="game-search" type="search" placeholder="Search by title, genre, or vibe" autocomplete="off" />
-          </div>
+          <label class="search-box" for="game-search">
+            <span aria-hidden="true">⌕</span>
+            <input class="search-input" id="game-search" type="search" placeholder="Search title, genre, or tag" autocomplete="off" />
+          </label>
 
-          <button class="search-button" id="run-search" type="button">Search</button>
-          <button class="clear-button" id="clear-search" type="button">Clear</button>
+          <select class="sort-select" id="sort-select" aria-label="Sort games">
+            <option value="featured">Featured</option>
+            <option value="newest">Newest first</option>
+            <option value="az">A to Z</option>
+            <option value="za">Z to A</option>
+            <option value="genre">Genre</option>
+          </select>
 
-          <div class="sort-wrap">
-            <label class="sort-label" for="sort-select">Sort</label>
-            <select class="sort-select" id="sort-select">
-              <option value="featured">Featured</option>
-              <option value="az">A to Z</option>
-              <option value="za">Z to A</option>
-              <option value="genre">Genre</option>
-            </select>
-          </div>
+          <button class="icon-button" id="compact-toggle" type="button" aria-pressed="false">Compact view</button>
+          <button class="icon-button" id="clear-search" type="button">Reset</button>
         </div>
 
         <div class="chip-row">
           <div class="filter-group" role="group" aria-label="Game filters">
             <button class="filter-chip active" type="button" data-filter="all">All</button>
+            <button class="filter-chip" type="button" data-filter="dev-favorite">Dev Favorite</button>
             <button class="filter-chip" type="button" data-filter="arcade">Arcade</button>
             <button class="filter-chip" type="button" data-filter="story">Story</button>
             <button class="filter-chip" type="button" data-filter="horror">Horror</button>
             <button class="filter-chip" type="button" data-filter="puzzle">Puzzle</button>
             <button class="filter-chip" type="button" data-filter="roguelike">Roguelike</button>
             <button class="filter-chip" type="button" data-filter="fighting">Fighting</button>
-            <button class="filter-chip" type="button" data-filter="dev-favorite">Dev Favorite</button>
           </div>
 
-          <div class="status-group">
-            <div class="count-pill" id="result-count">12 games</div>
-            <div class="status-note" id="search-status">Showing all games</div>
+          <div class="status-group" aria-live="polite">
+            <span class="count-pill" id="result-count">12 games</span>
+            <span id="search-status">Showing all games</span>
           </div>
         </div>
       </div>
 
       <div class="games-grid" id="games-grid">
-
-        <article class="game-card" data-order="1" data-genre="arcade dev-favorite" data-link="https://electricevo.itch.io" style="--banner: linear-gradient(135deg, #33215b, #110a1d);">
-          <div class="card-top"><div class="card-banner"></div></div>
+        <article class="game-card" id="game-polyseeker" data-slug="polyseeker" data-order="1" data-genre="arcade dev-favorite" data-link="https://electricevo.itch.io" style="--accent: linear-gradient(90deg, #8c55ff, #4da8f0);">
+          <div class="card-accent"></div>
+          <span class="featured-badge">Dev Favorite</span>
           <div class="card-body">
             <div class="card-header">
               <div><h3 class="card-title">PolySeeker</h3><p class="card-subtitle">Tower Defense</p></div>
-              <div class="genre">Arcade</div>
+              <span class="genre">Arcade</span>
             </div>
-            <div class="meta-row"><div class="mini-tag">Fast</div><div class="mini-tag">Clean</div><div class="mini-tag">Wave play</div></div>
+            <div class="meta-row"><span class="mini-tag">Fast</span><span class="mini-tag">Clean</span><span class="mini-tag">Wave play</span></div>
             <p class="card-copy">Fast tower defense with clean waves and quick restarts.</p>
             <div class="embed-wrapper">
               <button class="play-overlay" type="button">Click to Play</button>
-              <template class="embed-template">
-                <iframe frameborder="0" src="https://itch.io/embed-upload/16649454?color=333333" allowfullscreen loading="lazy"></iframe>
-              </template>
+              <iframe frameborder="0" src="about:blank" data-src="https://itch.io/embed-upload/16649454?color=333333" allowfullscreen loading="lazy"></iframe>
             </div>
-            <div class="card-actions"><div class="action-note">Best for quick runs</div><a class="game-link" href="https://electricevo.itch.io" target="_blank" rel="noopener noreferrer">itch.io ↗</a></div>
+            <div class="card-actions"><span class="action-note">Best for quick runs</span><button class="share-button" type="button">Share</button><a class="game-link" href="https://electricevo.itch.io" target="_blank" rel="noopener noreferrer">itch.io ↗</a></div>
           </div>
         </article>
 
-        <article class="game-card" data-order="2" data-genre="story" data-link="https://electricevo.itch.io" style="--banner: linear-gradient(135deg, #3b2140, #15101e);">
-          <div class="card-top"><div class="card-banner"></div></div>
+        <article class="game-card" id="game-lemons-limes-and-crimes" data-slug="lemons-limes-and-crimes" data-order="2" data-genre="story" data-link="https://electricevo.itch.io" style="--accent: linear-gradient(90deg, #ca8a43, #a8d65e);">
+          <div class="card-accent"></div>
           <div class="card-body">
             <div class="card-header">
               <div><h3 class="card-title">Lemons, Limes and Crimes</h3><p class="card-subtitle">Story Game</p></div>
-              <div class="genre">Story</div>
+              <span class="genre">Story</span>
             </div>
-            <div class="meta-row"><div class="mini-tag">Odd</div><div class="mini-tag">Mystery</div><div class="mini-tag">Story</div></div>
+            <div class="meta-row"><span class="mini-tag">Odd</span><span class="mini-tag">Mystery</span><span class="mini-tag">Story</span></div>
             <p class="card-copy">A strange story full of mystery, small clues, and weird turns.</p>
             <div class="embed-wrapper">
               <button class="play-overlay" type="button">Click to Play</button>
-              <template class="embed-template">
-                <iframe frameborder="0" src="https://itch.io/embed-upload/16649626?color=333333" allowfullscreen loading="lazy"></iframe>
-              </template>
+              <iframe frameborder="0" src="about:blank" data-src="https://itch.io/embed-upload/16649626?color=333333" allowfullscreen loading="lazy"></iframe>
             </div>
-            <div class="card-actions"><div class="action-note">Best if you like story first</div><a class="game-link" href="https://electricevo.itch.io" target="_blank" rel="noopener noreferrer">itch.io ↗</a></div>
+            <div class="card-actions"><span class="action-note">Best if you like story first</span><button class="share-button" type="button">Share</button><a class="game-link" href="https://electricevo.itch.io" target="_blank" rel="noopener noreferrer">itch.io ↗</a></div>
           </div>
         </article>
 
-        <article class="game-card" data-order="3" data-genre="horror" data-link="https://electricevo.itch.io" style="--banner: linear-gradient(135deg, #233049, #0c0d15);">
-          <div class="card-top"><div class="card-banner"></div></div>
+        <article class="game-card" id="game-the-decayed" data-slug="the-decayed" data-order="3" data-genre="horror" data-link="https://electricevo.itch.io" style="--accent: linear-gradient(90deg, #37445f, #8d3e5e);">
+          <div class="card-accent"></div>
           <div class="card-body">
             <div class="card-header">
               <div><h3 class="card-title">The Decayed</h3><p class="card-subtitle">Horror / Survival</p></div>
-              <div class="genre">Horror</div>
+              <span class="genre">Horror</span>
             </div>
-            <div class="meta-row"><div class="mini-tag">Dark</div><div class="mini-tag">Survival</div><div class="mini-tag">Tense</div></div>
+            <div class="meta-row"><span class="mini-tag">Dark</span><span class="mini-tag">Survival</span><span class="mini-tag">Tense</span></div>
             <p class="card-copy">Dark survival horror with tense pacing and a heavy mood.</p>
             <div class="embed-wrapper">
               <button class="play-overlay" type="button">Click to Play</button>
-              <template class="embed-template">
-                <iframe frameborder="0" src="https://itch.io/embed-upload/12740855?color=000000" allowfullscreen loading="lazy"></iframe>
-              </template>
+              <iframe frameborder="0" src="about:blank" data-src="https://itch.io/embed-upload/12740855?color=000000" allowfullscreen loading="lazy"></iframe>
             </div>
-            <div class="card-actions"><div class="action-note">Best late at night</div><a class="game-link" href="https://electricevo.itch.io" target="_blank" rel="noopener noreferrer">itch.io ↗</a></div>
+            <div class="card-actions"><span class="action-note">Best late at night</span><button class="share-button" type="button">Share</button><a class="game-link" href="https://electricevo.itch.io" target="_blank" rel="noopener noreferrer">itch.io ↗</a></div>
           </div>
         </article>
 
-        <article class="game-card" data-order="4" data-genre="puzzle" data-link="https://electricevo.itch.io" style="--banner: linear-gradient(135deg, #1e3d58, #101620);">
-          <div class="card-top"><div class="card-banner"></div></div>
+        <article class="game-card" id="game-atomized" data-slug="atomized" data-order="4" data-genre="puzzle arcade" data-link="https://electricevo.itch.io" style="--accent: linear-gradient(90deg, #3f9ac9, #9663ef);">
+          <div class="card-accent"></div>
           <div class="card-body">
             <div class="card-header">
               <div><h3 class="card-title">Atomized</h3><p class="card-subtitle">Puzzle / Action</p></div>
-              <div class="genre">Puzzle</div>
+              <span class="genre">Puzzle</span>
             </div>
-            <div class="meta-row"><div class="mini-tag">Action</div><div class="mini-tag">Choices</div><div class="mini-tag">Puzzle</div></div>
+            <div class="meta-row"><span class="mini-tag">Action</span><span class="mini-tag">Choices</span><span class="mini-tag">Puzzle</span></div>
             <p class="card-copy">Puzzle action where your choices matter and each move counts.</p>
             <div class="embed-wrapper">
               <button class="play-overlay" type="button">Click to Play</button>
-              <template class="embed-template">
-                <iframe frameborder="0" src="https://itch.io/embed-upload/16742067?color=333333" allowfullscreen loading="lazy"></iframe>
-              </template>
+              <iframe frameborder="0" src="about:blank" data-src="https://itch.io/embed-upload/16742067?color=333333" allowfullscreen loading="lazy"></iframe>
             </div>
-            <div class="card-actions"><div class="action-note">Best if you want to think fast</div><a class="game-link" href="https://electricevo.itch.io" target="_blank" rel="noopener noreferrer">itch.io ↗</a></div>
+            <div class="card-actions"><span class="action-note">Best if you want to think fast</span><button class="share-button" type="button">Share</button><a class="game-link" href="https://electricevo.itch.io" target="_blank" rel="noopener noreferrer">itch.io ↗</a></div>
           </div>
         </article>
 
-        <article class="game-card" data-order="5" data-genre="horror dev-favorite" data-link="https://electricevo.itch.io/game4" style="--banner: linear-gradient(135deg, #44203f, #140d18);">
-          <div class="card-top"><div class="card-banner"></div></div>
+        <article class="game-card" id="game-scary-game" data-slug="scary-game" data-order="5" data-genre="horror roguelike dev-favorite" data-link="https://electricevo.itch.io/game4" style="--accent: linear-gradient(90deg, #7e263c, #542680);">
+          <div class="card-accent"></div>
+          <span class="featured-badge">Dev Favorite</span>
           <div class="card-body">
             <div class="card-header">
-              <div><h3 class="card-title">SCARY GAME</h3><p class="card-subtitle">Scary Game</p></div>
-              <div class="genre">Horror</div>
+              <div><h3 class="card-title">SCARY GAME</h3><p class="card-subtitle">Horror Roguelike</p></div>
+              <span class="genre">Horror</span>
             </div>
-            <div class="meta-row"><div class="mini-tag">Scary</div><div class="mini-tag">Pressure</div><div class="mini-tag">Horror</div></div>
-            <p class="card-copy">A scary game with a tense mood and quick play.</p>
+            <div class="meta-row"><span class="mini-tag">Replayable</span><span class="mini-tag">Pressure</span><span class="mini-tag">Horror</span></div>
+            <p class="card-copy">A replayable horror run with rising pressure and fast resets.</p>
             <div class="embed-wrapper">
               <button class="play-overlay" type="button">Click to Play</button>
               <template class="embed-template">
-                <iframe frameborder="0" src="https://itch.io/embed-upload/17530922?color=000000" allowfullscreen loading="lazy"><a href="https://electricevo.itch.io/game4">Play game4? on itch.io</a></iframe>
+                <iframe frameborder="0" src="https://itch.io/embed-upload/17530922?color=000000" allowfullscreen="" width="640" height="380"><a href="https://electricevo.itch.io/game4">Play game4? on itch.io</a></iframe>
               </template>
             </div>
-            <div class="card-actions"><div class="action-note">Best if you want a quick scare</div><a class="game-link" href="https://electricevo.itch.io/game4" target="_blank" rel="noopener noreferrer">itch.io ↗</a></div>
+            <div class="card-actions"><span class="action-note">Best for tense repeat runs</span><button class="share-button" type="button">Share</button><a class="game-link" href="https://electricevo.itch.io/game4" target="_blank" rel="noopener noreferrer">itch.io ↗</a></div>
           </div>
         </article>
 
-        <article class="game-card" data-order="6" data-genre="fighting arcade dev-favorite" data-link="https://electricevo.itch.io/game5" style="--banner: linear-gradient(135deg, #301f5f, #101820);">
-          <div class="card-top"><div class="card-banner"></div></div>
+        <article class="game-card" id="game-combat" data-slug="combat" data-order="6" data-genre="fighting arcade dev-favorite" data-link="https://electricevo.itch.io/game5" style="--accent: linear-gradient(90deg, #e45b65, #7456ff);">
+          <div class="card-accent"></div>
+          <span class="featured-badge">Dev Favorite</span>
           <div class="card-body">
             <div class="card-header">
               <div><h3 class="card-title">COMBAT</h3><p class="card-subtitle">2D Fighting Game</p></div>
-              <div class="genre">Fighting</div>
+              <span class="genre">Fighting</span>
             </div>
-            <div class="meta-row"><div class="mini-tag">V.S. AI</div><div class="mini-tag">Fast-paced</div><div class="mini-tag">Repetitive</div></div>
-            <p class="card-copy">2D fighting game against an AI. Fast-paced and very repetitive.</p>
+            <div class="meta-row"><span class="mini-tag">V.S. AI</span><span class="mini-tag">Fast-paced</span><span class="mini-tag">Repetitive</span></div>
+            <p class="card-copy">A fast-paced 2D fighting game against an AI, built for rapid repeat matches.</p>
             <div class="embed-wrapper">
               <button class="play-overlay" type="button">Click to Play</button>
               <template class="embed-template">
-                <iframe frameborder="0" src="https://itch.io/embed-upload/17533254?color=333333" allowfullscreen loading="lazy"><a href="https://electricevo.itch.io/game5">Play game5 on itch.io</a></iframe>
+                <iframe frameborder="0" src="https://itch.io/embed-upload/17533254?color=333333" allowfullscreen="" width="640" height="380"><a href="https://electricevo.itch.io/game5">Play game5 on itch.io</a></iframe>
               </template>
             </div>
-            <div class="card-actions"><div class="action-note">Best for fast AI fights</div><a class="game-link" href="https://electricevo.itch.io/game5" target="_blank" rel="noopener noreferrer">itch.io ↗</a></div>
+            <div class="card-actions"><span class="action-note">Best for fast AI fights</span><button class="share-button" type="button">Share</button><a class="game-link" href="https://electricevo.itch.io/game5" target="_blank" rel="noopener noreferrer">itch.io ↗</a></div>
           </div>
         </article>
 
-        <article class="game-card" data-order="7" data-genre="roguelike" data-link="https://electricevo.itch.io/consequences" style="--banner: linear-gradient(135deg, #4e2d23, #170e0a);">
-          <div class="card-top"><div class="card-banner"></div></div>
+        <article class="game-card" id="game-old-man-consequences" data-slug="old-man-consequences" data-order="7" data-genre="roguelike arcade" data-link="https://electricevo.itch.io/consequences" style="--accent: linear-gradient(90deg, #b66142, #6d2943);">
+          <div class="card-accent"></div>
           <div class="card-body">
             <div class="card-header">
               <div><h3 class="card-title">Old Man Consequences</h3><p class="card-subtitle">Roguelike Game</p></div>
-              <div class="genre">Roguelike</div>
+              <span class="genre">Roguelike</span>
             </div>
-            <div class="meta-row"><div class="mini-tag">Boss fight</div><div class="mini-tag">Fast reset</div><div class="mini-tag">Arcade feel</div></div>
+            <div class="meta-row"><span class="mini-tag">Boss fight</span><span class="mini-tag">Fast reset</span><span class="mini-tag">Arcade feel</span></div>
             <p class="card-copy">A roguelike boss fight with fast resets and quick tension.</p>
             <div class="embed-wrapper">
               <button class="play-overlay" type="button">Click to Play</button>
               <template class="embed-template">
-                <iframe frameborder="0" src="https://itch.io/embed-upload/14287001?color=000000" allowfullscreen loading="lazy"><a href="https://electricevo.itch.io/consequences">Play Consequences on itch.io</a></iframe>
+                <iframe frameborder="0" src="https://itch.io/embed-upload/14287001?color=000000" allowfullscreen="" width="640" height="380"><a href="https://electricevo.itch.io/consequences">Play Consequences on itch.io</a></iframe>
               </template>
             </div>
-            <div class="card-actions"><div class="action-note">Best if you want a big fight fast</div><a class="game-link" href="https://electricevo.itch.io/consequences" target="_blank" rel="noopener noreferrer">itch.io ↗</a></div>
+            <div class="card-actions"><span class="action-note">Best if you want a big fight fast</span><button class="share-button" type="button">Share</button><a class="game-link" href="https://electricevo.itch.io/consequences" target="_blank" rel="noopener noreferrer">itch.io ↗</a></div>
           </div>
         </article>
 
-        <article class="game-card" data-order="8" data-genre="horror" data-link="https://electricevo.itch.io/multicolors-negative" style="--banner: linear-gradient(135deg, #25506a, #180d24);">
-          <div class="card-top"><div class="card-banner"></div></div>
+        <article class="game-card" id="game-multicolors-negative" data-slug="multicolors-negative" data-order="8" data-genre="horror" data-link="https://electricevo.itch.io/multicolors-negative" style="--accent: linear-gradient(90deg, #34a4c5, #b056dd);">
+          <div class="card-accent"></div>
           <div class="card-body">
             <div class="card-header">
               <div><h3 class="card-title">Multicolors Negative</h3><p class="card-subtitle">Colorful Horror Game</p></div>
-              <div class="genre">Horror</div>
+              <span class="genre">Horror</span>
             </div>
-            <div class="meta-row"><div class="mini-tag">Color</div><div class="mini-tag">Horror</div><div class="mini-tag">Mood</div></div>
+            <div class="meta-row"><span class="mini-tag">Color</span><span class="mini-tag">Horror</span><span class="mini-tag">Mood</span></div>
             <p class="card-copy">Bright color, dark mood, and horror that stands out.</p>
             <div class="embed-wrapper">
               <button class="play-overlay" type="button">Click to Play</button>
               <template class="embed-template">
-                <iframe frameborder="0" src="https://itch.io/embed-upload/16984777?color=333333" allowfullscreen loading="lazy"><a href="https://electricevo.itch.io/multicolors-negative">Play multicolors negative on itch.io</a></iframe>
+                <iframe frameborder="0" src="https://itch.io/embed-upload/16984777?color=333333" allowfullscreen="" width="640" height="380"><a href="https://electricevo.itch.io/multicolors-negative">Play multicolors negative on itch.io</a></iframe>
               </template>
             </div>
-            <div class="card-actions"><div class="action-note">Best if you want color with dread</div><a class="game-link" href="https://electricevo.itch.io/multicolors-negative" target="_blank" rel="noopener noreferrer">itch.io ↗</a></div>
+            <div class="card-actions"><span class="action-note">Best if you want color with dread</span><button class="share-button" type="button">Share</button><a class="game-link" href="https://electricevo.itch.io/multicolors-negative" target="_blank" rel="noopener noreferrer">itch.io ↗</a></div>
           </div>
         </article>
 
-        <article class="game-card" data-order="9" data-genre="horror" data-link="https://electricevo.itch.io/simpsons" style="--banner: linear-gradient(135deg, #473128, #120b16);">
-          <div class="card-top"><div class="card-banner"></div></div>
+        <article class="game-card" id="game-simpsons" data-slug="simpsons" data-order="9" data-genre="horror" data-link="https://electricevo.itch.io/simpsons" style="--accent: linear-gradient(90deg, #ddad3a, #6b3b75);">
+          <div class="card-accent"></div>
           <div class="card-body">
             <div class="card-header">
               <div><h3 class="card-title">Simpsons</h3><p class="card-subtitle">Horror Game</p></div>
-              <div class="genre">Horror</div>
+              <span class="genre">Horror</span>
             </div>
-            <div class="meta-row"><div class="mini-tag">Horror</div><div class="mini-tag">Dark</div><div class="mini-tag">Strange</div></div>
-            <p class="card-copy">A horror game with a strange and dark mood.</p>
+            <div class="meta-row"><span class="mini-tag">Horror</span><span class="mini-tag">Dark</span><span class="mini-tag">Strange</span></div>
+            <p class="card-copy">A horror game with a strange, familiar, and unsettling atmosphere.</p>
             <div class="embed-wrapper">
               <button class="play-overlay" type="button">Click to Play</button>
               <template class="embed-template">
-                <iframe frameborder="0" src="https://itch.io/embed-upload/14453131?color=000000" allowfullscreen loading="lazy"><a href="https://electricevo.itch.io/simpsons">Play Simpsons on itch.io</a></iframe>
+                <iframe frameborder="0" src="https://itch.io/embed-upload/14453131?color=000000" allowfullscreen="" width="640" height="380"><a href="https://electricevo.itch.io/simpsons">Play Simpsons on itch.io</a></iframe>
               </template>
             </div>
-            <div class="card-actions"><div class="action-note">Best for horror fans</div><a class="game-link" href="https://electricevo.itch.io/simpsons" target="_blank" rel="noopener noreferrer">itch.io ↗</a></div>
+            <div class="card-actions"><span class="action-note">Best for strange horror</span><button class="share-button" type="button">Share</button><a class="game-link" href="https://electricevo.itch.io/simpsons" target="_blank" rel="noopener noreferrer">itch.io ↗</a></div>
           </div>
         </article>
 
-        <article class="game-card" data-order="10" data-genre="arcade" data-link="https://electricevo.itch.io/plinko" style="--banner: linear-gradient(135deg, #23415f, #0f111f);">
-          <div class="card-top"><div class="card-banner"></div></div>
+        <article class="game-card" id="game-plinko" data-slug="plinko" data-order="10" data-genre="arcade" data-link="https://electricevo.itch.io/plinko" style="--accent: linear-gradient(90deg, #3f7ddb, #59c7b6);">
+          <div class="card-accent"></div>
           <div class="card-body">
             <div class="card-header">
-              <div><h3 class="card-title">Plinko</h3><p class="card-subtitle">Satisfying Arcade Game</p></div>
-              <div class="genre">Arcade</div>
+              <div><h3 class="card-title">Plinko</h3><p class="card-subtitle">Satisfying Chance Game</p></div>
+              <span class="genre">Arcade</span>
             </div>
-            <div class="meta-row"><div class="mini-tag">Satisfying</div><div class="mini-tag">Chance</div><div class="mini-tag">Repetitive</div></div>
-            <p class="card-copy">A satisfying Plinko game built around chance and simple repeats.</p>
+            <div class="meta-row"><span class="mini-tag">Satisfying</span><span class="mini-tag">Chance</span><span class="mini-tag">Repetitive</span></div>
+            <p class="card-copy">A satisfying Plinko game built around chance, bouncing, and quick repeat drops.</p>
             <div class="embed-wrapper">
               <button class="play-overlay" type="button">Click to Play</button>
               <template class="embed-template">
-                <iframe frameborder="0" src="https://itch.io/embed-upload/12748389?color=333333" allowfullscreen loading="lazy"><a href="https://electricevo.itch.io/plinko">Play Plinko on itch.io</a></iframe>
+                <iframe frameborder="0" src="https://itch.io/embed-upload/12748389?color=333333" allowfullscreen="" width="640" height="380"><a href="https://electricevo.itch.io/plinko">Play Plinko on itch.io</a></iframe>
               </template>
             </div>
-            <div class="card-actions"><div class="action-note">Best for quick repeats</div><a class="game-link" href="https://electricevo.itch.io/plinko" target="_blank" rel="noopener noreferrer">itch.io ↗</a></div>
+            <div class="card-actions"><span class="action-note">Best for satisfying repeats</span><button class="share-button" type="button">Share</button><a class="game-link" href="https://electricevo.itch.io/plinko" target="_blank" rel="noopener noreferrer">itch.io ↗</a></div>
           </div>
         </article>
 
-        <article class="game-card" data-order="11" data-genre="roguelike arcade" data-link="https://electricevo.itch.io/robberfly" style="--banner: linear-gradient(135deg, #244d35, #0d1511);">
-          <div class="card-top"><div class="card-banner"></div></div>
+        <article class="game-card" id="game-robberfly-roundup" data-slug="robberfly-roundup" data-order="11" data-genre="roguelike arcade" data-link="https://electricevo.itch.io/robberfly" style="--accent: linear-gradient(90deg, #4c9e58, #d1a44e);">
+          <div class="card-accent"></div>
           <div class="card-body">
             <div class="card-header">
               <div><h3 class="card-title">Robberfly Roundup</h3><p class="card-subtitle">Roguelike Waves</p></div>
-              <div class="genre">Roguelike</div>
+              <span class="genre">Roguelike</span>
             </div>
-            <div class="meta-row"><div class="mini-tag">Waves</div><div class="mini-tag">Roguelike</div><div class="mini-tag">Arcade</div></div>
-            <p class="card-copy">A roguelike wave game with fast rounds and growing pressure.</p>
+            <div class="meta-row"><span class="mini-tag">Waves</span><span class="mini-tag">Roguelike</span><span class="mini-tag">Arcade</span></div>
+            <p class="card-copy">A wave-based roguelike with fast rounds and growing pressure.</p>
             <div class="embed-wrapper">
               <button class="play-overlay" type="button">Click to Play</button>
               <template class="embed-template">
-                <iframe frameborder="0" src="https://itch.io/embed-upload/17545376?color=333333" allowfullscreen loading="lazy"><a href="https://electricevo.itch.io/robberfly">Play robberflyroundup on itch.io</a></iframe>
+                <iframe frameborder="0" src="https://itch.io/embed-upload/17545376?color=333333" allowfullscreen="" width="640" height="380"><a href="https://electricevo.itch.io/robberfly">Play robberflyroundup on itch.io</a></iframe>
               </template>
             </div>
-            <div class="card-actions"><div class="action-note">Best for wave runs</div><a class="game-link" href="https://electricevo.itch.io/robberfly" target="_blank" rel="noopener noreferrer">itch.io ↗</a></div>
+            <div class="card-actions"><span class="action-note">Best for wave runs</span><button class="share-button" type="button">Share</button><a class="game-link" href="https://electricevo.itch.io/robberfly" target="_blank" rel="noopener noreferrer">itch.io ↗</a></div>
           </div>
         </article>
 
-        <article class="game-card" data-order="12" data-genre="arcade" data-link="https://electricevo.itch.io/defender" style="--banner: linear-gradient(135deg, #2d345f, #0d1020);">
-          <div class="card-top"><div class="card-banner"></div></div>
+        <article class="game-card" id="game-defender" data-slug="defender" data-order="12" data-genre="arcade" data-link="https://electricevo.itch.io/defender" style="--accent: linear-gradient(90deg, #4867de, #8c55ff);">
+          <div class="card-accent"></div>
           <div class="card-body">
             <div class="card-header">
               <div><h3 class="card-title">Defender</h3><p class="card-subtitle">Arcade Game</p></div>
-              <div class="genre">Arcade</div>
+              <span class="genre">Arcade</span>
             </div>
-            <div class="meta-row"><div class="mini-tag">Arcade</div><div class="mini-tag">Repetitive</div><div class="mini-tag">Fast</div></div>
+            <div class="meta-row"><span class="mini-tag">Arcade</span><span class="mini-tag">Repetitive</span><span class="mini-tag">Fast</span></div>
             <p class="card-copy">A repetitive arcade game built for quick action and simple runs.</p>
             <div class="embed-wrapper">
               <button class="play-overlay" type="button">Click to Play</button>
               <template class="embed-template">
-                <iframe frameborder="0" src="https://itch.io/embed-upload/17545414?color=333333" allowfullscreen loading="lazy"><a href="https://electricevo.itch.io/defender">Play Defender on itch.io</a></iframe>
+                <iframe frameborder="0" src="https://itch.io/embed-upload/17545414?color=333333" allowfullscreen="" width="640" height="380"><a href="https://electricevo.itch.io/defender">Play Defender on itch.io</a></iframe>
               </template>
             </div>
-            <div class="card-actions"><div class="action-note">Best for simple arcade runs</div><a class="game-link" href="https://electricevo.itch.io/defender" target="_blank" rel="noopener noreferrer">itch.io ↗</a></div>
+            <div class="card-actions"><span class="action-note">Best for simple arcade runs</span><button class="share-button" type="button">Share</button><a class="game-link" href="https://electricevo.itch.io/defender" target="_blank" rel="noopener noreferrer">itch.io ↗</a></div>
           </div>
         </article>
       </div>
 
-      <div class="empty-state" id="empty-state">
-        No games match that search right now.
+      <div class="empty-state" id="empty-state">No games match that search right now.</div>
+    </section>
+
+    <section id="about">
+      <div class="panel-box">
+        <h2>About</h2>
+        <p>I make original browser games with a focus on mood, replay value, and memorable mechanics. This site is a playable collection of my passion projects.</p>
       </div>
     </section>
 
-    <section class="about" id="about">
+    <section id="contact">
       <div class="panel-box">
-        <h2 class="section-title">About</h2>
-        <p>I make original browser games with a focus on mood, replay value, and ideas that stick with people after they stop playing.</p>
-      </div>
-    </section>
-
-    <section class="contact" id="contact">
-      <div class="panel-box">
-        <h2 class="section-title">Contact</h2>
+        <h2>Contact</h2>
         <p>Follow my work and new releases here.</p>
-        <div class="links" style="justify-content:center; margin-top: 24px;">
+        <div class="links">
           <a href="https://x.com/ATuesdayEvening" target="_blank" rel="noopener noreferrer">X</a>
           <a href="https://github.com/ATuesdayEvening" target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href="https://electricevo.itch.io" target="_blank" rel="noopener noreferrer">itch.io</a>
@@ -1274,25 +1309,45 @@
   </main>
 
   <footer>
-    <div class="footer-top">
-      <span>© 2026 Shayan</span>
-      <span>•</span>
-      <span>🪐</span>
-    </div>
+    <div class="footer-top"><span>© 2026 Shayan</span><span>•</span><span>🪐</span></div>
     <div>Thanks for playing.</div>
   </footer>
 
   <button class="scroll-top" id="scroll-top" type="button" aria-label="Back to top">Top</button>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script>
+    'use strict';
+
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const lowPowerDevice =
-      window.innerWidth <= 768 ||
+    const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+    const lowPowerHardware = Boolean(
+      window.innerWidth < 900 ||
+      coarsePointer ||
       (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
-      (navigator.deviceMemory && navigator.deviceMemory <= 4);
+      (navigator.deviceMemory && navigator.deviceMemory <= 4)
+    );
+
+    if (lowPowerHardware) document.documentElement.classList.add('low-power');
 
     const canvas = document.getElementById('space-canvas');
     const ctx = canvas.getContext('2d', { alpha: true, desynchronized: true });
+    const typedName = document.getElementById('typed-name');
+    const progressBar = document.getElementById('progress-bar');
+    const gamesGrid = document.getElementById('games-grid');
+    const gameCards = Array.from(document.querySelectorAll('.game-card'));
+    const filterButtons = Array.from(document.querySelectorAll('.filter-chip'));
+    const searchInput = document.getElementById('game-search');
+    const sortSelect = document.getElementById('sort-select');
+    const compactToggle = document.getElementById('compact-toggle');
+    const clearSearch = document.getElementById('clear-search');
+    const resultCount = document.getElementById('result-count');
+    const searchStatus = document.getElementById('search-status');
+    const emptyState = document.getElementById('empty-state');
+    const randomGameButton = document.getElementById('random-game');
+    const effectsToggle = document.getElementById('effects-toggle');
+    const scrollTopButton = document.getElementById('scroll-top');
+    const toast = document.getElementById('toast');
 
     const playerShell = document.getElementById('player-shell');
     const playerStage = document.getElementById('player-stage');
@@ -1304,620 +1359,561 @@
     const playerNext = document.getElementById('player-next');
     const playerClose = document.getElementById('player-close');
 
-    const gamesGrid = document.getElementById('games-grid');
-    const gameCards = Array.from(document.querySelectorAll('.game-card'));
-    const filterButtons = Array.from(document.querySelectorAll('.filter-chip'));
-    const searchInput = document.getElementById('game-search');
-    const runSearch = document.getElementById('run-search');
-    const clearSearch = document.getElementById('clear-search');
-    const sortSelect = document.getElementById('sort-select');
-    const resultCount = document.getElementById('result-count');
-    const searchStatus = document.getElementById('search-status');
-    const emptyState = document.getElementById('empty-state');
-    const scrollTopButton = document.getElementById('scroll-top');
-    const typedName = document.getElementById('typed-name');
+    const state = {
+      filter: 'all',
+      query: '',
+      sort: 'featured',
+      compact: localStorage.getItem('shayan-compact') === 'true',
+      effectMode: localStorage.getItem('shayan-effects') || 'auto',
+      activeCard: null,
+      activeWrapper: null,
+      activePlaceholder: null,
+      activeTrigger: null
+    };
 
-    const stars = [];
-    const particles = [];
-    const mouse = { x: -9999, y: -9999, active: false };
-    const saberPalette = [
-      'rgba(111, 70, 220, ALPHA)',
-      'rgba(68, 170, 235, ALPHA)'
-    ];
+    const titleOf = (card) => card.querySelector('.card-title')?.textContent.trim() || 'Game';
+    const subtitleOf = (card) => card.querySelector('.card-subtitle')?.textContent.trim() || '';
+    const genresOf = (card) => (card.dataset.genre || '').split(/\s+/).filter(Boolean);
 
-    let width = window.innerWidth;
-    let height = window.innerHeight;
-    let dpr = lowPowerDevice ? 1 : Math.min(window.devicePixelRatio || 1, 1.35);
-    let activeCard = null;
-    let activeWrapper = null;
-    let activePlaceholder = null;
-    let activeTrigger = null;
-    let currentFilter = 'all';
-    let animationFrame = null;
-    let animationRunning = false;
-    let lastFrameTime = 0;
-    let resizeTimer = null;
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => toast.classList.remove('show'), 1900);
+    }
 
     function typeHeroName() {
-      if (!typedName) return;
-
       const name = 'SHAYAN';
       typedName.textContent = '';
-
       if (reduceMotion) {
         typedName.textContent = name;
         return;
       }
 
       let index = 0;
-
-      function typeNextLetter() {
+      const typeNext = () => {
         typedName.textContent += name[index];
         index += 1;
-
-        if (index >= name.length) return;
-
-        const randomDelay = 45 + Math.random() * 115;
-        setTimeout(typeNextLetter, randomDelay);
-      }
-
-      setTimeout(typeNextLetter, 160 + Math.random() * 180);
-    }
-
-    function resizeCanvas() {
-      width = window.innerWidth;
-      height = window.innerHeight;
-      dpr = lowPowerDevice ? 1 : Math.min(window.devicePixelRatio || 1, 1.35);
-
-      canvas.width = Math.floor(width * dpr);
-      canvas.height = Math.floor(height * dpr);
-      canvas.style.width = width + 'px';
-      canvas.style.height = height + 'px';
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      buildStars();
-
-      if (reduceMotion) {
-        drawScene(0);
-      }
-    }
-
-    function buildStars() {
-      stars.length = 0;
-
-      const density = lowPowerDevice ? 17000 : 11500;
-      const minStars = lowPowerDevice ? 70 : 110;
-      const maxStars = lowPowerDevice ? 140 : 220;
-      const count = Math.max(minStars, Math.min(maxStars, Math.floor((width * height) / density)));
-
-      for (let i = 0; i < count; i += 1) {
-        stars.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          size: 0.55 + Math.random() * (lowPowerDevice ? 1.35 : 1.85),
-          alpha: 0.2 + Math.random() * 0.48,
-          glow: lowPowerDevice ? 0 : 2 + Math.random() * 8,
-          speedX: (Math.random() - 0.5) * (lowPowerDevice ? 0.012 : 0.018),
-          speedY: (Math.random() - 0.5) * (lowPowerDevice ? 0.012 : 0.018),
-          twinkleOffset: Math.random() * Math.PI * 2,
-          twinkleSpeed: 0.25 + Math.random() * 1.2,
-          linkRadius: lowPowerDevice ? 82 + Math.random() * 52 : 95 + Math.random() * 80
-        });
-      }
-    }
-
-    function drawSaberLine(x1, y1, x2, y2, alpha, time, widthScale = 1) {
-      if (alpha <= 0.01) return;
-
-      const finalAlpha = Math.max(0, Math.min(1, alpha));
-      const paletteIndex = Math.floor(Math.abs(Math.sin((x1 + y1 + time) * 0.003)) * saberPalette.length);
-      const glowColor = saberPalette[paletteIndex] || saberPalette[0];
-
-      ctx.save();
-      ctx.lineCap = 'round';
-      ctx.globalCompositeOperation = 'lighter';
-
-      ctx.beginPath();
-      ctx.lineWidth = lowPowerDevice ? 2.1 * widthScale : 4.5 * widthScale;
-      ctx.strokeStyle = glowColor.replace('ALPHA', String(finalAlpha * (lowPowerDevice ? 0.16 : 0.18)));
-      ctx.shadowBlur = lowPowerDevice ? 0 : 9;
-      ctx.shadowColor = glowColor.replace('ALPHA', String(finalAlpha * 0.45));
-      ctx.moveTo(x1, y1);
-      ctx.lineTo(x2, y2);
-      ctx.stroke();
-
-      if (!lowPowerDevice) {
-        ctx.beginPath();
-        ctx.lineWidth = 0.85 * widthScale;
-        ctx.strokeStyle = `rgba(255, 255, 255, ${finalAlpha * 0.45})`;
-        ctx.shadowBlur = 2;
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.stroke();
-      }
-
-      ctx.restore();
-    }
-
-    function drawStarField(time) {
-      const t = time * 0.001;
-      const nearby = [];
-      const playerOpen = playerShell.classList.contains('show');
-
-      for (const star of stars) {
-        if (!reduceMotion) {
-          star.x += star.speedX;
-          star.y += star.speedY;
-
-          if (star.x < -10) star.x = width + 10;
-          if (star.x > width + 10) star.x = -10;
-          if (star.y < -10) star.y = height + 10;
-          if (star.y > height + 10) star.y = -10;
+        if (index < name.length) {
+          const burstChance = Math.random();
+          const delay = burstChance < 0.24 ? 28 + Math.random() * 35 : 60 + Math.random() * 125;
+          setTimeout(typeNext, delay);
         }
+      };
+      setTimeout(typeNext, 170 + Math.random() * 240);
+    }
 
-        const pulse = reduceMotion ? 0 : Math.sin(t * star.twinkleSpeed + star.twinkleOffset) * 0.16;
-        const alpha = Math.max(0.12, Math.min(0.95, star.alpha + pulse));
+    function populateFilterCounts() {
+      filterButtons.forEach((button) => {
+        button.querySelector('.filter-count')?.remove();
+        const key = button.dataset.filter;
+        const count = key === 'all' ? gameCards.length : gameCards.filter((card) => genresOf(card).includes(key)).length;
+        const badge = document.createElement('span');
+        badge.className = 'filter-count';
+        badge.textContent = count;
+        badge.setAttribute('aria-hidden', 'true');
+        button.appendChild(badge);
+      });
+    }
 
-        ctx.beginPath();
-        ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
-
-        if (!lowPowerDevice && star.size > 1.35) {
-          ctx.shadowBlur = star.glow;
-          ctx.shadowColor = `rgba(197, 155, 255, ${alpha * 0.72})`;
-        } else {
-          ctx.shadowBlur = 0;
+    function sortCards(cards) {
+      return [...cards].sort((a, b) => {
+        const aTitle = titleOf(a).toLowerCase();
+        const bTitle = titleOf(b).toLowerCase();
+        if (state.sort === 'az') return aTitle.localeCompare(bTitle);
+        if (state.sort === 'za') return bTitle.localeCompare(aTitle);
+        if (state.sort === 'genre') {
+          return (a.dataset.genre || '').localeCompare(b.dataset.genre || '') || aTitle.localeCompare(bTitle);
         }
-
-        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-        ctx.fill();
-
-        if (mouse.active && !playerOpen) {
-          const dx = mouse.x - star.x;
-          const dy = mouse.y - star.y;
-          const distance = Math.hypot(dx, dy);
-
-          if (distance < star.linkRadius) {
-            if (nearby.length < (lowPowerDevice ? 16 : 30)) nearby.push(star);
-            const lineAlpha = (1 - distance / star.linkRadius) * (lowPowerDevice ? 0.32 : 0.44);
-            drawSaberLine(star.x, star.y, mouse.x, mouse.y, lineAlpha, time, 1);
-          }
-        }
-      }
-
-      if (!lowPowerDevice && !playerOpen) {
-        let linksDrawn = 0;
-        const maxNearbyLinks = 14;
-
-        for (let i = 0; i < nearby.length; i += 1) {
-          for (let j = i + 1; j < nearby.length; j += 1) {
-            if (linksDrawn >= maxNearbyLinks) break;
-            const a = nearby[i];
-            const b = nearby[j];
-            const distance = Math.hypot(a.x - b.x, a.y - b.y);
-
-            if (distance < 118) {
-              const alpha = (1 - distance / 118) * 0.16;
-              drawSaberLine(a.x, a.y, b.x, b.y, alpha, time, 0.55);
-              linksDrawn += 1;
-            }
-          }
-        }
-      }
-
-      if (mouse.active && !playerOpen) {
-        const glow = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, lowPowerDevice ? 110 : 145);
-        glow.addColorStop(0, lowPowerDevice ? 'rgba(130, 95, 255, 0.055)' : 'rgba(130, 95, 255, 0.08)');
-        glow.addColorStop(1, 'rgba(197, 155, 255, 0)');
-        ctx.fillStyle = glow;
-        ctx.beginPath();
-        ctx.arc(mouse.x, mouse.y, lowPowerDevice ? 110 : 145, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      ctx.shadowBlur = 0;
-      ctx.globalCompositeOperation = 'source-over';
+        if (state.sort === 'newest') return Number(b.dataset.order) - Number(a.dataset.order);
+        const aFav = genresOf(a).includes('dev-favorite') ? 0 : 1;
+        const bFav = genresOf(b).includes('dev-favorite') ? 0 : 1;
+        return aFav - bFav || Number(a.dataset.order) - Number(b.dataset.order);
+      });
     }
 
-    function addSparkleBurst(x, y) {
-      if (reduceMotion) return;
+    function applyFilters() {
+      const query = state.query.trim().toLowerCase();
+      const ordered = sortCards(gameCards);
+      let visible = 0;
 
-      const colors = [
-        'rgba(255, 255, 255, 0.95)',
-        'rgba(233, 219, 255, 0.95)',
-        'rgba(197, 155, 255, 0.95)',
-        'rgba(159, 92, 255, 0.92)'
-      ];
+      ordered.forEach((card) => {
+        const haystack = card.textContent.toLowerCase();
+        const filterMatch = state.filter === 'all' || genresOf(card).includes(state.filter);
+        const queryMatch = !query || haystack.includes(query);
+        const shouldShow = filterMatch && queryMatch;
+        card.classList.toggle('hidden', !shouldShow);
+        if (shouldShow) visible += 1;
+        gamesGrid.appendChild(card);
+      });
 
-      const burstCount = lowPowerDevice ? 7 : 12;
+      resultCount.textContent = `${visible} ${visible === 1 ? 'game' : 'games'}`;
+      emptyState.classList.toggle('show', visible === 0);
 
-      for (let i = 0; i < burstCount; i += 1) {
-        const angle = Math.random() * Math.PI * 2;
-        const speed = 1.1 + Math.random() * 2.8;
-        const maxLife = 22 + Math.floor(Math.random() * 12);
-
-        particles.push({
-          x,
-          y,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed - (0.7 + Math.random() * 1.1),
-          size: 1.4 + Math.random() * 2.8,
-          life: maxLife,
-          maxLife,
-          rotation: Math.random() * Math.PI * 2,
-          spin: (Math.random() - 0.5) * 0.2,
-          alpha: 1,
-          color: colors[Math.floor(Math.random() * colors.length)],
-          shape: Math.random() > 0.35 ? 'diamond' : 'circle'
-        });
-      }
-
-      const limit = lowPowerDevice ? 80 : 160;
-      if (particles.length > limit) {
-        particles.splice(0, particles.length - limit);
-      }
+      const filterLabel = filterButtons.find((button) => button.dataset.filter === state.filter)?.childNodes[0]?.textContent.trim() || state.filter;
+      if (query && state.filter !== 'all') searchStatus.textContent = `“${state.query.trim()}” in ${filterLabel}`;
+      else if (query) searchStatus.textContent = `Searching “${state.query.trim()}”`;
+      else if (state.filter !== 'all') searchStatus.textContent = `${filterLabel} filter active`;
+      else searchStatus.textContent = 'Showing all games';
     }
 
-    function drawParticle(particle) {
-      ctx.save();
-      ctx.translate(particle.x, particle.y);
-      ctx.rotate(particle.rotation);
-      ctx.globalAlpha = particle.alpha;
-      ctx.fillStyle = particle.color;
-
-      if (!lowPowerDevice) {
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = particle.color;
-      }
-
-      if (particle.shape === 'diamond') {
-        ctx.fillRect(-particle.size / 2, -particle.size / 2, particle.size, particle.size);
-      } else {
-        ctx.beginPath();
-        ctx.arc(0, 0, particle.size / 2, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      ctx.restore();
+    function resetBrowseControls() {
+      state.filter = 'all';
+      state.query = '';
+      state.sort = 'featured';
+      searchInput.value = '';
+      sortSelect.value = 'featured';
+      filterButtons.forEach((button) => button.classList.toggle('active', button.dataset.filter === 'all'));
+      applyFilters();
     }
 
-    function drawScene(time = 0) {
-      ctx.clearRect(0, 0, width, height);
-      drawStarField(time);
+    function loadEmbedIntoWrapper(wrapper) {
+      const iframe = wrapper.querySelector('iframe');
+      const template = wrapper.querySelector('.embed-template');
 
-      if (!reduceMotion) {
-        for (let i = particles.length - 1; i >= 0; i -= 1) {
-          const particle = particles[i];
-          particle.vy += 0.07;
-          particle.x += particle.vx;
-          particle.y += particle.vy;
-          particle.rotation += particle.spin;
-          particle.life -= 1;
-          particle.alpha = Math.max(particle.life / particle.maxLife, 0);
-          drawParticle(particle);
-
-          if (particle.life <= 0) {
-            particles.splice(i, 1);
-          }
-        }
-      }
-    }
-
-    function animateScene(time = 0) {
-      if (!animationRunning) return;
-
-      const playerOpen = playerShell.classList.contains('show');
-      const targetFrameMs = playerOpen
-        ? (lowPowerDevice ? 84 : 50)
-        : (lowPowerDevice ? 34 : 16);
-
-      if (time - lastFrameTime >= targetFrameMs) {
-        drawScene(time);
-        lastFrameTime = time;
+      if (iframe && iframe.dataset.src && iframe.getAttribute('src') === 'about:blank') {
+        iframe.src = iframe.dataset.src;
+      } else if (template && !wrapper.querySelector(':scope > iframe')) {
+        wrapper.appendChild(template.content.cloneNode(true));
       }
 
-      animationFrame = requestAnimationFrame(animateScene);
+      wrapper.querySelector('.play-overlay')?.remove();
     }
 
-    function startAnimation() {
-      if (reduceMotion) {
-        drawScene(0);
-        return;
-      }
-
-      if (animationRunning || document.hidden) return;
-
-      animationRunning = true;
-      animationFrame = requestAnimationFrame(animateScene);
-    }
-
-    function stopAnimation() {
-      animationRunning = false;
-
-      if (animationFrame) {
-        cancelAnimationFrame(animationFrame);
-        animationFrame = null;
-      }
-    }
-
-    function createPlayOverlay(wrapper) {
-      const currentOverlay = wrapper.querySelector('.play-overlay');
-      if (currentOverlay) return currentOverlay;
-
+    function ensurePlayOverlay(wrapper) {
+      if (wrapper.querySelector('.play-overlay')) return;
       const button = document.createElement('button');
       button.className = 'play-overlay';
       button.type = 'button';
       button.textContent = 'Click to Play';
-      wrapper.insertBefore(button, wrapper.firstChild);
-      return button;
-    }
-
-    function loadEmbedIntoWrapper(wrapper) {
-      if (wrapper.querySelector('iframe')) return;
-
-      const template = wrapper.querySelector('.embed-template');
-      if (!template) return;
-
-      wrapper.appendChild(template.content.cloneNode(true));
+      wrapper.prepend(button);
     }
 
     function resetEmbedWrapper(wrapper) {
-      const iframes = Array.from(wrapper.querySelectorAll('iframe'));
-      iframes.forEach((iframe) => {
-        iframe.src = 'about:blank';
-        iframe.remove();
-      });
-
-      createPlayOverlay(wrapper);
+      const template = wrapper.querySelector('.embed-template');
+      if (template) {
+        wrapper.querySelectorAll(':scope > iframe').forEach((iframe) => iframe.remove());
+      } else {
+        const iframe = wrapper.querySelector('iframe[data-src]');
+        if (iframe) iframe.src = 'about:blank';
+      }
+      ensurePlayOverlay(wrapper);
     }
 
     function visibleCards() {
       return gameCards.filter((card) => !card.classList.contains('hidden'));
     }
 
-    function updatePlayerButtons() {
-      const cards = visibleCards();
-      const index = cards.indexOf(activeCard);
-      const hasCards = cards.length > 0;
-      playerPrev.disabled = !hasCards || index <= 0;
-      playerNext.disabled = !hasCards || index === -1 || index >= cards.length - 1;
+    function setHashForCard(card) {
+      history.replaceState(null, '', `#game-${card.dataset.slug}`);
     }
 
-    function restoreGame(scrollBack = true) {
-      if (!activeWrapper || !activePlaceholder) return;
-
-      resetEmbedWrapper(activeWrapper);
-      activePlaceholder.replaceWith(activeWrapper);
-      if (activeCard) activeCard.classList.remove('playing');
-
-      const trigger = activeTrigger;
-      activeCard = null;
-      activeWrapper = null;
-      activePlaceholder = null;
-      activeTrigger = null;
-      playerShell.classList.remove('show');
-      playerStage.innerHTML = '';
-      playerTitle.textContent = 'Now Playing';
-      playerSub.textContent = 'Opened in a larger view';
-      playerStatus.textContent = 'Pick a game card and hit play.';
-      playerLink.href = 'https://electricevo.itch.io';
-      updatePlayerButtons();
-
-      if (scrollBack && trigger) {
-        trigger.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+    function openCard(card, trigger = null, options = {}) {
+      if (!card) return;
+      if (state.activeCard === card) {
+        playerShell.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+        return;
       }
-    }
 
-    function openCard(card, trigger = null) {
+      if (state.activeCard) restoreGame({ keepHash: true, restoreFocus: false });
+
       const wrapper = card.querySelector('.embed-wrapper');
-      const overlay = wrapper.querySelector('.play-overlay');
-      const title = card.querySelector('.card-title')?.textContent || 'Now Playing';
-      const sub = card.querySelector('.card-copy')?.textContent || 'Opened in a larger view';
-      const link = card.dataset.link || 'https://electricevo.itch.io';
+      if (!wrapper) return;
 
-      if (activeWrapper && activeWrapper !== wrapper) {
-        restoreGame(false);
-      }
+      const placeholder = document.createElement('div');
+      placeholder.className = 'embed-placeholder';
+      placeholder.textContent = 'Playing above';
+      wrapper.before(placeholder);
+
+      state.activeCard = card;
+      state.activeWrapper = wrapper;
+      state.activePlaceholder = placeholder;
+      state.activeTrigger = trigger;
 
       loadEmbedIntoWrapper(wrapper);
-      if (overlay) overlay.remove();
+      playerStage.replaceChildren(wrapper);
+      playerTitle.textContent = titleOf(card);
+      playerSub.textContent = subtitleOf(card);
+      playerStatus.textContent = `Now playing ${titleOf(card)}`;
+      playerLink.href = card.dataset.link || 'https://electricevo.itch.io';
+      playerShell.classList.add('show');
+      card.classList.add('playing');
+      localStorage.setItem('shayan-last-game', card.dataset.slug || '');
+      if (!options.keepHash) setHashForCard(card);
 
-      if (!activeWrapper) {
-        activeCard = card;
-        activeWrapper = wrapper;
-        activePlaceholder = document.createComment('player-placeholder');
-        activeTrigger = trigger || card;
-        wrapper.parentNode.insertBefore(activePlaceholder, wrapper);
-        playerStage.appendChild(wrapper);
-        playerShell.classList.add('show');
-        card.classList.add('playing');
-        playerTitle.textContent = title;
-        playerSub.textContent = sub;
-        playerStatus.textContent = `${title} is open in the larger player.`;
-        playerLink.href = link;
-        updatePlayerButtons();
+      requestAnimationFrame(() => {
         playerShell.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
-      }
-    }
-
-    function goToRelativeCard(direction) {
-      const cards = visibleCards();
-      if (!cards.length || !activeCard) return;
-
-      const index = cards.indexOf(activeCard);
-      const nextCard = cards[index + direction];
-
-      if (nextCard) openCard(nextCard, nextCard);
-    }
-
-    function sortCards(cards, sortValue) {
-      const sorted = [...cards];
-
-      if (sortValue === 'az') {
-        sorted.sort((a, b) => a.querySelector('.card-title').textContent.localeCompare(b.querySelector('.card-title').textContent));
-      } else if (sortValue === 'za') {
-        sorted.sort((a, b) => b.querySelector('.card-title').textContent.localeCompare(a.querySelector('.card-title').textContent));
-      } else if (sortValue === 'genre') {
-        sorted.sort((a, b) => a.dataset.genre.localeCompare(b.dataset.genre) || Number(a.dataset.order) - Number(b.dataset.order));
-      } else {
-        sorted.sort((a, b) => Number(a.dataset.order) - Number(b.dataset.order));
-      }
-
-      return sorted;
-    }
-
-    function applyFilters() {
-      const query = searchInput.value.trim().toLowerCase();
-      const sortValue = sortSelect.value;
-
-      gameCards.forEach((card) => {
-        const haystack = [
-          card.querySelector('.card-title')?.textContent || '',
-          card.querySelector('.card-subtitle')?.textContent || '',
-          card.querySelector('.card-copy')?.textContent || '',
-          card.dataset.genre || '',
-          Array.from(card.querySelectorAll('.mini-tag')).map((tag) => tag.textContent).join(' ')
-        ].join(' ').toLowerCase();
-
-        const matchesFilter = currentFilter === 'all' || (card.dataset.genre || '').includes(currentFilter);
-        const matchesSearch = !query || haystack.includes(query);
-        card.classList.toggle('hidden', !(matchesFilter && matchesSearch));
       });
-
-      const shown = visibleCards();
-      const sorted = sortCards(shown, sortValue);
-      sorted.forEach((card) => gamesGrid.appendChild(card));
-
-      resultCount.textContent = `${shown.length} game${shown.length === 1 ? '' : 's'}`;
-
-      const activeFilterLabel = filterButtons.find((button) => button.dataset.filter === currentFilter)?.textContent || currentFilter;
-
-      if (query && currentFilter !== 'all') {
-        searchStatus.textContent = `Search and ${activeFilterLabel} filter active`;
-      } else if (query) {
-        searchStatus.textContent = 'Search active';
-      } else if (currentFilter !== 'all') {
-        searchStatus.textContent = `${activeFilterLabel} filter active`;
-      } else {
-        searchStatus.textContent = 'Showing all games';
-      }
-
-      emptyState.classList.toggle('show', shown.length === 0);
-
-      if (activeCard && activeCard.classList.contains('hidden')) {
-        restoreGame(false);
-      }
-
-      updatePlayerButtons();
     }
 
-    document.addEventListener('click', (event) => {
-      const overlay = event.target.closest('.play-overlay');
-      if (!overlay) return;
+    function restoreGame({ keepHash = false, restoreFocus = true } = {}) {
+      if (!state.activeCard || !state.activeWrapper || !state.activePlaceholder) return;
 
-      const card = overlay.closest('.game-card');
-      if (!card) return;
+      resetEmbedWrapper(state.activeWrapper);
+      state.activePlaceholder.replaceWith(state.activeWrapper);
+      state.activeCard.classList.remove('playing');
+      playerShell.classList.remove('show');
+      playerStage.replaceChildren();
 
-      openCard(card, overlay);
+      const focusTarget = state.activeTrigger;
+      state.activeCard = null;
+      state.activeWrapper = null;
+      state.activePlaceholder = null;
+      state.activeTrigger = null;
+
+      if (!keepHash && location.hash.startsWith('#game-')) history.replaceState(null, '', '#games');
+      if (restoreFocus && focusTarget instanceof HTMLElement) focusTarget.focus({ preventScroll: true });
+    }
+
+    function switchGame(direction) {
+      const cards = visibleCards();
+      if (!cards.length) return;
+      const currentIndex = Math.max(0, cards.indexOf(state.activeCard));
+      const nextIndex = (currentIndex + direction + cards.length) % cards.length;
+      openCard(cards[nextIndex]);
+    }
+
+    function openRandomGame() {
+      const cards = visibleCards();
+      if (!cards.length) {
+        resetBrowseControls();
+        return openRandomGame();
+      }
+      const candidates = cards.length > 1 && state.activeCard ? cards.filter((card) => card !== state.activeCard) : cards;
+      openCard(candidates[Math.floor(Math.random() * candidates.length)]);
+    }
+
+    gamesGrid.addEventListener('click', (event) => {
+      const playButton = event.target.closest('.play-overlay');
+      if (playButton) {
+        openCard(playButton.closest('.game-card'), playButton);
+        return;
+      }
+
+      const shareButton = event.target.closest('.share-button');
+      if (shareButton) {
+        const card = shareButton.closest('.game-card');
+        const shareUrl = `${location.href.split('#')[0]}#game-${card.dataset.slug}`;
+
+        const markCopied = () => {
+          shareButton.classList.add('copied');
+          shareButton.textContent = 'Copied';
+          showToast(`Link copied for ${titleOf(card)}`);
+          setTimeout(() => {
+            shareButton.classList.remove('copied');
+            shareButton.textContent = 'Share';
+          }, 1600);
+        };
+
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(shareUrl).then(markCopied).catch(() => showToast(shareUrl));
+        } else {
+          const helper = document.createElement('textarea');
+          helper.value = shareUrl;
+          helper.setAttribute('readonly', '');
+          helper.style.position = 'fixed';
+          helper.style.opacity = '0';
+          document.body.appendChild(helper);
+          helper.select();
+          const copied = document.execCommand('copy');
+          helper.remove();
+          copied ? markCopied() : showToast(shareUrl);
+        }
+      }
     });
 
     filterButtons.forEach((button) => {
       button.addEventListener('click', () => {
-        currentFilter = button.dataset.filter;
-        filterButtons.forEach((item) => item.classList.remove('active'));
-        button.classList.add('active');
+        state.filter = button.dataset.filter;
+        filterButtons.forEach((item) => item.classList.toggle('active', item === button));
         applyFilters();
       });
     });
 
-    runSearch.addEventListener('click', applyFilters);
-    searchInput.addEventListener('input', applyFilters);
-    sortSelect.addEventListener('change', applyFilters);
-
-    clearSearch.addEventListener('click', () => {
-      searchInput.value = '';
-      currentFilter = 'all';
-      filterButtons.forEach((item) => item.classList.toggle('active', item.dataset.filter === 'all'));
-      sortSelect.value = 'featured';
+    searchInput.addEventListener('input', () => {
+      state.query = searchInput.value;
       applyFilters();
-      searchInput.focus();
     });
 
-    playerClose.addEventListener('click', () => restoreGame(true));
-    playerPrev.addEventListener('click', () => goToRelativeCard(-1));
-    playerNext.addEventListener('click', () => goToRelativeCard(1));
+    sortSelect.addEventListener('change', () => {
+      state.sort = sortSelect.value;
+      applyFilters();
+    });
 
-    function updateScrollTop() {
-      scrollTopButton.classList.toggle('show', window.scrollY > 500);
+    compactToggle.addEventListener('click', () => {
+      state.compact = !state.compact;
+      gamesGrid.classList.toggle('compact', state.compact);
+      compactToggle.setAttribute('aria-pressed', String(state.compact));
+      compactToggle.textContent = state.compact ? 'Standard view' : 'Compact view';
+      localStorage.setItem('shayan-compact', String(state.compact));
+    });
+
+    clearSearch.addEventListener('click', resetBrowseControls);
+    randomGameButton.addEventListener('click', openRandomGame);
+    playerPrev.addEventListener('click', () => switchGame(-1));
+    playerNext.addEventListener('click', () => switchGame(1));
+    playerClose.addEventListener('click', () => restoreGame());
+    scrollTopButton.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }));
+
+    document.addEventListener('keydown', (event) => {
+      const target = event.target;
+      const isTyping = target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement;
+
+      if (event.key === 'Escape' && state.activeCard) restoreGame();
+      if (!isTyping && event.key === '/') {
+        event.preventDefault();
+        searchInput.focus();
+      }
+      if (!isTyping && event.key.toLowerCase() === 'r') openRandomGame();
+      if (state.activeCard && !isTyping && event.key === 'ArrowLeft') switchGame(-1);
+      if (state.activeCard && !isTyping && event.key === 'ArrowRight') switchGame(1);
+    });
+
+    const navLinks = Array.from(document.querySelectorAll('.nav-link[data-section]'));
+    const observedSections = ['top', 'games', 'about', 'contact'].map((id) => document.getElementById(id));
+    const sectionObserver = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      navLinks.forEach((link) => link.classList.toggle('active', link.dataset.section === visible.target.id));
+    }, { rootMargin: '-25% 0px -55%', threshold: [0.05, 0.25, 0.55] });
+    observedSections.forEach((section) => sectionObserver.observe(section));
+
+    if (!reduceMotion) {
+      gameCards.forEach((card) => card.classList.add('reveal-pending'));
+      const cardObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.remove('reveal-pending');
+          entry.target.classList.add('revealed');
+          observer.unobserve(entry.target);
+        });
+      }, { rootMargin: '80px 0px', threshold: 0.06 });
+      gameCards.forEach((card) => cardObserver.observe(card));
+    } else {
+      gameCards.forEach((card) => card.classList.add('revealed'));
     }
 
-    scrollTopButton.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
-    });
+    function updateScrollUI() {
+      const maxScroll = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+      progressBar.style.width = `${Math.min(100, (scrollY / maxScroll) * 100)}%`;
+      scrollTopButton.classList.toggle('show', scrollY > 650);
+    }
 
-    window.addEventListener('scroll', updateScrollTop, { passive: true });
-
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(resizeCanvas, 160);
+    let scrollTicking = false;
+    addEventListener('scroll', () => {
+      if (scrollTicking) return;
+      scrollTicking = true;
+      requestAnimationFrame(() => {
+        updateScrollUI();
+        scrollTicking = false;
+      });
     }, { passive: true });
 
-    window.addEventListener('pointermove', (event) => {
+    // Adaptive star field. It keeps the visual effect while reducing work on slower devices.
+    const stars = [];
+    const particles = [];
+    const mouse = { x: -9999, y: -9999, active: false };
+    let width = innerWidth;
+    let height = innerHeight;
+    let dpr = 1;
+    let lastFrame = 0;
+    let frameRequest = 0;
+    let effectsLite = state.effectMode === 'lite' || (state.effectMode === 'auto' && lowPowerHardware);
+
+    function effectLabel() {
+      if (state.effectMode === 'auto') return `Effects: Auto${effectsLite ? ' Lite' : ''}`;
+      return state.effectMode === 'lite' ? 'Effects: Lite' : 'Effects: Full';
+    }
+
+    function syncEffectsButton() {
+      effectsToggle.textContent = effectLabel();
+      effectsToggle.setAttribute('aria-pressed', String(state.effectMode !== 'auto'));
+    }
+
+    effectsToggle.addEventListener('click', () => {
+      state.effectMode = state.effectMode === 'auto' ? 'full' : state.effectMode === 'full' ? 'lite' : 'auto';
+      effectsLite = state.effectMode === 'lite' || (state.effectMode === 'auto' && lowPowerHardware);
+      localStorage.setItem('shayan-effects', state.effectMode);
+      syncEffectsButton();
+      resizeCanvas();
+      showToast(effectLabel());
+    });
+
+    function resizeCanvas() {
+      width = innerWidth;
+      height = innerHeight;
+      const maxScale = effectsLite ? 1 : 1.25;
+      dpr = Math.min(devicePixelRatio || 1, maxScale);
+      canvas.width = Math.max(1, Math.floor(width * dpr));
+      canvas.height = Math.max(1, Math.floor(height * dpr));
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      buildStars();
+    }
+
+    function buildStars() {
+      stars.length = 0;
+      const areaDivisor = effectsLite ? 15000 : 10500;
+      const minStars = effectsLite ? 72 : 105;
+      const maxStars = effectsLite ? 125 : 190;
+      const count = Math.max(minStars, Math.min(maxStars, Math.floor((width * height) / areaDivisor)));
+
+      for (let i = 0; i < count; i += 1) {
+        stars.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          r: 0.45 + Math.random() * 1.15,
+          vx: (Math.random() - 0.5) * (effectsLite ? 0.05 : 0.085),
+          vy: (Math.random() - 0.5) * (effectsLite ? 0.05 : 0.085),
+          alpha: 0.34 + Math.random() * 0.56,
+          phase: Math.random() * Math.PI * 2
+        });
+      }
+    }
+
+    function addParticleBurst(x, y) {
+      const amount = effectsLite ? 3 : 6;
+      for (let i = 0; i < amount; i += 1) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 0.35 + Math.random() * 1.1;
+        particles.push({
+          x, y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          life: 1,
+          size: 0.7 + Math.random() * 1.5
+        });
+      }
+      const cap = effectsLite ? 40 : 80;
+      if (particles.length > cap) particles.splice(0, particles.length - cap);
+    }
+
+    function drawStars(time) {
+      ctx.clearRect(0, 0, width, height);
+      const linkRadius = effectsLite ? 105 : 130;
+      const mouseRadius = effectsLite ? 115 : 155;
+      const maxLinks = effectsLite ? 7 : 13;
+      let linksDrawn = 0;
+
+      for (let i = 0; i < stars.length; i += 1) {
+        const star = stars[i];
+        star.x += star.vx;
+        star.y += star.vy;
+        if (star.x < -4) star.x = width + 4;
+        if (star.x > width + 4) star.x = -4;
+        if (star.y < -4) star.y = height + 4;
+        if (star.y > height + 4) star.y = -4;
+
+        const twinkle = 0.72 + Math.sin(time * 0.0012 + star.phase) * 0.28;
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(235, 226, 255, ${star.alpha * twinkle})`;
+        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (!mouse.active || linksDrawn >= maxLinks) continue;
+        const dx = star.x - mouse.x;
+        const dy = star.y - mouse.y;
+        const distance = Math.hypot(dx, dy);
+        if (distance < mouseRadius) {
+          const alpha = (1 - distance / mouseRadius) * (effectsLite ? 0.22 : 0.38);
+          const purpleLine = i % 2 === 0;
+          ctx.beginPath();
+          ctx.strokeStyle = purpleLine ? `rgba(111, 70, 220, ${alpha})` : `rgba(68, 170, 235, ${alpha})`;
+          ctx.lineWidth = purpleLine ? 1.05 : 0.85;
+          ctx.moveTo(mouse.x, mouse.y);
+          ctx.lineTo(star.x, star.y);
+          ctx.stroke();
+          linksDrawn += 1;
+        }
+      }
+
+      // A small number of nearby star-to-star links keeps the constellation look without O(n²) work.
+      const step = effectsLite ? 11 : 8;
+      for (let i = 0; i < stars.length - step; i += step) {
+        const a = stars[i];
+        const b = stars[i + step];
+        const distance = Math.hypot(a.x - b.x, a.y - b.y);
+        if (distance > linkRadius) continue;
+        const alpha = (1 - distance / linkRadius) * (effectsLite ? 0.055 : 0.09);
+        ctx.beginPath();
+        ctx.strokeStyle = i % 2 === 0 ? `rgba(111, 70, 220, ${alpha})` : `rgba(68, 170, 235, ${alpha})`;
+        ctx.lineWidth = 0.65;
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.stroke();
+      }
+
+      for (let i = particles.length - 1; i >= 0; i -= 1) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vx *= 0.985;
+        p.vy *= 0.985;
+        p.life -= effectsLite ? 0.045 : 0.034;
+        if (p.life <= 0) {
+          particles.splice(i, 1);
+          continue;
+        }
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(207, 176, 255, ${p.life * 0.65})`;
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function animateScene(time = 0) {
+      const targetDelay = effectsLite ? 40 : 24;
+      if (!document.hidden && time - lastFrame >= targetDelay) {
+        lastFrame = time;
+        drawStars(time);
+      }
+      frameRequest = requestAnimationFrame(animateScene);
+    }
+
+    let resizeTimer;
+    addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(resizeCanvas, 120);
+    }, { passive: true });
+
+    addEventListener('pointermove', (event) => {
       mouse.x = event.clientX;
       mouse.y = event.clientY;
       mouse.active = true;
     }, { passive: true });
 
-    window.addEventListener('pointerleave', () => {
-      mouse.active = false;
-    });
-
-    window.addEventListener('blur', () => {
-      mouse.active = false;
-    });
-
-    window.addEventListener('pointerdown', (event) => {
-      if (reduceMotion) return;
-      if (event.pointerType === 'mouse' && event.button !== 0) return;
-      addSparkleBurst(event.clientX, event.clientY);
-    }, { passive: true });
-
-    window.addEventListener('keydown', (event) => {
-      if (event.key === '/' && document.activeElement !== searchInput) {
-        event.preventDefault();
-        searchInput.focus();
-        searchInput.select();
-      }
-
-      if (event.key === 'Escape') {
-        restoreGame(true);
-      }
-
-      if (playerShell.classList.contains('show') && event.key === 'ArrowLeft') {
-        goToRelativeCard(-1);
-      }
-
-      if (playerShell.classList.contains('show') && event.key === 'ArrowRight') {
-        goToRelativeCard(1);
-      }
-    });
+    addEventListener('pointerleave', () => { mouse.active = false; }, { passive: true });
+    addEventListener('pointerdown', (event) => addParticleBurst(event.clientX, event.clientY), { passive: true });
 
     document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        stopAnimation();
-      } else {
-        startAnimation();
-      }
+      if (!document.hidden) lastFrame = performance.now();
     });
 
-    typeHeroName();
-    resizeCanvas();
-    applyFilters();
-    updateScrollTop();
-    startAnimation();
+    function openHashGame() {
+      if (!location.hash.startsWith('#game-')) return;
+      const slug = location.hash.slice(6);
+      const card = gameCards.find((item) => item.dataset.slug === slug);
+      if (card) setTimeout(() => openCard(card, null, { keepHash: true }), 100);
+    }
 
-    console.assert(gameCards.length === 12, 'Expected 12 game cards after removing Puppet Theatre');
-    console.assert(!document.body.textContent.includes('Puppet Theatre'), 'Puppet Theatre should be removed');
-    console.assert(document.querySelector('[data-link="https://electricevo.itch.io/simpsons"]'), 'Simpsons playable card should exist');
-    console.assert(document.querySelector('[data-link="https://electricevo.itch.io/plinko"]'), 'Plinko playable card should exist');
+    state.compact && gamesGrid.classList.add('compact');
+    compactToggle.setAttribute('aria-pressed', String(state.compact));
+    compactToggle.textContent = state.compact ? 'Standard view' : 'Compact view';
+    populateFilterCounts();
+    applyFilters();
+    typeHeroName();
+    syncEffectsButton();
+    resizeCanvas();
+    updateScrollUI();
+    openHashGame();
+
+    if (!reduceMotion) animateScene();
+    else drawStars(0);
+
+    console.assert(gameCards.length === 12, 'Expected 12 game cards');
+    console.assert(document.querySelector('[data-link="https://electricevo.itch.io/game4"]'), 'SCARY GAME should exist');
+    console.assert(document.querySelector('[data-link="https://electricevo.itch.io/game5"]'), 'COMBAT should exist');
   </script>
 </body>
 </html>
