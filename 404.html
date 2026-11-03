@@ -519,7 +519,7 @@
     .hero-pill .pill-tag {
       padding: 5px 9px 4px;
       border-radius: 999px;
-      background: linear-gradient(90deg, var(--purple), var(--blue));
+      background: linear-gradient(90deg, #7c3aed, #2563eb);
       color: #fff;
       font: 700 0.7rem/1 var(--font-mono);
       letter-spacing: 0.12em;
@@ -579,7 +579,7 @@
 
     .button.primary {
       border-color: rgba(226, 200, 255, 0.4);
-      background: linear-gradient(135deg, #8a4dff 0%, #5d6dff 55%, #3f9ce8 100%);
+      background: linear-gradient(135deg, #7b3ff2 0%, #5546e8 55%, #2a6fd8 100%);
       box-shadow: 0 12px 34px rgba(122, 70, 240, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.25);
     }
 
@@ -589,7 +589,7 @@
 
     @media (hover: hover) and (pointer: fine) {
       .button.primary:hover {
-        background: linear-gradient(135deg, #9a62ff 0%, #6b7aff 55%, #4aa8f2 100%);
+        background: linear-gradient(135deg, #8a52ff 0%, #6156f0 55%, #3479e0 100%);
         box-shadow: 0 16px 40px rgba(122, 70, 240, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
       }
 
@@ -1091,7 +1091,7 @@
     // Drifting, twinkling stars on three depth layers, constellation lines between near stars,
     // lines and a glow that follow the pointer, click bursts, and an occasional shooting star.
     // Lite mode (and Auto on slower hardware) draws fewer stars at 30fps and lower resolution.
-    // While a game is running (sceneBusy) the field drops to a low frame rate so the game gets the CPU,
+    // While a game is running (sceneBusy) the field drops to ~15fps (Full) / 10fps (Lite) so the game gets the CPU,
     // and it stops drawing while something covers it (sceneHidden). Each page defines both hooks.
     const stars = [];
     const particles = [];
@@ -1406,9 +1406,14 @@
       ctx.globalAlpha = 1;
     }
 
+    // Full mode draws at 60fps while the visitor is interacting (or a shooting star / burst is on screen)
+    // and at 30fps at rest, where the slow drift looks the same. Lite is always 30fps.
+    let lastInteraction = 0;
     function frameInterval() {
-      if (sceneBusy()) return effectsLite ? 84 : 42;
-      return effectsLite ? 1000 / 30 : 1000 / 60;
+      if (sceneBusy()) return effectsLite ? 100 : 66;
+      if (effectsLite) return 1000 / 30;
+      const lively = performance.now() - lastInteraction < 1500 || shootingStar || particles.length || ripples.length;
+      return lively ? 1000 / 60 : 1000 / 30;
     }
 
     function animateScene(time = 0) {
@@ -1461,6 +1466,7 @@
       mouse.x = event.clientX;
       mouse.y = event.clientY;
       mouse.active = true;
+      lastInteraction = event.timeStamp || performance.now();
     }, { passive: true });
 
     addEventListener('pointerdown', (event) => {
