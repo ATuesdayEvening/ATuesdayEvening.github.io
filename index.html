@@ -2115,6 +2115,44 @@
       margin-bottom: 0;
     }
 
+    /* Bizzy (from MulticoloRs NEGATIVE) peeking over the About panel; the panel hides its lower half. */
+    .has-peeker {
+      position: relative;
+    }
+
+    .has-peeker .panel-box {
+      position: relative;
+      z-index: 1;
+    }
+
+    .peeker {
+      position: absolute;
+      top: -50px;
+      right: clamp(24px, 6%, 56px);
+      z-index: 0;
+      width: 100px;
+      height: auto;
+      pointer-events: none;
+      animation: peek 7s ease-in-out infinite;
+      animation-play-state: paused;
+    }
+
+    .peeker.in-view {
+      animation-play-state: running;
+    }
+
+    @keyframes peek {
+      0%, 64%, 100% { transform: translateY(0); }
+      72%, 82% { transform: translateY(34px); }
+      90% { transform: translateY(-3px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .peeker {
+        animation: none !important;
+      }
+    }
+
     .panel-box {
       display: flex;
       flex-direction: column;
@@ -3105,7 +3143,8 @@
     </section>
 
     <div class="info-grid">
-      <section id="about">
+      <section id="about" class="has-peeker">
+        <img class="peeker" src="assets/art/multicolors-negative/bizzy-2.svg" alt="" aria-hidden="true" width="90" height="66" loading="lazy" decoding="async">
         <div class="panel-box">
           <h2>About</h2>
           <p>I make original browser games with a focus on mood, replay value, and memorable mechanics. This site is a playable collection of my passion projects.</p>
@@ -3944,7 +3983,7 @@
     const inViewObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => entry.target.classList.toggle('in-view', entry.isIntersecting));
     }, { rootMargin: '80px 0px' });
-    document.querySelectorAll('.walker, .marquee').forEach((element) => inViewObserver.observe(element));
+    document.querySelectorAll('.walker, .marquee, .peeker').forEach((element) => inViewObserver.observe(element));
 
     const marquee = document.querySelector('.marquee');
     if (marquee) {
