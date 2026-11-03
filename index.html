@@ -199,6 +199,29 @@
       outline-offset: 3px;
     }
 
+    /* Pixel cursors from "boys game" (mouse and trackpad only). */
+    @media (hover: hover) and (pointer: fine) {
+      html,
+      html * {
+        cursor: url("assets/ui/cursor-arrow.png") 0 0, auto;
+        cursor: image-set(url("assets/ui/cursor-arrow.png") 1x, url("assets/ui/cursor-arrow@2x.png") 2x) 0 0, auto;
+      }
+
+      html :is(a, button, select, summary, [role="button"], .play-overlay, .embed-placeholder, .art-open, .marquee-item) {
+        cursor: url("assets/ui/cursor-point.png") 4 0, pointer;
+        cursor: image-set(url("assets/ui/cursor-point.png") 1x, url("assets/ui/cursor-point@2x.png") 2x) 4 0, pointer;
+      }
+
+      html :is(#random-game, #random-game *) {
+        cursor: url("assets/ui/cursor-sparkle.png") 6 4, pointer;
+        cursor: image-set(url("assets/ui/cursor-sparkle.png") 1x, url("assets/ui/cursor-sparkle@2x.png") 2x) 6 4, pointer;
+      }
+
+      html :is(input[type="search"], input[type="text"], textarea) {
+        cursor: text;
+      }
+    }
+
     .ico {
       display: inline-block;
       flex: 0 0 auto;
@@ -486,6 +509,7 @@
     .mini-player button:active {
       transform: translateY(0) scale(0.97);
     }
+
 
     /* ---------- Hero ---------- */
     header {
@@ -1655,6 +1679,23 @@
       animation: spin 0.9s linear infinite;
     }
 
+    /* A short burst of TV static (from "FNaF 61 BBs Revenge") when a game opens or switches. */
+    .player-shell.is-tuning .player-stage::after {
+      content: "";
+      opacity: 1;
+      background: url("assets/sprites/fx-static.webp") 0 0 / 800% 100%, #111;
+      animation: staticRun 0.36s steps(8, jump-none) infinite;
+      transition: none;
+    }
+
+    .player-shell.is-tuning .player-stage::before {
+      opacity: 0;
+    }
+
+    @keyframes staticRun {
+      to { background-position: 100% 0; }
+    }
+
     .player-bottom-row {
       margin-top: 12px;
       color: var(--text-faint);
@@ -1910,6 +1951,125 @@
       flex: 0 0 auto;
     }
 
+    /* ---------- Workshop strip ---------- */
+    .workshop {
+      margin-bottom: clamp(70px, 9vw, 100px);
+    }
+
+    .section-sub {
+      max-width: 56ch;
+      margin: 10px auto 0;
+      color: var(--text-dim);
+    }
+
+    .marquee {
+      position: relative;
+      overflow: hidden;
+      margin: 22px calc(-1 * var(--gutter)) 0;
+      padding: 8px 0 14px;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 80s linear infinite;
+      animation-play-state: paused;
+    }
+
+    .marquee.in-view .marquee-track {
+      animation-play-state: running;
+    }
+
+    .marquee.in-view:hover .marquee-track,
+    .marquee.in-view:focus-within .marquee-track {
+      animation-play-state: paused;
+    }
+
+    @keyframes marquee {
+      to { transform: translateX(-50%); }
+    }
+
+    .marquee-set {
+      display: flex;
+      gap: 14px;
+      margin: 0;
+      padding: 0 14px 0 0;
+      list-style: none;
+    }
+
+    .marquee-item {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 168px;
+      height: 212px;
+      border: 1px solid color-mix(in srgb, var(--c1) 28%, rgba(255, 255, 255, 0.06));
+      border-radius: 18px;
+      background:
+        radial-gradient(90% 70% at 50% 100%, color-mix(in srgb, var(--c1) 24%, transparent), transparent 70%),
+        linear-gradient(180deg, rgba(20, 14, 34, 0.92), rgba(9, 7, 16, 0.96));
+      text-decoration: none;
+      container-type: size;
+      transition: transform 0.3s var(--ease-out), border-color 0.25s ease, box-shadow 0.3s ease;
+    }
+
+    /* Container units, not %: a % height inside an auto-sized grid row would fall back to the image's own height. */
+    .marquee-item > img {
+      width: 82cqw;
+      height: 72cqh;
+      margin-bottom: 18px;
+      object-fit: contain;
+    }
+
+    .marquee-item > .sprite {
+      width: min(82cqw, calc(74cqh * var(--fw) / var(--fh)));
+      margin-bottom: 18px;
+    }
+
+    .marquee-label {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 10px;
+      overflow: hidden;
+      color: var(--text-faint);
+      font: 700 0.6rem/1.2 var(--font-mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .marquee-item:hover {
+        transform: translateY(-5px);
+        border-color: color-mix(in srgb, var(--c1) 58%, transparent);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5), 0 0 30px color-mix(in srgb, var(--c1) 24%, transparent);
+      }
+    }
+
+    .workshop-cta {
+      display: flex;
+      justify-content: center;
+      margin-top: 22px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .marquee {
+        overflow-x: auto;
+      }
+
+      .marquee-track {
+        animation: none !important;
+      }
+
+      .marquee-set[aria-hidden="true"] {
+        display: none;
+      }
+    }
+
     /* ---------- About and contact ---------- */
     .info-grid {
       display: grid;
@@ -2011,6 +2171,90 @@
       white-space: nowrap;
     }
 
+    /* Sprite sheets: a strip of frames slides inside a window one frame per step. Only transform
+       changes, so it can run off the main thread; it only plays while on screen (.in-view). */
+    .sprite {
+      position: relative;
+      display: block;
+      flex: 0 0 auto;
+      overflow: hidden;
+      aspect-ratio: var(--fw) / var(--fh);
+      width: min(84cqw, calc(84cqh * var(--fw) / var(--fh)));
+      transition: transform 0.35s var(--ease-out);
+    }
+
+    .sprite > img,
+    .walker > img {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: calc(var(--frames) * 100%);
+      max-width: none;
+      height: 100%;
+      animation: spriteRun calc(var(--frames) / var(--fps) * 1s) steps(var(--frames)) infinite;
+      animation-play-state: paused;
+    }
+
+    .sprite.in-view > img,
+    .in-view .sprite > img,
+    .walker.in-view > img {
+      animation-play-state: running;
+    }
+
+    .is-pixel img,
+    .walker > img {
+      image-rendering: pixelated;
+    }
+
+    @keyframes spriteRun {
+      to { transform: translateX(-100%); }
+    }
+
+    /* The little figure from "false frights" walking along the footer line. */
+    .walker-track {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -30px;
+      height: 29px;
+      overflow: hidden;
+      pointer-events: none;
+      container-type: inline-size;
+    }
+
+    .walker {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      display: block;
+      height: 26px;
+      aspect-ratio: var(--fw) / var(--fh);
+      overflow: hidden;
+      opacity: 0.85;
+      animation: walkAcross 46s linear infinite;
+      animation-play-state: paused;
+    }
+
+    .walker.in-view {
+      animation-play-state: running;
+    }
+
+    @keyframes walkAcross {
+      0% { transform: translateX(0) scaleX(1); }
+      49.99% { transform: translateX(calc(100cqw - 100%)) scaleX(1); }
+      50% { transform: translateX(calc(100cqw - 100%)) scaleX(-1); }
+      99.99% { transform: translateX(0) scaleX(-1); }
+      100% { transform: translateX(0) scaleX(1); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .walker,
+      .walker > img,
+      .sprite > img {
+        animation: none !important;
+      }
+    }
+
     footer {
       width: min(var(--max), calc(100% - 2 * var(--gutter)));
       margin: 0 auto;
@@ -2085,6 +2329,7 @@
       opacity: 1;
       transform: translate(-50%, 0);
     }
+
 
     .mini-player.show ~ .toast {
       bottom: 84px;
@@ -2197,6 +2442,7 @@
 
       .brand-name,
       .nav-home,
+      .nav-about,
       .effects-prefix {
         display: none;
       }
@@ -2399,7 +2645,7 @@
     #game-scary-game { --art: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 380' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3CradialGradient id='iris'%3E%3Cstop offset='.45' stop-color='%23ff2e4d' stop-opacity='.15'/%3E%3Cstop offset='.7' stop-color='%23d4243f' stop-opacity='.55'/%3E%3Cstop offset='1' stop-color='%237e263c' stop-opacity='.2'/%3E%3C/radialGradient%3E%3CradialGradient id='white'%3E%3Cstop offset='0' stop-color='%235c1530' stop-opacity='.5'/%3E%3Cstop offset='1' stop-color='%232a0b20' stop-opacity='.3'/%3E%3C/radialGradient%3E%3CradialGradient id='bg'%3E%3Cstop offset='0' stop-color='%233a0e1f' stop-opacity='.4'/%3E%3Cstop offset='1' stop-color='%23050207' stop-opacity='.9'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='640' height='380' fill='url(%23bg)'/%3E%3Cpath d='M40 190 Q320 6 600 190 Q320 374 40 190Z' fill='url(%23white)' stroke='%23ff7a85' stroke-width='2.4' stroke-opacity='.45'/%3E%3Cpath d='M208 169 q -84 17 -117 18' fill='none' stroke='%23ff4d5e' stroke-width='2' opacity='.35'/%3E%3Cpath d='M416 181 q 78 -21 145 2' fill='none' stroke='%23ff4d5e' stroke-width='2' opacity='.35'/%3E%3Cpath d='M198 205 q -48 -9 -110 -10' fill='none' stroke='%23ff4d5e' stroke-width='2' opacity='.35'/%3E%3Cpath d='M427 168 q 63 -8 131 14' fill='none' stroke='%23ff4d5e' stroke-width='2' opacity='.35'/%3E%3Cpath d='M195 221 q -45 -1 -108 -15' fill='none' stroke='%23ff4d5e' stroke-width='1' opacity='.35'/%3E%3Cpath d='M420 181 q 72 10 90 -4' fill='none' stroke='%23ff4d5e' stroke-width='2' opacity='.35'/%3E%3Cpath d='M210 172 q -85 -20 -110 8' fill='none' stroke='%23ff4d5e' stroke-width='1' opacity='.35'/%3E%3Cpath d='M436 196 q 77 -27 146 -4' fill='none' stroke='%23ff4d5e' stroke-width='2' opacity='.35'/%3E%3Cpath d='M220 175 q -88 -5 -97 1' fill='none' stroke='%23ff4d5e' stroke-width='1' opacity='.35'/%3E%3Ccircle cx='320' cy='190' r='104' fill='url(%23iris)'/%3E%3Ccircle cx='320' cy='190' r='104' fill='none' stroke='%23ff8a94' stroke-width='2' opacity='.45'/%3E%3Ccircle cx='320' cy='190' r='60' fill='%23050207' opacity='.7'/%3E%3Cpath d='M36 26 l 30 60' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='.14'/%3E%3Cpath d='M50 26 l 30 60' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='.14'/%3E%3Cpath d='M64 26 l 30 60' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='.14'/%3E%3Cpath d='M78 26 l 30 60' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='.14'/%3E%3Cpath d='M600 290 l -30 60' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='.14'/%3E%3Cpath d='M586 290 l -30 60' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='.14'/%3E%3Cpath d='M572 290 l -30 60' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='.14'/%3E%3Cpath d='M558 290 l -30 60' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='.14'/%3E%3C/svg%3E"); }
     #game-combat { --art: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 380' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3ClinearGradient id='s1' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23e45b65'/%3E%3Cstop offset='1' stop-color='%23ff9aa2'/%3E%3C/linearGradient%3E%3ClinearGradient id='s2' x1='0' y1='0' x2='1' y2='-1'%3E%3Cstop offset='0' stop-color='%237456ff'/%3E%3Cstop offset='1' stop-color='%23b3a4ff'/%3E%3C/linearGradient%3E%3CradialGradient id='gl'%3E%3Cstop offset='0' stop-color='%23ff6d78' stop-opacity='0.4'/%3E%3Cstop offset='1' stop-color='%23ff6d78' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='bg'%3E%3Cstop offset='0' stop-color='%232a0f2e' stop-opacity='.5'/%3E%3Cstop offset='1' stop-color='%230a0716' stop-opacity='.2'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='640' height='380' fill='url(%23bg)'/%3E%3Cpath d='M10 40 Q330 170 630 345 Q320 205 10 40Z' fill='url(%23s1)'/%3E%3Cpath d='M630 30 Q300 175 20 350 Q310 200 630 30Z' fill='url(%23s2)'/%3E%3Cline x1='401' y1='192' x2='451' y2='194' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='0'/%3E%3Cline x1='395' y1='216' x2='440' y2='231' stroke='%23fff' stroke-width='1' stroke-linecap='round' opacity='0'/%3E%3Cline x1='383' y1='231' x2='442' y2='270' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='365' y1='254' x2='400' y2='304' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='0'/%3E%3Cline x1='344' y1='264' x2='371' y2='350' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='327' y1='273' x2='333' y2='339' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='306' y1='271' x2='298' y2='315' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='283' y1='264' x2='260' y2='312' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='262' y1='244' x2='217' y2='286' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='256' y1='229' x2='221' y2='251' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='0'/%3E%3Cline x1='244' y1='211' x2='204' y2='223' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='244' y1='184' x2='190' y2='179' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='244' y1='164' x2='205' y2='150' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='253' y1='140' x2='168' y2='77' stroke='%23fff' stroke-width='1' stroke-linecap='round' opacity='0'/%3E%3Cline x1='270' y1='130' x2='246' y2='102' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='295' y1='118' x2='270' y2='46' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='0'/%3E%3Cline x1='315' y1='107' x2='313' y2='74' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='335' y1='108' x2='345' y2='56' stroke='%23fff' stroke-width='1' stroke-linecap='round' opacity='0'/%3E%3Cline x1='353' y1='122' x2='391' y2='43' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='375' y1='138' x2='402' y2='112' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='0'/%3E%3Cline x1='387' y1='151' x2='457' y2='110' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='398' y1='173' x2='442' y2='163' stroke='%23fff' stroke-width='1' stroke-linecap='round' opacity='0'/%3E%3Ccircle cx='320' cy='190' r='90' fill='url(%23gl)'/%3E%3Ccircle cx='248' cy='114' r='1' fill='%23ffd4d8' opacity='0'/%3E%3Ccircle cx='286' cy='148' r='1' fill='%23ffd4d8' opacity='1'/%3E%3Ccircle cx='233' cy='259' r='1' fill='%23ffd4d8' opacity='0'/%3E%3Ccircle cx='216' cy='280' r='2' fill='%23ffd4d8' opacity='0'/%3E%3Ccircle cx='439' cy='221' r='2' fill='%23ffd4d8' opacity='0'/%3E%3Ccircle cx='191' cy='157' r='2' fill='%23ffd4d8' opacity='1'/%3E%3Ccircle cx='314' cy='200' r='2' fill='%23ffd4d8' opacity='1'/%3E%3Ccircle cx='309' cy='93' r='2' fill='%23ffd4d8' opacity='0'/%3E%3Ccircle cx='348' cy='97' r='1' fill='%23ffd4d8' opacity='0'/%3E%3Ccircle cx='347' cy='174' r='2' fill='%23ffd4d8' opacity='1'/%3E%3Ccircle cx='350' cy='254' r='1' fill='%23ffd4d8' opacity='0'/%3E%3Ccircle cx='394' cy='105' r='1' fill='%23ffd4d8' opacity='0'/%3E%3C/svg%3E"); }
     #game-old-man-consequences { --art: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 380' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3CradialGradient id='gl'%3E%3Cstop offset='0' stop-color='%23b66142' stop-opacity='0.35'/%3E%3Cstop offset='1' stop-color='%23b66142' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='bg' cx='.3' cy='.9' r='.9'%3E%3Cstop offset='0' stop-color='%233a1420' stop-opacity='.6'/%3E%3Cstop offset='1' stop-color='%230a0716' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='640' height='380' fill='url(%23bg)'/%3E%3Cellipse cx='170' cy='322' rx='190' ry='40' fill='%23b66142' fill-opacity='.12' stroke='%23e09a73' stroke-width='2.4' stroke-opacity='.4'/%3E%3Cpath d='M70 322 l30 -12 l20 10 l26 -14 M230 330 l26 -10 l18 8 M150 336 l-12 14' fill='none' stroke='%23e09a73' stroke-width='2' opacity='.4'/%3E%3Cg transform='translate(520 190)'%3E%3Ccircle r='150' fill='url(%23gl)'/%3E%3Cpath d='M-78 -128 H78 M-78 128 H78' stroke='%23f0b28f' stroke-width='7' stroke-linecap='round' opacity='.6'/%3E%3Cpath d='M-62 -122 C -62 -40, -12 -18, 0 0 C 12 -18, 62 -40, 62 -122Z M-62 122 C -62 40, -12 18, 0 0 C 12 18, 62 40, 62 122Z' fill='%23f0b28f' fill-opacity='.08' stroke='%23f0b28f' stroke-width='3' stroke-opacity='.55'/%3E%3Cpath d='M-22 -46 Q0 -30 22 -46 Q8 -14 0 -2 Q-8 -14 -22 -46Z' fill='%23e08a5e' opacity='.7'/%3E%3Cpath d='M-56 120 Q0 50 56 120Z' fill='%23e08a5e' opacity='.6'/%3E%3Cpath d='M0 2 V96' stroke='%23ffc9a6' stroke-width='2' stroke-dasharray='3 6' opacity='.8'/%3E%3C/g%3E%3Ccircle cx='153' cy='36' r='2' fill='%23ffd2b5' opacity='0'/%3E%3Ccircle cx='245' cy='133' r='1' fill='%23ffd2b5' opacity='1'/%3E%3Ccircle cx='55' cy='38' r='2' fill='%23ffd2b5' opacity='1'/%3E%3Ccircle cx='260' cy='172' r='1' fill='%23ffd2b5' opacity='0'/%3E%3Ccircle cx='55' cy='170' r='1' fill='%23ffd2b5' opacity='0'/%3E%3Ccircle cx='477' cy='231' r='1' fill='%23ffd2b5' opacity='1'/%3E%3Ccircle cx='44' cy='92' r='1' fill='%23ffd2b5' opacity='0'/%3E%3Ccircle cx='475' cy='262' r='2' fill='%23ffd2b5' opacity='0'/%3E%3Ccircle cx='26' cy='317' r='1' fill='%23ffd2b5' opacity='1'/%3E%3Ccircle cx='204' cy='217' r='1' fill='%23ffd2b5' opacity='1'/%3E%3Ccircle cx='523' cy='35' r='2' fill='%23ffd2b5' opacity='1'/%3E%3Ccircle cx='331' cy='59' r='2' fill='%23ffd2b5' opacity='0'/%3E%3C/svg%3E"); }
-    #game-multicolors-negative { --art: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 380' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3C/defs%3E%3Crect width='640' height='380' fill='%2307040d'/%3E%3Ccircle cx='320' cy='420' r='150' fill='none' stroke='%2334a4c5' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='184' fill='none' stroke='%23b056dd' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='218' fill='none' stroke='%23f2d24b' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='252' fill='none' stroke='%23ff5f7e' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='286' fill='none' stroke='%235ff2b0' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='320' fill='none' stroke='%236b7dff' stroke-width='22' opacity='.34'/%3E%3Cg transform='translate(14 -6)' opacity='.5' style='mix-blend-mode:screen'%3E%3Ccircle cx='320' cy='420' r='150' fill='none' stroke='%2334a4c5' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='184' fill='none' stroke='%23b056dd' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='218' fill='none' stroke='%23f2d24b' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='252' fill='none' stroke='%23ff5f7e' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='286' fill='none' stroke='%235ff2b0' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='320' fill='none' stroke='%236b7dff' stroke-width='22' opacity='.34'/%3E%3C/g%3E%3Ccircle cx='320' cy='420' r='136' fill='%23030205'/%3E%3Crect x='192' y='333' width='107' height='3' fill='%2334a4c5' opacity='0'/%3E%3Crect x='285' y='303' width='46' height='3' fill='%23b056dd' opacity='0'/%3E%3Crect x='5' y='276' width='112' height='8' fill='%23f2d24b' opacity='0'/%3E%3Crect x='550' y='33' width='155' height='4' fill='%23ff5f7e' opacity='0'/%3E%3Crect x='86' y='105' width='41' height='3' fill='%235ff2b0' opacity='0'/%3E%3Crect x='537' y='339' width='145' height='2' fill='%236b7dff' opacity='1'/%3E%3Crect x='321' y='57' width='50' height='5' fill='%2334a4c5' opacity='0'/%3E%3Crect x='158' y='350' width='87' height='8' fill='%23b056dd' opacity='0'/%3E%3Crect x='480' y='44' width='55' height='2' fill='%23f2d24b' opacity='0'/%3E%3C/svg%3E"); }
+    #game-multicolors-negative { --art: url("assets/art/multicolors-negative/room-0.svg"); }
     #game-simpsons { --art: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 380' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3Cpattern id='sl' width='6' height='6' patternUnits='userSpaceOnUse'%3E%3Crect width='6' height='2' fill='%23000' opacity='.28'/%3E%3C/pattern%3E%3CradialGradient id='scr'%3E%3Cstop offset='0' stop-color='%23f7e08a' stop-opacity='.32'/%3E%3Cstop offset='.7' stop-color='%236b3b75' stop-opacity='.35'/%3E%3Cstop offset='1' stop-color='%231a0d22' stop-opacity='.7'/%3E%3C/radialGradient%3E%3CradialGradient id='bg'%3E%3Cstop offset='0' stop-color='%236b3b75' stop-opacity='.4'/%3E%3Cstop offset='1' stop-color='%230a0716' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='640' height='380' fill='url(%23bg)'/%3E%3Cpath d='M292 72 L238 14 M348 72 L404 10' stroke='%23ddad3a' stroke-width='4' stroke-linecap='round' opacity='.55'/%3E%3Ccircle cx='238' cy='14' r='6' fill='%23ddad3a' opacity='.6'/%3E%3Ccircle cx='404' cy='10' r='6' fill='%23ddad3a' opacity='.6'/%3E%3Crect x='150' y='72' width='340' height='252' rx='38' fill='%231a1208' fill-opacity='.6' stroke='%23ddad3a' stroke-width='5' stroke-opacity='.55'/%3E%3Crect x='186' y='98' width='268' height='196' rx='30' fill='url(%23scr)'/%3E%3Crect x='256' y='252' width='5' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='373' y='164' width='7' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='235' y='205' width='6' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='251' y='116' width='8' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='273' y='207' width='5' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='264' y='124' width='8' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='198' y='244' width='3' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='251' y='217' width='4' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='381' y='227' width='7' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='238' y='130' width='4' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='364' y='142' width='3' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='283' y='131' width='8' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='285' y='201' width='5' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='384' y='237' width='6' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='401' y='118' width='4' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='236' y='166' width='3' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='441' y='188' width='6' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='289' y='201' width='4' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='273' y='214' width='9' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='409' y='253' width='2' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='402' y='256' width='6' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='359' y='216' width='3' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='316' y='120' width='3' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='345' y='133' width='4' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='379' y='128' width='9' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='411' y='205' width='6' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='327' y='271' width='5' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='399' y='269' width='3' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='329' y='278' width='4' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='241' y='186' width='7' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='382' y='235' width='9' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='326' y='240' width='7' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='282' y='137' width='5' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='203' y='110' width='2' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='418' y='166' width='3' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='350' y='191' width='4' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='412' y='268' width='9' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='289' y='227' width='5' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='312' y='273' width='3' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='254' y='121' width='5' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='379' y='215' width='2' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='211' y='202' width='6' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='206' y='115' width='7' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='442' y='260' width='4' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='394' y='138' width='4' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='221' y='200' width='3' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='186' y='98' width='268' height='196' rx='30' fill='url(%23sl)'/%3E%3Crect x='186' y='98' width='268' height='196' rx='30' fill='none' stroke='%23000' stroke-width='6' opacity='.35'/%3E%3Cpath d='M200 324 l-14 26 M440 324 l14 26' stroke='%23ddad3a' stroke-width='5' stroke-linecap='round' opacity='.45'/%3E%3C/svg%3E"); }
     #game-plinko { --art: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 380' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3Ccircle id='pg' r='4.5' fill='%23cfe6ff' opacity='.5'/%3E%3CradialGradient id='gl'%3E%3Cstop offset='0' stop-color='%2359c7b6' stop-opacity='0.6'/%3E%3Cstop offset='1' stop-color='%2359c7b6' stop-opacity='0'/%3E%3C/radialGradient%3E%3ClinearGradient id='bg' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%230d1a3a' stop-opacity='.5'/%3E%3Cstop offset='1' stop-color='%230b2a2a' stop-opacity='.5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='640' height='380' fill='url(%23bg)'/%3E%3Cuse href='%23pg' x='274' y='36'/%3E%3Cuse href='%23pg' x='320' y='36'/%3E%3Cuse href='%23pg' x='366' y='36'/%3E%3Cuse href='%23pg' x='251' y='72'/%3E%3Cuse href='%23pg' x='297' y='72'/%3E%3Cuse href='%23pg' x='343' y='72'/%3E%3Cuse href='%23pg' x='389' y='72'/%3E%3Cuse href='%23pg' x='228' y='108'/%3E%3Cuse href='%23pg' x='274' y='108'/%3E%3Cuse href='%23pg' x='320' y='108'/%3E%3Cuse href='%23pg' x='366' y='108'/%3E%3Cuse href='%23pg' x='412' y='108'/%3E%3Cuse href='%23pg' x='205' y='144'/%3E%3Cuse href='%23pg' x='251' y='144'/%3E%3Cuse href='%23pg' x='297' y='144'/%3E%3Cuse href='%23pg' x='343' y='144'/%3E%3Cuse href='%23pg' x='389' y='144'/%3E%3Cuse href='%23pg' x='435' y='144'/%3E%3Cuse href='%23pg' x='182' y='180'/%3E%3Cuse href='%23pg' x='228' y='180'/%3E%3Cuse href='%23pg' x='274' y='180'/%3E%3Cuse href='%23pg' x='320' y='180'/%3E%3Cuse href='%23pg' x='366' y='180'/%3E%3Cuse href='%23pg' x='412' y='180'/%3E%3Cuse href='%23pg' x='458' y='180'/%3E%3Cuse href='%23pg' x='159' y='216'/%3E%3Cuse href='%23pg' x='205' y='216'/%3E%3Cuse href='%23pg' x='251' y='216'/%3E%3Cuse href='%23pg' x='297' y='216'/%3E%3Cuse href='%23pg' x='343' y='216'/%3E%3Cuse href='%23pg' x='389' y='216'/%3E%3Cuse href='%23pg' x='435' y='216'/%3E%3Cuse href='%23pg' x='481' y='216'/%3E%3Cuse href='%23pg' x='136' y='252'/%3E%3Cuse href='%23pg' x='182' y='252'/%3E%3Cuse href='%23pg' x='228' y='252'/%3E%3Cuse href='%23pg' x='274' y='252'/%3E%3Cuse href='%23pg' x='320' y='252'/%3E%3Cuse href='%23pg' x='366' y='252'/%3E%3Cuse href='%23pg' x='412' y='252'/%3E%3Cuse href='%23pg' x='458' y='252'/%3E%3Cuse href='%23pg' x='504' y='252'/%3E%3Cuse href='%23pg' x='113' y='288'/%3E%3Cuse href='%23pg' x='159' y='288'/%3E%3Cuse href='%23pg' x='205' y='288'/%3E%3Cuse href='%23pg' x='251' y='288'/%3E%3Cuse href='%23pg' x='297' y='288'/%3E%3Cuse href='%23pg' x='343' y='288'/%3E%3Cuse href='%23pg' x='389' y='288'/%3E%3Cuse href='%23pg' x='435' y='288'/%3E%3Cuse href='%23pg' x='481' y='288'/%3E%3Cuse href='%23pg' x='527' y='288'/%3E%3Cline x1='44' y1='336' x2='44' y2='380' stroke='%239fc4ff' stroke-width='2' opacity='.35'/%3E%3Cline x1='90' y1='336' x2='90' y2='380' stroke='%239fc4ff' stroke-width='2' opacity='.35'/%3E%3Cline x1='136' y1='336' x2='136' y2='380' stroke='%239fc4ff' stroke-width='2' opacity='.35'/%3E%3Cline x1='182' y1='336' x2='182' y2='380' stroke='%239fc4ff' stroke-width='2' opacity='.35'/%3E%3Cline x1='228' y1='336' x2='228' y2='380' stroke='%239fc4ff' stroke-width='2' opacity='.35'/%3E%3Cline x1='274' y1='336' x2='274' y2='380' stroke='%239fc4ff' stroke-width='2' opacity='.35'/%3E%3Cline x1='320' y1='336' x2='320' y2='380' stroke='%239fc4ff' stroke-width='2' opacity='.35'/%3E%3Cline x1='366' y1='336' x2='366' y2='380' stroke='%239fc4ff' stroke-width='2' opacity='.35'/%3E%3Cline x1='412' y1='336' x2='412' y2='380' stroke='%239fc4ff' stroke-width='2' opacity='.35'/%3E%3Cline x1='458' y1='336' x2='458' y2='380' stroke='%239fc4ff' stroke-width='2' opacity='.35'/%3E%3Cline x1='504' y1='336' x2='504' y2='380' stroke='%239fc4ff' stroke-width='2' opacity='.35'/%3E%3Cline x1='550' y1='336' x2='550' y2='380' stroke='%239fc4ff' stroke-width='2' opacity='.35'/%3E%3Crect x='366' y='336' width='46' height='44' fill='%2359c7b6' opacity='.35'/%3E%3Cpath d='M320 14 L297 46 L320 82 L343 118 L366 154 L343 190 L366 226 L389 262 L389 336' fill='none' stroke='%2359c7b6' stroke-width='2.4' stroke-dasharray='4 7' stroke-linecap='round' opacity='.8'/%3E%3Ccircle cx='366' cy='154' r='20' fill='url(%23gl)'/%3E%3Ccircle cx='366' cy='154' r='9' fill='%23fff' opacity='.9'/%3E%3C/svg%3E"); }
     #game-robberfly-roundup { --art: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 380' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3Cg id='fl'%3E%3Cpath d='M-18 0h-16' stroke='%23e8f5d0' stroke-width='1.4' stroke-dasharray='3 4' opacity='.35'/%3E%3Cellipse cx='-2' cy='-6' rx='8' ry='4' fill='%23e8f5d0' opacity='.3' transform='rotate(-25)'/%3E%3Cellipse cx='-2' cy='6' rx='8' ry='4' fill='%23e8f5d0' opacity='.22' transform='rotate(25)'/%3E%3Cellipse rx='7' ry='3' fill='%23f2dc9b' opacity='.75'/%3E%3C/g%3E%3CradialGradient id='bg' cx='.4' cy='.4' r='.9'%3E%3Cstop offset='0' stop-color='%231f3a1c' stop-opacity='.55'/%3E%3Cstop offset='1' stop-color='%232a2208' stop-opacity='.35'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='640' height='380' fill='url(%23bg)'/%3E%3Cuse href='%23fl' transform='translate(30 130) rotate(5)'/%3E%3Cuse href='%23fl' transform='translate(73 177) rotate(-1)'/%3E%3Cuse href='%23fl' transform='translate(116 205) rotate(-16)'/%3E%3Cuse href='%23fl' transform='translate(159 182) rotate(-33)'/%3E%3Cuse href='%23fl' transform='translate(202 158) rotate(-44)'/%3E%3Cuse href='%23fl' transform='translate(245 125) rotate(-43)'/%3E%3Cuse href='%23fl' transform='translate(288 78) rotate(-32)'/%3E%3Cuse href='%23fl' transform='translate(331 79) rotate(-15)'/%3E%3Cuse href='%23fl' transform='translate(374 108) rotate(-1)'/%3E%3Cuse href='%23fl' transform='translate(417 131) rotate(5)'/%3E%3Cuse href='%23fl' transform='translate(460 177) rotate(-1)'/%3E%3Cuse href='%23fl' transform='translate(503 205) rotate(-16)'/%3E%3Cuse href='%23fl' transform='translate(546 181) rotate(-33)'/%3E%3Cuse href='%23fl' transform='translate(589 157) rotate(-44)'/%3E%3Cellipse cx='470' cy='282' rx='96' ry='34' fill='none' stroke='%23d1a44e' stroke-width='3.2' opacity='.6'/%3E%3Cpath d='M560 296 C 600 320, 610 350, 650 360' fill='none' stroke='%23d1a44e' stroke-width='3.2' opacity='.6'/%3E%3Cpath d='M0 380 q 20 -40 30 0 q 14 -52 30 0 q 18 -34 28 0 q 16 -46 30 0 q 12 -30 24 0' fill='%234c9e58' opacity='.3'/%3E%3C/svg%3E"); }
@@ -2421,7 +2667,8 @@
       <div class="nav-links">
         <a class="nav-link nav-home active" href="#top" data-section="top">Home</a>
         <a class="nav-link" href="#games" data-section="games">Games</a>
-        <a class="nav-link" href="#about" data-section="about">About</a>
+        <a class="nav-link nav-gallery" href="art.html">Gallery</a>
+        <a class="nav-link nav-about" href="#about" data-section="about">About</a>
         <a class="nav-link" href="#contact" data-section="contact">Contact</a>
       </div>
 
@@ -2437,7 +2684,7 @@
 
   <header id="top">
     <a class="hero-pill" id="hero-newest" href="#game-defender">
-      <span class="pill-tag">Newest</span>
+      <span class="pill-tag" id="hero-pill-tag">Newest</span>
       <span>Play <strong id="hero-newest-title">Defender</strong></span>
       <span class="ico ico-arrow" aria-hidden="true"></span>
     </a>
@@ -2772,6 +3019,58 @@
       </div>
     </section>
 
+    <section class="workshop" id="workshop" aria-labelledby="workshop-title">
+      <div class="section-head">
+        <h2 class="section-title" id="workshop-title">From the Workshop</h2>
+        <p class="section-sub">Characters, places and sprites from my Scratch and TurboWarp games.</p>
+      </div>
+      <div class="marquee">
+        <div class="marquee-track">
+          <ul class="marquee-set">
+            <li><a class="marquee-item is-pixel" href="art.html#p-false-frights" style="--c1: #e04a5f;"><span class="sprite is-pixel" style="--frames: 9; --fps: 8; --fw: 190; --fh: 238;"><img data-src="assets/sprites/false-frights-friendbear.webp" alt="Friendbear, false frights (animation)" width="1710" height="238" decoding="async"></span><span class="marquee-label">false frights</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-multicolors-negative" style="--c1: #b056dd;"><img data-src="assets/art/multicolors-negative/sorry.svg" alt="Sorry, MulticoloRs NEGATIVE" width="152" height="289" decoding="async"><span class="marquee-label">MulticoloRs NEGATIVE</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;"><span class="sprite" style="--frames: 6; --fps: 8; --fw: 340; --fh: 201;"><img data-src="assets/sprites/hadal-zone-krab.webp" alt="Krab, Berbs Exotic Foods - The Hadal Zone (animation)" width="2040" height="201" decoding="async"></span><span class="marquee-label">Berbs Exotic Foods - The Hadal Zone</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;"><img data-src="assets/art/banban-killer-2/thumb/opila.webp" alt="Opila, Survival The Banban Killer 2" width="257" height="480" decoding="async"><span class="marquee-label">Survival The Banban Killer 2</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-fnaf-deluxe" style="--c1: #4fbf7a;"><span class="sprite" style="--frames: 10; --fps: 10; --fw: 191; --fh: 250;"><img data-src="assets/sprites/fnaf-deluxe-steven.webp" alt="Steven, Five Nights at Freddie's Deluxe (animation)" width="1910" height="250" decoding="async"></span><span class="marquee-label">Five Nights at Freddie's Deluxe</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;"><img data-src="assets/art/hadal-zone/costume1-5.svg" alt="Costume 1 5, Berbs Exotic Foods - The Hadal Zone" width="162" height="356" decoding="async"><span class="marquee-label">Berbs Exotic Foods - The Hadal Zone</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-multicolors-negative" style="--c1: #b056dd;"><span class="sprite" style="--frames: 7; --fps: 2; --fw: 203; --fh: 327;"><img data-src="assets/sprites/multicolors-negative-mind.webp" alt="Mind, MulticoloRs NEGATIVE (animation)" width="1421" height="327" decoding="async"></span><span class="marquee-label">MulticoloRs NEGATIVE</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-false-frights" style="--c1: #e04a5f;"><img data-src="assets/art/false-frights/thumb/char-23.webp" alt="Character 23, false frights" width="406" height="448" decoding="async"><span class="marquee-label">false frights</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;"><img data-src="assets/art/hadal-zone/tame1.svg" alt="Tame 1, Berbs Exotic Foods - The Hadal Zone" width="365" height="387" decoding="async"><span class="marquee-label">Berbs Exotic Foods - The Hadal Zone</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;"><img data-src="assets/art/banban-killer-2/thumb/josh2.webp" alt="Josh 2, Survival The Banban Killer 2" width="480" height="480" decoding="async"><span class="marquee-label">Survival The Banban Killer 2</span></a></li>
+            <li><a class="marquee-item is-pixel" href="art.html#p-fnaf-61" style="--c1: #f0853c;"><span class="sprite is-pixel" style="--frames: 12; --fps: 4; --fw: 150; --fh: 74;"><img data-src="assets/sprites/fnaf-61-battery.webp" alt="BATTERY, FNaF 61 BBs Revenge (animation)" width="1800" height="74" decoding="async"></span><span class="marquee-label">FNaF 61 BBs Revenge</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-multicolors-negative" style="--c1: #b056dd;"><img data-src="assets/art/multicolors-negative/eqono-2.svg" alt="Eqono 2, MulticoloRs NEGATIVE" width="88" height="179" decoding="async"><span class="marquee-label">MulticoloRs NEGATIVE</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;"><img data-src="assets/art/hadal-zone/costume1-3.svg" alt="Costume 1 3, Berbs Exotic Foods - The Hadal Zone" width="381" height="279" decoding="async"><span class="marquee-label">Berbs Exotic Foods - The Hadal Zone</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-fnaf-deluxe" style="--c1: #4fbf7a;"><img data-src="assets/art/fnaf-deluxe/thumb/banana-man.webp" alt="Banana Man, Five Nights at Freddie's Deluxe" width="337" height="480" decoding="async"><span class="marquee-label">Five Nights at Freddie's Deluxe</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;"><img data-src="assets/art/banban-killer-2/thumb/seline.webp" alt="Seline, Survival The Banban Killer 2" width="321" height="480" decoding="async"><span class="marquee-label">Survival The Banban Killer 2</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-false-frights" style="--c1: #e04a5f;"><img data-src="assets/art/false-frights/thumb/char-17.webp" alt="Character 17, false frights" width="313" height="480" decoding="async"><span class="marquee-label">false frights</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;"><img data-src="assets/art/banban-killer-2/thumb/nabnab.webp" alt="Nabnab, Survival The Banban Killer 2" width="441" height="480" decoding="async"><span class="marquee-label">Survival The Banban Killer 2</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-multicolors-negative" style="--c1: #b056dd;"><img data-src="assets/art/multicolors-negative/lighter.svg" alt="Lighter, MulticoloRs NEGATIVE" width="59" height="71" decoding="async"><span class="marquee-label">MulticoloRs NEGATIVE</span></a></li>
+          </ul>
+          <ul class="marquee-set" aria-hidden="true">
+            <li><a class="marquee-item is-pixel" href="art.html#p-false-frights" style="--c1: #e04a5f;" tabindex="-1"><span class="sprite is-pixel" style="--frames: 9; --fps: 8; --fw: 190; --fh: 238;"><img data-src="assets/sprites/false-frights-friendbear.webp" alt="" width="1710" height="238" decoding="async"></span><span class="marquee-label">false frights</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-multicolors-negative" style="--c1: #b056dd;" tabindex="-1"><img data-src="assets/art/multicolors-negative/sorry.svg" alt="" width="152" height="289" decoding="async"><span class="marquee-label">MulticoloRs NEGATIVE</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;" tabindex="-1"><span class="sprite" style="--frames: 6; --fps: 8; --fw: 340; --fh: 201;"><img data-src="assets/sprites/hadal-zone-krab.webp" alt="" width="2040" height="201" decoding="async"></span><span class="marquee-label">Berbs Exotic Foods - The Hadal Zone</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;" tabindex="-1"><img data-src="assets/art/banban-killer-2/thumb/opila.webp" alt="" width="257" height="480" decoding="async"><span class="marquee-label">Survival The Banban Killer 2</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-fnaf-deluxe" style="--c1: #4fbf7a;" tabindex="-1"><span class="sprite" style="--frames: 10; --fps: 10; --fw: 191; --fh: 250;"><img data-src="assets/sprites/fnaf-deluxe-steven.webp" alt="" width="1910" height="250" decoding="async"></span><span class="marquee-label">Five Nights at Freddie's Deluxe</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;" tabindex="-1"><img data-src="assets/art/hadal-zone/costume1-5.svg" alt="" width="162" height="356" decoding="async"><span class="marquee-label">Berbs Exotic Foods - The Hadal Zone</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-multicolors-negative" style="--c1: #b056dd;" tabindex="-1"><span class="sprite" style="--frames: 7; --fps: 2; --fw: 203; --fh: 327;"><img data-src="assets/sprites/multicolors-negative-mind.webp" alt="" width="1421" height="327" decoding="async"></span><span class="marquee-label">MulticoloRs NEGATIVE</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-false-frights" style="--c1: #e04a5f;" tabindex="-1"><img data-src="assets/art/false-frights/thumb/char-23.webp" alt="" width="406" height="448" decoding="async"><span class="marquee-label">false frights</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;" tabindex="-1"><img data-src="assets/art/hadal-zone/tame1.svg" alt="" width="365" height="387" decoding="async"><span class="marquee-label">Berbs Exotic Foods - The Hadal Zone</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;" tabindex="-1"><img data-src="assets/art/banban-killer-2/thumb/josh2.webp" alt="" width="480" height="480" decoding="async"><span class="marquee-label">Survival The Banban Killer 2</span></a></li>
+            <li><a class="marquee-item is-pixel" href="art.html#p-fnaf-61" style="--c1: #f0853c;" tabindex="-1"><span class="sprite is-pixel" style="--frames: 12; --fps: 4; --fw: 150; --fh: 74;"><img data-src="assets/sprites/fnaf-61-battery.webp" alt="" width="1800" height="74" decoding="async"></span><span class="marquee-label">FNaF 61 BBs Revenge</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-multicolors-negative" style="--c1: #b056dd;" tabindex="-1"><img data-src="assets/art/multicolors-negative/eqono-2.svg" alt="" width="88" height="179" decoding="async"><span class="marquee-label">MulticoloRs NEGATIVE</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;" tabindex="-1"><img data-src="assets/art/hadal-zone/costume1-3.svg" alt="" width="381" height="279" decoding="async"><span class="marquee-label">Berbs Exotic Foods - The Hadal Zone</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-fnaf-deluxe" style="--c1: #4fbf7a;" tabindex="-1"><img data-src="assets/art/fnaf-deluxe/thumb/banana-man.webp" alt="" width="337" height="480" decoding="async"><span class="marquee-label">Five Nights at Freddie's Deluxe</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;" tabindex="-1"><img data-src="assets/art/banban-killer-2/thumb/seline.webp" alt="" width="321" height="480" decoding="async"><span class="marquee-label">Survival The Banban Killer 2</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-false-frights" style="--c1: #e04a5f;" tabindex="-1"><img data-src="assets/art/false-frights/thumb/char-17.webp" alt="" width="313" height="480" decoding="async"><span class="marquee-label">false frights</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;" tabindex="-1"><img data-src="assets/art/banban-killer-2/thumb/nabnab.webp" alt="" width="441" height="480" decoding="async"><span class="marquee-label">Survival The Banban Killer 2</span></a></li>
+            <li><a class="marquee-item" href="art.html#p-multicolors-negative" style="--c1: #b056dd;" tabindex="-1"><img data-src="assets/art/multicolors-negative/lighter.svg" alt="" width="59" height="71" decoding="async"><span class="marquee-label">MulticoloRs NEGATIVE</span></a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="workshop-cta"><a class="button primary" href="art.html">Open the gallery <span class="ico ico-arrow" aria-hidden="true"></span></a></p>
+    </section>
+
     <div class="info-grid">
       <section id="about">
         <div class="panel-box">
@@ -2800,6 +3099,7 @@
   </main>
 
   <footer>
+    <div class="walker-track" aria-hidden="true"><span class="walker" style="--frames: 5; --fps: 8; --fw: 97; --fh: 167;"><img src="assets/sprites/false-frights-you-walk.webp" alt="" width="485" height="167" loading="lazy" decoding="async"></span></div>
     <div class="footer-top"><span>© 2026 Shayan</span><span aria-hidden="true">•</span><span>🪐</span></div>
     <div>Thanks for playing.</div>
   </footer>
@@ -3295,7 +3595,7 @@
 
       if (!live) {
         loadToken += 1;
-        playerShell.classList.remove('is-loading');
+        playerShell.classList.remove('is-loading', 'is-tuning');
         document.title = baseTitle;
         syncMiniPlayer();
         return;
@@ -3318,6 +3618,14 @@
         placeholder.setAttribute('role', 'button');
         placeholder.tabIndex = 0;
         placeholder.setAttribute('aria-label', `${titleOf(card)} is playing in the player above. Go to the player`);
+      }
+
+      if (!reduceMotion) {
+        playerShell.classList.remove('is-tuning');
+        void playerShell.offsetWidth;
+        playerShell.classList.add('is-tuning');
+        clearTimeout(syncPlayerChrome.tuneTimer);
+        syncPlayerChrome.tuneTimer = setTimeout(() => playerShell.classList.remove('is-tuning'), 380);
       }
 
       const token = ++loadToken;
@@ -3415,6 +3723,10 @@
       if (event.target.closest('.embed-placeholder')) scrollToPlayer();
     });
 
+    const warmStatic = () => { new Image().src = 'assets/sprites/fx-static.webp'; };
+    gamesGrid.addEventListener('pointerover', warmStatic, { once: true, passive: true });
+    gamesGrid.addEventListener('focusin', warmStatic, { once: true });
+
     gamesGrid.addEventListener('keydown', (event) => {
       if ((event.key === 'Enter' || event.key === ' ') && event.target.closest?.('.embed-placeholder')) {
         event.preventDefault();
@@ -3496,13 +3808,18 @@
     document.addEventListener('fullscreenchange', onFullscreenChange);
     document.addEventListener('webkitfullscreenchange', onFullscreenChange);
 
+    // The hero pill offers the newest game, or for returning visitors the one they played last.
     const newestCard = gameCards.reduce((latest, card) => (Number(card.dataset.order) > Number(latest.dataset.order) ? card : latest), gameCards[0]);
-    if (newestCard) {
-      heroNewestTitle.textContent = titleOf(newestCard);
-      heroNewest.href = `#game-${newestCard.dataset.slug}`;
+    const lastSlug = storage.get('shayan-last-game');
+    const lastCard = lastSlug ? gameCards.find((card) => card.dataset.slug === lastSlug) : null;
+    const pillCard = lastCard || newestCard;
+    if (pillCard) {
+      document.getElementById('hero-pill-tag').textContent = lastCard ? 'Last played' : 'Newest';
+      heroNewestTitle.textContent = titleOf(pillCard);
+      heroNewest.href = `#game-${pillCard.dataset.slug}`;
       heroNewest.addEventListener('click', (event) => {
         event.preventDefault();
-        openCard(newestCard, heroNewest);
+        openCard(pillCard, heroNewest);
       });
     }
 
@@ -3589,6 +3906,21 @@
       gameCards.forEach((card) => card.classList.add('revealed'));
     }
 
+    // Decorative sprites (footer walker, workshop strip) only animate while on screen.
+    const inViewObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => entry.target.classList.toggle('in-view', entry.isIntersecting));
+    }, { rootMargin: '80px 0px' });
+    document.querySelectorAll('.walker, .marquee').forEach((element) => inViewObserver.observe(element));
+
+    const marquee = document.querySelector('.marquee');
+    if (marquee) {
+      new IntersectionObserver((entries, observer) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        marquee.querySelectorAll('img[data-src]').forEach((img) => { img.src = img.dataset.src; img.removeAttribute('data-src'); });
+        observer.disconnect();
+      }, { rootMargin: '700px 0px' }).observe(marquee);
+    }
+
     // Pointer-following light on cards (mouse only; skipped in Lite mode and for reduced motion).
     if (finePointer && !reduceMotion) {
       let spotCard = null;
@@ -3640,11 +3972,16 @@
       }).observe(document.body);
     }
 
-    // ---------- Space background ----------
+    // Hooks for the shared space background below.
+    function sceneBusy() { return Boolean(state.activeCard); }
+    function sceneHidden() { return isPlayerFullscreen() || playerShell.classList.contains('is-expanded'); }
+
+        // ---------- Space background ----------
     // Drifting, twinkling stars on three depth layers, constellation lines between near stars,
     // lines and a glow that follow the pointer, click bursts, and an occasional shooting star.
     // Lite mode (and Auto on slower hardware) draws fewer stars at 30fps and lower resolution.
-    // While a game is running the field drops to a low frame rate so the game gets the CPU.
+    // While a game is running (sceneBusy) the field drops to a low frame rate so the game gets the CPU,
+    // and it stops drawing while something covers it (sceneHidden). Each page defines both hooks.
     const stars = [];
     const particles = [];
     const ripples = [];
@@ -3781,7 +4118,7 @@
     }
 
     function maybeLaunchShootingStar(time) {
-      if (shootingStar || state.activeCard || time < nextShootingStarAt) return;
+      if (shootingStar || sceneBusy() || time < nextShootingStarAt) return;
       const firstLaunch = nextShootingStarAt === 0;
       nextShootingStarAt = time + (effectsLite ? 16000 : 7000) + Math.random() * (effectsLite ? 16000 : 9000);
       if (firstLaunch) return;
@@ -3959,13 +4296,13 @@
     }
 
     function frameInterval() {
-      if (state.activeCard) return effectsLite ? 84 : 42;
+      if (sceneBusy()) return effectsLite ? 84 : 42;
       return effectsLite ? 1000 / 30 : 1000 / 60;
     }
 
     function animateScene(time = 0) {
       frameRequest = requestAnimationFrame(animateScene);
-      if (document.hidden || isPlayerFullscreen() || playerShell.classList.contains('is-expanded')) return;
+      if (document.hidden || sceneHidden()) return;
       const elapsed = time - lastFrame;
       if (elapsed < frameInterval() - 1.5) return;
       lastFrame = time;
