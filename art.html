@@ -2374,6 +2374,7 @@
         img.alt = `${data.label}, from ${data.project}`;
         if (data.w && data.h) { img.width = Number(data.w); img.height = Number(data.h); }
         lbStage.replaceChildren(img);
+        fitPixelArt();
       }
       lbProject.textContent = data.project;
       lbTitle.textContent = data.label;
@@ -2386,12 +2387,33 @@
       });
     }
 
+    // Pixel art gets a whole-number zoom in screen pixels, so every source pixel comes out the same
+    // size. Pixel art bigger than the viewer is scaled down smoothly instead of dropping pixels.
+    function fitPixelArt() {
+      const img = lbStage.querySelector(':scope > img');
+      if (!img || !lbStage.classList.contains('is-pixel')) return;
+      // The attributes hold the file's own size (img.width would report the size on screen).
+      const w = Number(img.getAttribute('width')), h = Number(img.getAttribute('height'));
+      const style = getComputedStyle(lbStage);
+      const roomW = lbStage.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+      const roomH = lbStage.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
+      if (!w || !h || roomW <= 0 || roomH <= 0) return;
+      const dpr = window.devicePixelRatio || 1;
+      const fit = Math.min(roomW / w, roomH / h);
+      const scale = fit * dpr >= 1 ? Math.floor(fit * dpr) / dpr : fit;
+      img.style.width = `${w * scale}px`;
+      img.style.height = `${h * scale}px`;
+      img.style.imageRendering = fit * dpr >= 1 ? '' : 'auto';
+    }
+    addEventListener('resize', () => { if (lightbox.open) fitPixelArt(); });
+
     function openViewer(index, opener) {
       lastOpener = opener;
       showPiece(index);
       if (typeof lightbox.showModal === 'function') lightbox.showModal();
       else lightbox.setAttribute('open', '');
       document.documentElement.classList.add('lightbox-open');
+      fitPixelArt();
       document.getElementById('lb-close').focus({ preventScroll: true });
     }
 
