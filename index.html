@@ -1983,8 +1983,8 @@
       animation-play-state: running;
     }
 
-    .marquee.in-view:hover .marquee-track,
-    .marquee.in-view:focus-within .marquee-track {
+    /* Keyboard focus is handled by .is-keyboard below, so focus left behind by a mouse click doesn't freeze the strip. */
+    .marquee.in-view:hover .marquee-track {
       animation-play-state: paused;
     }
 
@@ -4003,7 +4003,11 @@
 
     const marquee = document.querySelector('.marquee');
     if (marquee) {
+      // Keyboard focus stops the strip so Tab can walk through it. Focus from a mouse click must not,
+      // or the strip would jump under the pointer between mousedown and mouseup.
+      const keyboardFocus = (element) => { try { return element.matches(':focus-visible'); } catch { return true; } };
       marquee.addEventListener('focusin', (event) => {
+        if (!keyboardFocus(event.target)) return;
         marquee.classList.add('is-keyboard');
         const item = event.target.closest('.marquee-item');
         if (item) marquee.scrollLeft = item.offsetLeft - (marquee.clientWidth - item.offsetWidth) / 2;
