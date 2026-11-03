@@ -2397,15 +2397,15 @@
     }, { rootMargin: '120px 0px' });
     document.querySelectorAll('.art-grid .sprite, .walker').forEach((sprite) => spriteObserver.observe(sprite));
 
-    // Highlight the project currently under a band near the top of the screen.
+    // Highlight the project under a band near the top of the screen. Between two sections the previous
+    // chip stays lit; at the very bottom the last project is current; above the gallery none is.
     const chips = Array.from(document.querySelectorAll('.project-nav .filter-chip'));
     const projectSections = chips.map((chip) => document.querySelector(chip.getAttribute('href')));
     const inBand = new Set();
-    const projectObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => (entry.isIntersecting ? inBand.add(entry.target) : inBand.delete(entry.target)));
-      const current = projectSections.find((section) => inBand.has(section));
+    function setActiveChip(current) {
       chips.forEach((chip, index) => {
         const active = projectSections[index] === current;
+        if (chip.classList.contains('active') === active) return;
         chip.classList.toggle('active', active);
         if (active) {
           chip.setAttribute('aria-current', 'true');
@@ -2415,7 +2415,23 @@
           if (Math.abs(row.scrollLeft - target) > 4) row.scrollTo({ left: target, behavior: reduceMotion ? 'auto' : 'smooth' });
         } else chip.removeAttribute('aria-current');
       });
+    }
+    function syncChips() {
+      const atBottom = scrollY + innerHeight >= document.documentElement.scrollHeight - 4;
+      const current = atBottom ? projectSections[projectSections.length - 1] : projectSections.find((section) => inBand.has(section));
+      if (current) return setActiveChip(current);
+      if (projectSections[0] && projectSections[0].getBoundingClientRect().top > innerHeight * 0.3) setActiveChip(null);
+    }
+    const projectObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => (entry.isIntersecting ? inBand.add(entry.target) : inBand.delete(entry.target)));
+      syncChips();
     }, { rootMargin: '-30% 0px -69% 0px', threshold: 0 });
+    let chipTicking = false;
+    addEventListener('scroll', () => {
+      if (chipTicking) return;
+      chipTicking = true;
+      requestAnimationFrame(() => { chipTicking = false; syncChips(); });
+    }, { passive: true });
     projectSections.forEach((section) => section && projectObserver.observe(section));
 
     function sceneBusy() { return false; }
