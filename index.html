@@ -63,7 +63,6 @@
 
       /* Icons are drawn with CSS masks so they inherit the text colour. */
       --i-search: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='6.5'/%3E%3Cpath d='m20 20-4.2-4.2'/%3E%3C/svg%3E");
-      --i-dice: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3.5' y='3.5' width='17' height='17' rx='4.5' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cg fill='%23000'%3E%3Ccircle cx='8.6' cy='8.6' r='1.6'/%3E%3Ccircle cx='15.4' cy='8.6' r='1.6'/%3E%3Ccircle cx='12' cy='12' r='1.6'/%3E%3Ccircle cx='8.6' cy='15.4' r='1.6'/%3E%3Ccircle cx='15.4' cy='15.4' r='1.6'/%3E%3C/g%3E%3C/svg%3E");
       --i-external: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7M9 7h8v8'/%3E%3C/svg%3E");
       --i-link: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.1 1.1'/%3E%3Cpath d='M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.1-1.1'/%3E%3C/svg%3E");
       --i-close: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6 6 18'/%3E%3C/svg%3E");
@@ -74,8 +73,10 @@
       --i-grid: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2'%3E%3Crect x='4' y='4' width='6.5' height='6.5' rx='1.6'/%3E%3Crect x='13.5' y='4' width='6.5' height='6.5' rx='1.6'/%3E%3Crect x='4' y='13.5' width='6.5' height='6.5' rx='1.6'/%3E%3Crect x='13.5' y='13.5' width='6.5' height='6.5' rx='1.6'/%3E%3C/svg%3E");
       --i-rows: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2'%3E%3Crect x='4' y='4' width='16' height='7' rx='2'/%3E%3Crect x='4' y='13' width='16' height='7' rx='2'/%3E%3C/svg%3E");
       --i-reset: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.5 12a7.5 7.5 0 1 0 2.2-5.3'/%3E%3Cpath d='M4.5 4.5v4h4'/%3E%3C/svg%3E");
-      --i-sparkle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2.5c.7 5.6 3.9 8.8 9.5 9.5-5.6.7-8.8 3.9-9.5 9.5-.7-5.6-3.9-8.8-9.5-9.5 5.6-.7 8.8-3.9 9.5-9.5z'/%3E%3C/svg%3E");
-      --i-star: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m12 2.8 2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z'/%3E%3C/svg%3E");
+      /* Icons taken from the owner's own game UI (see build.mjs ownerIcon). */
+      --i-sparkle: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20version%3D%221.1%22%20width%3D%2219.9%22%20height%3D%2219.9%22%20viewBox%3D%229.3%209.3%2019.9%2019.9%22%3E%3Cg%20transform%3D%22translate(-220.75408%2C-160.75407)%22%3E%3Cg%20stroke-miterlimit%3D%2210%22%3E%3Cpath%20d%3D%22M220.75408%2C199.24599v-38.49191h38.49191v38.49191z%22%20fill%3D%22none%22%20stroke%3D%22none%22%20stroke-width%3D%220%22%2F%3E%3Cpath%20d%3D%22M239.94741%2C185.91877c-2.98724%2C0%20-8.55887%2C2.69276%20-8.55887%2C2.69276c0%2C0%202.76756%2C-5.45882%202.76756%2C-8.4706c0%2C-2.69363%20-2.76756%2C-8.75241%20-2.76756%2C-8.75241c0%2C0%205.93278%2C2.81033%208.55887%2C2.81033c3.05096%2C0%208.66413%2C-2.81033%208.66413%2C-2.81033c0%2C0%20-2.76756%2C5.8465%20-2.76756%2C8.50173c0%2C3.03488%202.76756%2C8.72128%202.76756%2C8.72128c0%2C0%20-5.93344%2C-2.69276%20-8.66413%2C-2.69276z%22%20fill-opacity%3D%221%22%20fill%3D%22%23000%22%20stroke-opacity%3D%221%22%20stroke%3D%22%23000%22%20stroke-width%3D%222%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+      --i-star: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20version%3D%221.1%22%20width%3D%2219.9%22%20height%3D%2219.9%22%20viewBox%3D%229.3%209.3%2019.9%2019.9%22%3E%3Cg%20transform%3D%22translate(-220.75408%2C-160.75407)%22%3E%3Cg%20stroke-miterlimit%3D%2210%22%3E%3Cpath%20d%3D%22M220.75408%2C199.24599v-38.49191h38.49191v38.49191z%22%20fill%3D%22none%22%20stroke%3D%22none%22%20stroke-width%3D%220%22%2F%3E%3Cpath%20d%3D%22M239.94741%2C185.91877c-2.98724%2C0%20-8.55887%2C2.69276%20-8.55887%2C2.69276c0%2C0%202.76756%2C-5.45882%202.76756%2C-8.4706c0%2C-2.69363%20-2.76756%2C-8.75241%20-2.76756%2C-8.75241c0%2C0%205.93278%2C2.81033%208.55887%2C2.81033c3.05096%2C0%208.66413%2C-2.81033%208.66413%2C-2.81033c0%2C0%20-2.76756%2C5.8465%20-2.76756%2C8.50173c0%2C3.03488%202.76756%2C8.72128%202.76756%2C8.72128c0%2C0%20-5.93344%2C-2.69276%20-8.66413%2C-2.69276z%22%20fill-opacity%3D%221%22%20fill%3D%22%23000%22%20stroke-opacity%3D%221%22%20stroke%3D%22%23000%22%20stroke-width%3D%222%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+      --owner-dice: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20version%3D%221.1%22%20width%3D%2226.5%22%20height%3D%2226.5%22%20viewBox%3D%2222%2022%2026.5%2026.5%22%3E%3Cdefs%3E%3ClinearGradient%20x1%3D%22240.00001%22%20y1%3D%22144.7666%22%20x2%3D%22240.00001%22%20y2%3D%22215.23342%22%20gradientUnits%3D%22userSpaceOnUse%22%20id%3D%22color-1%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23000000%22%20stop-opacity%3D%220%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23000000%22%20stop-opacity%3D%220%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Cg%20transform%3D%22translate(-204.7666%2C-144.7666)%22%3E%3Cg%20stroke-miterlimit%3D%2210%22%3E%3Cpath%20d%3D%22M228.53408%2C187.92972c0%2C-5.21177%200%2C-14.71249%200%2C-16.50236c0%2C-1.35195%202.22192%2C-2.78611%204.07201%2C-2.78611c2.78431%2C0%2010.87496%2C0%2015.43078%2C0c1.92191%2C0%203.21474%2C0.94319%203.21474%2C1.92885c0%2C1.67104%200.21432%2C11.89913%200.21432%2C17.35962c0%2C2.05076%20-1.77579%2C3.42906%20-3.21474%2C3.42906c-2.76464%2C0%20-12.46071%2C0%20-17.14531%2C0c-1.56586%2C0%20-2.5718%2C-1.38451%20-2.5718%2C-3.42906z%22%20fill%3D%22%23e1dfff%22%20stroke%3D%22%23421d86%22%20stroke-width%3D%222.5%22%2F%3E%3Cg%20fill%3D%22%239481c4%22%20stroke%3D%22%23421d86%22%20stroke-width%3D%220%22%3E%3Cpath%20d%3D%22M240.99298%2C175.13256c0%2C-1.93008%201.56464%2C-3.49471%203.49471%2C-3.49471c1.93008%2C0%203.49471%2C1.56464%203.49471%2C3.49471c0%2C1.93008%20-1.56464%2C3.49472%20-3.49471%2C3.49472c-1.93008%2C0%20-3.49471%2C-1.56464%20-3.49471%2C-3.49472z%22%2F%3E%3Cpath%20d%3D%22M240.99298%2C185.36099c0%2C-1.93008%201.56464%2C-3.49472%203.49471%2C-3.49472c1.93008%2C0%203.49471%2C1.56464%203.49471%2C3.49472c0%2C1.93008%20-1.56464%2C3.49471%20-3.49471%2C3.49471c-1.93008%2C0%20-3.49471%2C-1.56464%20-3.49471%2C-3.49471z%22%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%22%239481c4%22%20stroke%3D%22%23421d86%22%20stroke-width%3D%220%22%3E%3Cpath%20d%3D%22M231.95788%2C175.13256c0%2C-1.93008%201.56464%2C-3.49471%203.49471%2C-3.49471c1.93008%2C0%203.49472%2C1.56464%203.49472%2C3.49471c0%2C1.93008%20-1.56464%2C3.49472%20-3.49472%2C3.49472c-1.93008%2C0%20-3.49471%2C-1.56464%20-3.49471%2C-3.49472z%22%2F%3E%3Cpath%20d%3D%22M231.95788%2C185.36099c0%2C-1.93008%201.56464%2C-3.49472%203.49471%2C-3.49472c1.93008%2C0%203.49472%2C1.56464%203.49472%2C3.49472c0%2C1.93008%20-1.56464%2C3.49471%20-3.49472%2C3.49471c-1.93008%2C0%20-3.49471%2C-1.56464%20-3.49471%2C-3.49471z%22%2F%3E%3C%2Fg%3E%3Cpath%20d%3D%22M204.7666%2C215.23342v-70.46681h70.46681v70.46681z%22%20fill%3D%22url(%23color-1)%22%20stroke%3D%22%23000000%22%20stroke-width%3D%220%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E");
       --i-up: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 19V5M5.5 11.5 12 5l6.5 6.5'/%3E%3C/svg%3E");
       --i-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E");
       --i-x: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.65l-5.21-6.82-5.97 6.82H1.68l7.73-8.84L1.25 2.25h6.83l4.71 6.23zm-1.16 17.52h1.83L7.08 4.13H5.12z'/%3E%3C/svg%3E");
@@ -233,7 +234,8 @@
     }
 
     .ico-search { --i: var(--i-search); }
-    .ico-dice { --i: var(--i-dice); }
+    /* The dice from "MulticoloRs NEGATIVE", in its own colours. */
+    .ico-dice { background: var(--owner-dice) center / contain no-repeat; -webkit-mask: none; mask: none; }
     .ico-external { --i: var(--i-external); }
     .ico-close { --i: var(--i-close); }
     .ico-prev { --i: var(--i-prev); }
@@ -1657,17 +1659,17 @@
         #050308;
     }
 
+    /* The loading indicator is the battery meter from "FNaF 61 BBs Revenge": its 12 frames go from full to
+       empty, so it plays them in reverse and charges up while the game loads. */
     .player-stage::before {
       content: "";
       left: 50%;
       top: 50%;
       z-index: 4;
-      width: 46px;
-      height: 46px;
-      margin: -23px 0 0 -23px;
-      border-radius: 50%;
-      border: 3px solid rgba(255, 255, 255, 0.1);
-      border-top-color: color-mix(in srgb, var(--c1) 65%, #ffffff);
+      width: 100px;
+      height: 49px;
+      margin: -34px 0 0 -50px;
+      background: url("assets/sprites/fnaf-61-battery.webp") 0 0 / 1200% 100% no-repeat;
     }
 
     .player-shell.is-loading .player-stage::before,
@@ -1676,7 +1678,11 @@
     }
 
     .player-shell.is-loading .player-stage::before {
-      animation: spin 0.9s linear infinite;
+      animation: batteryCharge 1.8s steps(12, jump-none) infinite reverse;
+    }
+
+    @keyframes batteryCharge {
+      to { background-position: 100% 0; }
     }
 
     /* A short burst of TV static (from "FNaF 61 BBs Revenge") when a game opens or switches. */
@@ -2157,6 +2163,128 @@
       }
     }
 
+    /* ---------- Cameos on the home page ---------- */
+    /* The Krab from "The Hadal Zone" scuttles across the bottom of the hero now and then. */
+    .cameo-runway {
+      position: relative;
+      z-index: 1;
+      height: 64px;
+      margin-top: -64px;
+      overflow: hidden;
+    }
+
+    .cameo-krab {
+      position: absolute;
+      left: 0;
+      bottom: 4px;
+      width: 86px;
+      transform: translateX(-120px);
+      animation: krabCross 36s linear 5s infinite;
+      animation-play-state: paused;
+    }
+
+    .cameo-runway.in-view .cameo-krab {
+      animation-play-state: running;
+    }
+
+    @keyframes krabCross {
+      0% { transform: translateX(-120px); }
+      40%, 100% { transform: translateX(calc(100vw + 20px)); }
+    }
+
+    /* Opila (Survival The Banban Killer 2) perched on the search panel. */
+    .control-panel {
+      position: relative;
+    }
+
+    .cameo-perch {
+      position: absolute;
+      right: clamp(22px, 5%, 54px);
+      bottom: calc(100% - 3px);
+      width: 30px;
+      transform-origin: 50% 100%;
+      animation: perchBob 7s ease-in-out infinite;
+      animation-play-state: paused;
+    }
+
+    .cameo-perch.in-view {
+      animation-play-state: running;
+    }
+
+    @keyframes perchBob {
+      0%, 80%, 100% { transform: translateY(0) rotate(0); }
+      84% { transform: translateY(-7px) rotate(-6deg); }
+      88% { transform: translateY(0) rotate(0); }
+      92% { transform: translateY(-4px) rotate(4deg); }
+      96% { transform: translateY(0) rotate(0); }
+    }
+
+    /* Banana Man (Five Nights at Freddie's Deluxe) shrugs when a search finds nothing. */
+    .cameo-shrug {
+      display: block;
+      width: 58px;
+      margin: 0 auto 14px;
+      transform-origin: 50% 100%;
+      animation: shrug 2.6s ease-in-out infinite;
+    }
+
+    @keyframes shrug {
+      0%, 100% { transform: rotate(-5deg); }
+      50% { transform: rotate(5deg); }
+    }
+
+    /* seline (Survival The Banban Killer 2) inching along the top of the Contact panel. */
+    #contact {
+      position: relative;
+    }
+
+    .cameo-ledge {
+      position: absolute;
+      left: 26px;
+      right: 26px;
+      bottom: calc(100% - 2px);
+      height: 48px;
+      overflow: hidden;
+      container-type: inline-size;
+    }
+
+    .cameo-snail {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 30px;
+      opacity: 0;
+      animation: snailCrawl 80s linear infinite;
+      animation-play-state: paused;
+    }
+
+    .cameo-ledge.in-view .cameo-snail {
+      animation-play-state: running;
+    }
+
+    @keyframes snailCrawl {
+      0% { opacity: 0; transform: translateX(calc(100cqw - 30px)); }
+      4%, 96% { opacity: 1; }
+      100% { opacity: 0; transform: translateX(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cameo-runway {
+        display: none;
+      }
+
+      .cameo-perch,
+      .cameo-shrug {
+        animation: none !important;
+      }
+
+      .cameo-snail {
+        animation: none !important;
+        opacity: 1;
+        transform: translateX(calc(100cqw - 30px));
+      }
+    }
+
     .panel-box {
       display: flex;
       flex-direction: column;
@@ -2349,6 +2477,34 @@
       font-size: 1.15rem;
     }
 
+    /* Cameos: characters from the owner's games placed around the pages. Decorative only; each one
+       animates only while it is on screen (.in-view) and stands still with reduced motion. */
+    .cameo {
+      pointer-events: none;
+    }
+
+    /* Direct children only: a sprite's own frame strip must keep its full width. */
+    .cameo .sprite,
+    .cameo > img,
+    .cameo-snail > img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /* Steven (Five Nights at Freddie's Deluxe) dances next to the thank-you line. */
+    .footer-thanks {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 10px;
+    }
+
+    .cameo-dance {
+      display: block;
+      width: 34px;
+      margin-bottom: -1px;
+    }
+
     .scroll-top {
       position: fixed;
       right: max(18px, env(safe-area-inset-right));
@@ -2422,8 +2578,24 @@
     }
 
     @media (max-width: 960px) {
+      /* Stacked panels: leave room above Contact for the snail on its ledge. */
       .info-grid {
         grid-template-columns: minmax(0, 1fr);
+        row-gap: 58px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      /* The heading runs almost the full width on phones: Opila moves to the corner, a little smaller. */
+      .cameo-perch {
+        right: 6px;
+        width: 24px;
+      }
+    }
+
+    @media (max-width: 359px) {
+      .cameo-perch {
+        display: none;
       }
     }
 
@@ -2697,7 +2869,8 @@
         transition-duration: 0.001ms !important;
       }
       .typing-caret { display: none !important; }
-      .player-shell.is-loading .player-stage::before { animation: spin 1.6s linear infinite !important; }
+      /* Loading feedback stays, but charges slowly in steps instead of moving. */
+      .player-shell.is-loading .player-stage::before { animation: batteryCharge 4.8s steps(12, jump-none) infinite reverse !important; }
     }
 
     /* Per-game colours and cover art. --c1/--c2 match each card's accent gradient. */
@@ -2785,6 +2958,8 @@
     </p>
   </header>
 
+  <div class="cameo cameo-runway" aria-hidden="true"><span class="cameo-krab"><span class="sprite" style="--frames: 6; --fps: 8; --fw: 340; --fh: 201;"><img src="assets/sprites/hadal-zone-krab.webp" alt="" width="2040" height="201" loading="lazy" decoding="async"></span></span></div>
+
   <section class="player-shell" id="player-shell" aria-label="Game player">
     <div class="player-meta-row">
       <div class="player-heading">
@@ -2821,6 +2996,7 @@
       </div>
 
       <div class="control-panel">
+        <span class="cameo cameo-perch" aria-hidden="true"><img src="assets/art/banban-killer-2/thumb/opila.webp" alt="" width="257" height="480" loading="lazy" decoding="async"></span>
         <div class="search-row">
           <label class="search-box" for="game-search">
             <span class="ico ico-search" aria-hidden="true"></span>
@@ -3089,6 +3265,7 @@
       <p class="visually-hidden" id="results-announcer" role="status" aria-live="polite" aria-atomic="true"></p>
 
       <div class="empty-state" id="empty-state">
+        <span class="cameo cameo-shrug" aria-hidden="true"><img src="assets/art/fnaf-deluxe/thumb/banana-man.webp" alt="" width="337" height="480" loading="lazy" decoding="async"></span>
         <p>No games match that search right now.</p>
         <button class="button" id="empty-reset" type="button"><span class="ico ico-reset" aria-hidden="true"></span>Show all games</button>
       </div>
@@ -3169,6 +3346,7 @@
       </section>
 
       <section id="contact">
+        <div class="cameo cameo-ledge" aria-hidden="true"><span class="cameo-snail"><img src="assets/art/banban-killer-2/thumb/seline.webp" alt="" width="321" height="480" loading="lazy" decoding="async"></span></div>
         <div class="panel-box">
           <h2>Contact</h2>
           <p>Follow my work and new releases here.</p>
@@ -3185,7 +3363,7 @@
   <footer>
     <div class="walker-track" aria-hidden="true"><span class="walker" style="--frames: 5; --fps: 8; --fw: 97; --fh: 167;"><img src="assets/sprites/scary-game-you-walk.webp" alt="" width="485" height="167" loading="lazy" decoding="async"></span></div>
     <div class="footer-top"><span>© 2026 Shayan</span><span aria-hidden="true">•</span><span>🪐</span></div>
-    <div>Thanks for playing.</div>
+    <div class="footer-thanks"><span class="cameo cameo-dance" aria-hidden="true"><span class="sprite" style="--frames: 10; --fps: 10; --fw: 191; --fh: 250;"><img src="assets/sprites/fnaf-deluxe-steven.webp" alt="" width="1910" height="250" loading="lazy" decoding="async"></span></span><span>Thanks for playing.</span></div>
   </footer>
 
   <div class="mini-player" id="mini-player" aria-hidden="true" inert>
@@ -3995,7 +4173,7 @@
     const inViewObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => entry.target.classList.toggle('in-view', entry.isIntersecting));
     }, { rootMargin: '80px 0px' });
-    document.querySelectorAll('.walker, .marquee, .peeker').forEach((element) => inViewObserver.observe(element));
+    document.querySelectorAll('.walker, .marquee, .peeker, .cameo').forEach((element) => inViewObserver.observe(element));
 
     const marquee = document.querySelector('.marquee');
     if (marquee) {
