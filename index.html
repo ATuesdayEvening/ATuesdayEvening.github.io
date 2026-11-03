@@ -1972,10 +1972,11 @@
       mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
     }
 
+    /* Same speed whatever the number of cards: about 4.4s per card. */
     .marquee-track {
       display: flex;
       width: max-content;
-      animation: marquee 80s linear infinite;
+      animation: marquee calc(var(--strip-count, 18) * 4.4s) linear infinite;
       animation-play-state: paused;
     }
 
@@ -2015,12 +2016,14 @@
       list-style: none;
     }
 
+    /* Each character stands on a little lit floor at the bottom of its card. */
     .marquee-item {
       position: relative;
       display: grid;
-      place-items: center;
+      place-items: end center;
       width: 168px;
       height: 212px;
+      padding-bottom: 12px;
       border: 1px solid color-mix(in srgb, var(--c1) 28%, rgba(255, 255, 255, 0.06));
       border-radius: 18px;
       background:
@@ -2033,29 +2036,14 @@
 
     /* Container units, not %: a % height inside an auto-sized grid row would fall back to the image's own height. */
     .marquee-item > img {
-      width: 82cqw;
-      height: 72cqh;
-      margin-bottom: 18px;
+      width: 84cqw;
+      height: 84cqh;
       object-fit: contain;
+      object-position: 50% 100%;
     }
 
     .marquee-item > .sprite {
-      width: min(82cqw, calc(74cqh * var(--fw) / var(--fh)));
-      margin-bottom: 18px;
-    }
-
-    .marquee-label {
-      position: absolute;
-      left: 12px;
-      right: 12px;
-      bottom: 10px;
-      overflow: hidden;
-      color: var(--text-faint);
-      font: 700 0.6rem/1.2 var(--font-mono);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      width: min(84cqw, calc(84cqh * var(--fw) / var(--fh)));
     }
 
     @media (hover: hover) and (pointer: fine) {
@@ -2297,7 +2285,7 @@
       to { transform: translateX(-100%); }
     }
 
-    /* The little figure from "false frights" walking along the footer line. */
+    /* The little figure from SCARY GAME walking along the footer line. */
     .walker-track {
       position: absolute;
       left: 0;
@@ -3109,49 +3097,57 @@
     <section class="workshop" id="workshop" aria-labelledby="workshop-title">
       <div class="section-head">
         <h2 class="section-title" id="workshop-title">From the Workshop</h2>
-        <p class="section-sub">Characters, places and sprites from my Scratch and TurboWarp games.</p>
+        <p class="section-sub">Characters from my Scratch and TurboWarp games.</p>
       </div>
       <div class="marquee">
-        <div class="marquee-track">
+        <div class="marquee-track" style="--strip-count: 22;">
           <ul class="marquee-set">
-            <li><a class="marquee-item is-pixel" href="art.html#p-false-frights" style="--c1: #e04a5f;"><span class="sprite is-pixel" style="--frames: 9; --fps: 8; --fw: 190; --fh: 238;"><img data-src="assets/sprites/false-frights-friendbear.webp" alt="Friendbear, false frights (animation)" width="1710" height="238" decoding="async"></span><span class="marquee-label">false frights</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-multicolors-negative" style="--c1: #b056dd;"><img data-src="assets/art/multicolors-negative/sorry.svg" alt="Sorry, MulticoloRs NEGATIVE" width="152" height="289" decoding="async"><span class="marquee-label">MulticoloRs NEGATIVE</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;"><span class="sprite" style="--frames: 6; --fps: 8; --fw: 340; --fh: 201;"><img data-src="assets/sprites/hadal-zone-krab.webp" alt="Krab, Berbs Exotic Foods - The Hadal Zone (animation)" width="2040" height="201" decoding="async"></span><span class="marquee-label">Berbs Exotic Foods - The Hadal Zone</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;"><img data-src="assets/art/banban-killer-2/thumb/opila.webp" alt="Opila, Survival The Banban Killer 2" width="257" height="480" decoding="async"><span class="marquee-label">Survival The Banban Killer 2</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-fnaf-deluxe" style="--c1: #4fbf7a;"><span class="sprite" style="--frames: 10; --fps: 10; --fw: 191; --fh: 250;"><img data-src="assets/sprites/fnaf-deluxe-steven.webp" alt="Steven, Five Nights at Freddie's Deluxe (animation)" width="1910" height="250" decoding="async"></span><span class="marquee-label">Five Nights at Freddie's Deluxe</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;"><img data-src="assets/art/hadal-zone/costume1-5.svg" alt="Costume 1 5, Berbs Exotic Foods - The Hadal Zone" width="162" height="356" decoding="async"><span class="marquee-label">Berbs Exotic Foods - The Hadal Zone</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-multicolors-negative" style="--c1: #b056dd;"><span class="sprite" style="--frames: 7; --fps: 2; --fw: 203; --fh: 327;"><img data-src="assets/sprites/multicolors-negative-mind.webp" alt="Mind, MulticoloRs NEGATIVE (animation)" width="1421" height="327" decoding="async"></span><span class="marquee-label">MulticoloRs NEGATIVE</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-false-frights" style="--c1: #e04a5f;"><img data-src="assets/art/false-frights/thumb/char-23.webp" alt="Character 23, false frights" width="406" height="448" decoding="async"><span class="marquee-label">false frights</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;"><img data-src="assets/art/hadal-zone/tame1.svg" alt="Tame 1, Berbs Exotic Foods - The Hadal Zone" width="365" height="387" decoding="async"><span class="marquee-label">Berbs Exotic Foods - The Hadal Zone</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;"><img data-src="assets/art/banban-killer-2/thumb/josh2.webp" alt="Josh 2, Survival The Banban Killer 2" width="480" height="480" decoding="async"><span class="marquee-label">Survival The Banban Killer 2</span></a></li>
-            <li><a class="marquee-item is-pixel" href="art.html#p-fnaf-61" style="--c1: #f0853c;"><span class="sprite is-pixel" style="--frames: 12; --fps: 4; --fw: 150; --fh: 74;"><img data-src="assets/sprites/fnaf-61-battery.webp" alt="BATTERY, FNaF 61 BBs Revenge (animation)" width="1800" height="74" decoding="async"></span><span class="marquee-label">FNaF 61 BBs Revenge</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-multicolors-negative" style="--c1: #b056dd;"><img data-src="assets/art/multicolors-negative/eqono-2.svg" alt="Eqono 2, MulticoloRs NEGATIVE" width="88" height="179" decoding="async"><span class="marquee-label">MulticoloRs NEGATIVE</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;"><img data-src="assets/art/hadal-zone/costume1-3.svg" alt="Costume 1 3, Berbs Exotic Foods - The Hadal Zone" width="381" height="279" decoding="async"><span class="marquee-label">Berbs Exotic Foods - The Hadal Zone</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-fnaf-deluxe" style="--c1: #4fbf7a;"><img data-src="assets/art/fnaf-deluxe/thumb/banana-man.webp" alt="Banana Man, Five Nights at Freddie's Deluxe" width="337" height="480" decoding="async"><span class="marquee-label">Five Nights at Freddie's Deluxe</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;"><img data-src="assets/art/banban-killer-2/thumb/seline.webp" alt="Seline, Survival The Banban Killer 2" width="321" height="480" decoding="async"><span class="marquee-label">Survival The Banban Killer 2</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-false-frights" style="--c1: #e04a5f;"><img data-src="assets/art/false-frights/thumb/char-17.webp" alt="Character 17, false frights" width="313" height="480" decoding="async"><span class="marquee-label">false frights</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;"><img data-src="assets/art/banban-killer-2/thumb/nabnab.webp" alt="Nabnab, Survival The Banban Killer 2" width="441" height="480" decoding="async"><span class="marquee-label">Survival The Banban Killer 2</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-multicolors-negative" style="--c1: #b056dd;"><img data-src="assets/art/multicolors-negative/lighter.svg" alt="Lighter, MulticoloRs NEGATIVE" width="59" height="71" decoding="async"><span class="marquee-label">MulticoloRs NEGATIVE</span></a></li>
+            <li><a class="marquee-item is-pixel" href="art.html#p-scary-game" style="--c1: #e04a5f;" aria-label="More art from SCARY GAME"><span class="sprite is-pixel" style="--frames: 9; --fps: 8; --fw: 190; --fh: 238;"><img data-src="assets/sprites/scary-game-friendbear.webp" alt="" width="1710" height="238" decoding="async"></span></a></li>
+            <li><a class="marquee-item" href="art.html#p-multicolors-negative" style="--c1: #b056dd;" aria-label="More art from MulticoloRs NEGATIVE"><img data-src="assets/art/multicolors-negative/sorry.svg" alt="" width="152" height="289" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;" aria-label="More art from Berbs Exotic Foods - The Hadal Zone"><span class="sprite" style="--frames: 6; --fps: 8; --fw: 340; --fh: 201;"><img data-src="assets/sprites/hadal-zone-krab.webp" alt="" width="2040" height="201" decoding="async"></span></a></li>
+            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;" aria-label="More art from Survival The Banban Killer 2"><img data-src="assets/art/banban-killer-2/thumb/opila.webp" alt="" width="257" height="480" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-fnaf-deluxe" style="--c1: #4fbf7a;" aria-label="More art from Five Nights at Freddie's Deluxe"><span class="sprite" style="--frames: 10; --fps: 10; --fw: 191; --fh: 250;"><img data-src="assets/sprites/fnaf-deluxe-steven.webp" alt="" width="1910" height="250" decoding="async"></span></a></li>
+            <li><a class="marquee-item" href="art.html#p-scary-game" style="--c1: #e04a5f;" aria-label="More art from SCARY GAME"><img data-src="assets/art/scary-game/thumb/char-23.webp" alt="" width="406" height="448" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-multicolors-negative" style="--c1: #b056dd;" aria-label="More art from MulticoloRs NEGATIVE"><span class="sprite" style="--frames: 7; --fps: 2; --fw: 203; --fh: 327;"><img data-src="assets/sprites/multicolors-negative-mind.webp" alt="" width="1421" height="327" decoding="async"></span></a></li>
+            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;" aria-label="More art from Berbs Exotic Foods - The Hadal Zone"><span class="sprite" style="--frames: 2; --fps: 3; --fw: 340; --fh: 720;"><img data-src="assets/sprites/hadal-zone-red-figure.webp" alt="" width="680" height="720" decoding="async"></span></a></li>
+            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;" aria-label="More art from Survival The Banban Killer 2"><img data-src="assets/art/banban-killer-2/thumb/josh2.webp" alt="" width="480" height="480" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-scary-game" style="--c1: #e04a5f;" aria-label="More art from SCARY GAME"><img data-src="assets/art/scary-game/thumb/char-2.webp" alt="" width="301" height="480" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-multicolors-negative" style="--c1: #b056dd;" aria-label="More art from MulticoloRs NEGATIVE"><img data-src="assets/art/multicolors-negative/eqono-2.svg" alt="" width="88" height="179" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;" aria-label="More art from Berbs Exotic Foods - The Hadal Zone"><span class="sprite" style="--frames: 2; --fps: 3; --fw: 766; --fh: 562;"><img data-src="assets/sprites/hadal-zone-eye-spider.webp" alt="" width="1532" height="562" decoding="async"></span></a></li>
+            <li><a class="marquee-item" href="art.html#p-fnaf-deluxe" style="--c1: #4fbf7a;" aria-label="More art from Five Nights at Freddie's Deluxe"><img data-src="assets/art/fnaf-deluxe/thumb/banana-man.webp" alt="" width="337" height="480" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;" aria-label="More art from Survival The Banban Killer 2"><img data-src="assets/art/banban-killer-2/thumb/seline.webp" alt="" width="321" height="480" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-scary-game" style="--c1: #e04a5f;" aria-label="More art from SCARY GAME"><img data-src="assets/art/scary-game/thumb/char-17.webp" alt="" width="313" height="480" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-multicolors-negative" style="--c1: #b056dd;" aria-label="More art from MulticoloRs NEGATIVE"><img data-src="assets/art/multicolors-negative/cancer-4.svg" alt="" width="127" height="200" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;" aria-label="More art from Survival The Banban Killer 2"><img data-src="assets/art/banban-killer-2/thumb/nabnab.webp" alt="" width="441" height="480" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;" aria-label="More art from Berbs Exotic Foods - The Hadal Zone"><img data-src="assets/art/hadal-zone/tame1.svg" alt="" width="365" height="387" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-scary-game" style="--c1: #e04a5f;" aria-label="More art from SCARY GAME"><img data-src="assets/art/scary-game/thumb/char-26.webp" alt="" width="429" height="480" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;" aria-label="More art from Survival The Banban Killer 2"><img data-src="assets/art/banban-killer-2/thumb/zolphius.webp" alt="" width="350" height="385" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;" aria-label="More art from Berbs Exotic Foods - The Hadal Zone"><img data-src="assets/art/hadal-zone/costume1-4.svg" alt="" width="441" height="235" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;" aria-label="More art from Survival The Banban Killer 2"><img data-src="assets/art/banban-killer-2/thumb/flynn.webp" alt="" width="468" height="480" decoding="async"></a></li>
           </ul>
           <ul class="marquee-set" aria-hidden="true">
-            <li><a class="marquee-item is-pixel" href="art.html#p-false-frights" style="--c1: #e04a5f;" tabindex="-1"><span class="sprite is-pixel" style="--frames: 9; --fps: 8; --fw: 190; --fh: 238;"><img data-src="assets/sprites/false-frights-friendbear.webp" alt="" width="1710" height="238" decoding="async"></span><span class="marquee-label">false frights</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-multicolors-negative" style="--c1: #b056dd;" tabindex="-1"><img data-src="assets/art/multicolors-negative/sorry.svg" alt="" width="152" height="289" decoding="async"><span class="marquee-label">MulticoloRs NEGATIVE</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;" tabindex="-1"><span class="sprite" style="--frames: 6; --fps: 8; --fw: 340; --fh: 201;"><img data-src="assets/sprites/hadal-zone-krab.webp" alt="" width="2040" height="201" decoding="async"></span><span class="marquee-label">Berbs Exotic Foods - The Hadal Zone</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;" tabindex="-1"><img data-src="assets/art/banban-killer-2/thumb/opila.webp" alt="" width="257" height="480" decoding="async"><span class="marquee-label">Survival The Banban Killer 2</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-fnaf-deluxe" style="--c1: #4fbf7a;" tabindex="-1"><span class="sprite" style="--frames: 10; --fps: 10; --fw: 191; --fh: 250;"><img data-src="assets/sprites/fnaf-deluxe-steven.webp" alt="" width="1910" height="250" decoding="async"></span><span class="marquee-label">Five Nights at Freddie's Deluxe</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;" tabindex="-1"><img data-src="assets/art/hadal-zone/costume1-5.svg" alt="" width="162" height="356" decoding="async"><span class="marquee-label">Berbs Exotic Foods - The Hadal Zone</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-multicolors-negative" style="--c1: #b056dd;" tabindex="-1"><span class="sprite" style="--frames: 7; --fps: 2; --fw: 203; --fh: 327;"><img data-src="assets/sprites/multicolors-negative-mind.webp" alt="" width="1421" height="327" decoding="async"></span><span class="marquee-label">MulticoloRs NEGATIVE</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-false-frights" style="--c1: #e04a5f;" tabindex="-1"><img data-src="assets/art/false-frights/thumb/char-23.webp" alt="" width="406" height="448" decoding="async"><span class="marquee-label">false frights</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;" tabindex="-1"><img data-src="assets/art/hadal-zone/tame1.svg" alt="" width="365" height="387" decoding="async"><span class="marquee-label">Berbs Exotic Foods - The Hadal Zone</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;" tabindex="-1"><img data-src="assets/art/banban-killer-2/thumb/josh2.webp" alt="" width="480" height="480" decoding="async"><span class="marquee-label">Survival The Banban Killer 2</span></a></li>
-            <li><a class="marquee-item is-pixel" href="art.html#p-fnaf-61" style="--c1: #f0853c;" tabindex="-1"><span class="sprite is-pixel" style="--frames: 12; --fps: 4; --fw: 150; --fh: 74;"><img data-src="assets/sprites/fnaf-61-battery.webp" alt="" width="1800" height="74" decoding="async"></span><span class="marquee-label">FNaF 61 BBs Revenge</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-multicolors-negative" style="--c1: #b056dd;" tabindex="-1"><img data-src="assets/art/multicolors-negative/eqono-2.svg" alt="" width="88" height="179" decoding="async"><span class="marquee-label">MulticoloRs NEGATIVE</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;" tabindex="-1"><img data-src="assets/art/hadal-zone/costume1-3.svg" alt="" width="381" height="279" decoding="async"><span class="marquee-label">Berbs Exotic Foods - The Hadal Zone</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-fnaf-deluxe" style="--c1: #4fbf7a;" tabindex="-1"><img data-src="assets/art/fnaf-deluxe/thumb/banana-man.webp" alt="" width="337" height="480" decoding="async"><span class="marquee-label">Five Nights at Freddie's Deluxe</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;" tabindex="-1"><img data-src="assets/art/banban-killer-2/thumb/seline.webp" alt="" width="321" height="480" decoding="async"><span class="marquee-label">Survival The Banban Killer 2</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-false-frights" style="--c1: #e04a5f;" tabindex="-1"><img data-src="assets/art/false-frights/thumb/char-17.webp" alt="" width="313" height="480" decoding="async"><span class="marquee-label">false frights</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;" tabindex="-1"><img data-src="assets/art/banban-killer-2/thumb/nabnab.webp" alt="" width="441" height="480" decoding="async"><span class="marquee-label">Survival The Banban Killer 2</span></a></li>
-            <li><a class="marquee-item" href="art.html#p-multicolors-negative" style="--c1: #b056dd;" tabindex="-1"><img data-src="assets/art/multicolors-negative/lighter.svg" alt="" width="59" height="71" decoding="async"><span class="marquee-label">MulticoloRs NEGATIVE</span></a></li>
+            <li><a class="marquee-item is-pixel" href="art.html#p-scary-game" style="--c1: #e04a5f;" tabindex="-1"><span class="sprite is-pixel" style="--frames: 9; --fps: 8; --fw: 190; --fh: 238;"><img data-src="assets/sprites/scary-game-friendbear.webp" alt="" width="1710" height="238" decoding="async"></span></a></li>
+            <li><a class="marquee-item" href="art.html#p-multicolors-negative" style="--c1: #b056dd;" tabindex="-1"><img data-src="assets/art/multicolors-negative/sorry.svg" alt="" width="152" height="289" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;" tabindex="-1"><span class="sprite" style="--frames: 6; --fps: 8; --fw: 340; --fh: 201;"><img data-src="assets/sprites/hadal-zone-krab.webp" alt="" width="2040" height="201" decoding="async"></span></a></li>
+            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;" tabindex="-1"><img data-src="assets/art/banban-killer-2/thumb/opila.webp" alt="" width="257" height="480" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-fnaf-deluxe" style="--c1: #4fbf7a;" tabindex="-1"><span class="sprite" style="--frames: 10; --fps: 10; --fw: 191; --fh: 250;"><img data-src="assets/sprites/fnaf-deluxe-steven.webp" alt="" width="1910" height="250" decoding="async"></span></a></li>
+            <li><a class="marquee-item" href="art.html#p-scary-game" style="--c1: #e04a5f;" tabindex="-1"><img data-src="assets/art/scary-game/thumb/char-23.webp" alt="" width="406" height="448" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-multicolors-negative" style="--c1: #b056dd;" tabindex="-1"><span class="sprite" style="--frames: 7; --fps: 2; --fw: 203; --fh: 327;"><img data-src="assets/sprites/multicolors-negative-mind.webp" alt="" width="1421" height="327" decoding="async"></span></a></li>
+            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;" tabindex="-1"><span class="sprite" style="--frames: 2; --fps: 3; --fw: 340; --fh: 720;"><img data-src="assets/sprites/hadal-zone-red-figure.webp" alt="" width="680" height="720" decoding="async"></span></a></li>
+            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;" tabindex="-1"><img data-src="assets/art/banban-killer-2/thumb/josh2.webp" alt="" width="480" height="480" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-scary-game" style="--c1: #e04a5f;" tabindex="-1"><img data-src="assets/art/scary-game/thumb/char-2.webp" alt="" width="301" height="480" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-multicolors-negative" style="--c1: #b056dd;" tabindex="-1"><img data-src="assets/art/multicolors-negative/eqono-2.svg" alt="" width="88" height="179" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;" tabindex="-1"><span class="sprite" style="--frames: 2; --fps: 3; --fw: 766; --fh: 562;"><img data-src="assets/sprites/hadal-zone-eye-spider.webp" alt="" width="1532" height="562" decoding="async"></span></a></li>
+            <li><a class="marquee-item" href="art.html#p-fnaf-deluxe" style="--c1: #4fbf7a;" tabindex="-1"><img data-src="assets/art/fnaf-deluxe/thumb/banana-man.webp" alt="" width="337" height="480" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;" tabindex="-1"><img data-src="assets/art/banban-killer-2/thumb/seline.webp" alt="" width="321" height="480" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-scary-game" style="--c1: #e04a5f;" tabindex="-1"><img data-src="assets/art/scary-game/thumb/char-17.webp" alt="" width="313" height="480" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-multicolors-negative" style="--c1: #b056dd;" tabindex="-1"><img data-src="assets/art/multicolors-negative/cancer-4.svg" alt="" width="127" height="200" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;" tabindex="-1"><img data-src="assets/art/banban-killer-2/thumb/nabnab.webp" alt="" width="441" height="480" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;" tabindex="-1"><img data-src="assets/art/hadal-zone/tame1.svg" alt="" width="365" height="387" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-scary-game" style="--c1: #e04a5f;" tabindex="-1"><img data-src="assets/art/scary-game/thumb/char-26.webp" alt="" width="429" height="480" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;" tabindex="-1"><img data-src="assets/art/banban-killer-2/thumb/zolphius.webp" alt="" width="350" height="385" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-hadal-zone" style="--c1: #3f86e0;" tabindex="-1"><img data-src="assets/art/hadal-zone/costume1-4.svg" alt="" width="441" height="235" decoding="async"></a></li>
+            <li><a class="marquee-item" href="art.html#p-banban-killer-2" style="--c1: #42c2d8;" tabindex="-1"><img data-src="assets/art/banban-killer-2/thumb/flynn.webp" alt="" width="468" height="480" decoding="async"></a></li>
           </ul>
         </div>
       </div>
@@ -3187,7 +3183,7 @@
   </main>
 
   <footer>
-    <div class="walker-track" aria-hidden="true"><span class="walker" style="--frames: 5; --fps: 8; --fw: 97; --fh: 167;"><img src="assets/sprites/false-frights-you-walk.webp" alt="" width="485" height="167" loading="lazy" decoding="async"></span></div>
+    <div class="walker-track" aria-hidden="true"><span class="walker" style="--frames: 5; --fps: 8; --fw: 97; --fh: 167;"><img src="assets/sprites/scary-game-you-walk.webp" alt="" width="485" height="167" loading="lazy" decoding="async"></span></div>
     <div class="footer-top"><span>© 2026 Shayan</span><span aria-hidden="true">•</span><span>🪐</span></div>
     <div>Thanks for playing.</div>
   </footer>
@@ -4025,7 +4021,7 @@
     }
 
     // A small secret: the Konami code sends a parade of characters across the bottom of the screen.
-    const PARADE = [{"sheet":"assets/sprites/fnaf-deluxe-steven.webp","frames":10,"fps":10,"fw":191,"fh":250,"height":118,"pixel":false},{"sheet":"assets/sprites/false-frights-friendbear.webp","frames":9,"fps":8,"fw":190,"fh":238,"height":92,"pixel":true},{"sheet":"assets/sprites/hadal-zone-krab.webp","frames":6,"fps":8,"fw":340,"fh":201,"height":70,"pixel":false},{"sheet":"assets/sprites/false-frights-you-walk.webp","frames":5,"fps":8,"fw":97,"fh":167,"height":72,"pixel":true}];
+    const PARADE = [{"sheet":"assets/sprites/fnaf-deluxe-steven.webp","frames":10,"fps":10,"fw":191,"fh":250,"height":118,"pixel":false},{"sheet":"assets/sprites/scary-game-friendbear.webp","frames":9,"fps":8,"fw":190,"fh":238,"height":92,"pixel":true},{"sheet":"assets/sprites/hadal-zone-krab.webp","frames":6,"fps":8,"fw":340,"fh":201,"height":70,"pixel":false},{"sheet":"assets/sprites/scary-game-you-walk.webp","frames":5,"fps":8,"fw":97,"fh":167,"height":72,"pixel":true}];
     const KONAMI = ['arrowup', 'arrowup', 'arrowdown', 'arrowdown', 'arrowleft', 'arrowright', 'arrowleft', 'arrowright', 'b', 'a'];
     let konamiStep = 0;
     function startParade() {
