@@ -1002,9 +1002,18 @@
       margin: 0 auto;
     }
 
-    /* Clear the top bar and the sticky project chips, for chip jumps and for keyboard focus. */
+    /* Clear the top bar and the sticky project chips, for chip jumps and for keyboard focus.
+       Arriving on a #project link jumps straight there: a smooth scroll down the page would load
+       every image it passes. Once the page has loaded, in-page links scroll smoothly again. */
     html {
       scroll-padding-top: calc(var(--nav-height) + 84px);
+      scroll-behavior: auto;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      html.smooth-ready {
+        scroll-behavior: smooth;
+      }
     }
 
     .art-project {
@@ -2881,6 +2890,11 @@
     updateScrollUI();
     if (!reduceMotion) animateScene();
     else drawStars(0, 0);
+
+    // See the html rule in the styles: smooth in-page scrolling only after the arrival jump.
+    const enableSmoothScroll = () => requestAnimationFrame(() => document.documentElement.classList.add('smooth-ready'));
+    if (document.readyState === 'complete') enableSmoothScroll();
+    else addEventListener('load', enableSmoothScroll, { once: true });
   </script>
 </body>
 </html>
