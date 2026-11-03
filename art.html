@@ -1162,6 +1162,15 @@
       pointer-events: none;
     }
 
+    .gallery-cta {
+      display: grid;
+      justify-items: center;
+      gap: 14px;
+      margin: 0 0 clamp(60px, 8vw, 90px);
+      text-align: center;
+      color: var(--text-dim);
+    }
+
     /* ---------- Viewer ---------- */
     .lightbox {
       width: min(1100px, calc(100% - 24px));
@@ -2175,6 +2184,11 @@
         </figure>
       </div>
     </section>
+
+    <div class="gallery-cta">
+      <p>Seen enough art? Twelve games are ready to play on the home page.</p>
+      <a class="button primary" href="index.html#games">Play the games <span class="ico ico-arrow" aria-hidden="true"></span></a>
+    </div>
   </main>
 
   <footer>
