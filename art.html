@@ -1200,10 +1200,22 @@
         repeating-conic-gradient(rgba(255, 255, 255, 0.025) 0 25%, transparent 0 50%) 0 0 / 22px 22px;
     }
 
+    /* Container units: a % max-height inside the stage's auto grid row would let tall art overflow. */
     .lb-stage > img {
-      max-width: 100%;
-      max-height: 100%;
+      width: auto;
+      height: auto;
+      max-width: 100cqw;
+      max-height: 100cqh;
       object-fit: contain;
+    }
+
+    /* Pixel art scales up cleanly, so small pieces fill the viewer with crisp pixels. */
+    .lb-stage.is-pixel > img {
+      width: 100cqw;
+      height: 100cqh;
+      max-width: none;
+      max-height: none;
+      image-rendering: pixelated;
     }
 
     .lb-stage > .sprite {
