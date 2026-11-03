@@ -2400,6 +2400,26 @@
       else if (event.key === 'ArrowRight') { event.preventDefault(); showPiece(currentIndex + 1); }
     });
 
+    // On touch screens a quick one-finger sideways swipe on the picture steps to the previous or next
+    // piece. Touch events (not pointer events) so native pinch zoom and panning stay untouched; while
+    // the page is zoomed in, a swipe is left to the browser for panning.
+    let swipe = null;
+    lbStage.addEventListener('touchstart', (event) => {
+      const zoomed = window.visualViewport && visualViewport.scale > 1.05;
+      const touch = event.touches[0];
+      swipe = event.touches.length === 1 && !zoomed ? { x: touch.clientX, y: touch.clientY, time: performance.now() } : null;
+    }, { passive: true });
+    lbStage.addEventListener('touchend', (event) => {
+      if (!swipe || event.touches.length) return;
+      const touch = event.changedTouches[0];
+      const dx = touch.clientX - swipe.x;
+      const dy = touch.clientY - swipe.y;
+      const quick = performance.now() - swipe.time < 800;
+      swipe = null;
+      if (quick && Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.4) showPiece(currentIndex + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+    lbStage.addEventListener('touchcancel', () => { swipe = null; }, { passive: true });
+
     // Sprites only animate while they're on screen.
     const spriteObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => entry.target.classList.toggle('in-view', entry.isIntersecting));
