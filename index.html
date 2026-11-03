@@ -307,7 +307,7 @@
     .fx-lite .topbar.scrolled {
       -webkit-backdrop-filter: none;
       backdrop-filter: none;
-      background: rgba(6, 4, 12, 0.95);
+      background: rgba(6, 4, 12, 0.985);
     }
 
     .topbar-inner {
@@ -850,6 +850,12 @@
       display: none;
     }
 
+    @media (hover: none), (pointer: coarse) {
+      .search-kbd {
+        display: none;
+      }
+    }
+
     .sort-select {
       flex: 0 0 auto;
       min-width: 150px;
@@ -1018,6 +1024,9 @@
 
     @media (min-width: 1560px) {
       :root { --max: 1480px; }
+      .hero-title { font-size: 10.5rem; }
+      .tagline { font-size: 1.5rem; margin-top: 26px; }
+      header { padding-top: 132px; }
       .games-grid { --cols: 4; }
       .games-grid.compact { --cols: 5; }
     }
@@ -1746,6 +1755,21 @@
       display: none;
     }
 
+    .player-shell:fullscreen .player-meta-row {
+      width: min(100%, calc((100vh - 132px) * 640 / 380));
+      margin-inline: auto;
+    }
+
+    .player-shell:-webkit-full-screen .player-meta-row {
+      width: min(100%, calc((100vh - 132px) * 640 / 380));
+      margin-inline: auto;
+    }
+
+    .player-shell.is-expanded .player-meta-row {
+      width: min(100%, calc((100dvh - 132px) * 640 / 380));
+      margin-inline: auto;
+    }
+
     .player-shell:-webkit-full-screen .player-bottom-row {
       display: none;
     }
@@ -1802,6 +1826,11 @@
       .player-shell.is-expanded .player-stage {
         width: min(100%, calc((100dvh - 72px) * 640 / 380));
         margin-top: 8px;
+      }
+
+      .player-shell:fullscreen .player-meta-row,
+      .player-shell.is-expanded .player-meta-row {
+        width: min(100%, calc((100dvh - 72px) * 640 / 380));
       }
     }
 
@@ -2062,7 +2091,7 @@
     }
 
     /* ---------- Responsive ---------- */
-    @media (max-width: 1180px) and (min-width: 721px) {
+    @media (max-width: 1180px) and (min-width: 901px) {
       .filter-group {
         flex-basis: 100%;
       }
@@ -2109,6 +2138,32 @@
       }
     }
 
+    @media (max-width: 900px) {
+      .chip-row {
+        margin-top: 10px;
+      }
+
+      .filter-group {
+        flex: 1 1 100%;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        margin-inline: -14px;
+        padding: 2px 14px 4px;
+        scrollbar-width: none;
+        -webkit-mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 26px), transparent);
+        mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 26px), transparent);
+      }
+
+      .filter-group::-webkit-scrollbar {
+        display: none;
+      }
+
+      .status-group {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+
     @media (max-width: 720px) {
       .search-box {
         flex-basis: 100%;
@@ -2133,29 +2188,6 @@
         white-space: nowrap;
       }
 
-      .chip-row {
-        margin-top: 10px;
-      }
-
-      .filter-group {
-        flex: 1 1 100%;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        margin-inline: -14px;
-        padding: 2px 14px 4px;
-        scrollbar-width: none;
-        -webkit-mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 26px), transparent);
-        mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 26px), transparent);
-      }
-
-      .filter-group::-webkit-scrollbar {
-        display: none;
-      }
-
-      .status-group {
-        width: 100%;
-        justify-content: space-between;
-      }
     }
 
     @media (max-width: 640px) {
@@ -2343,7 +2375,7 @@
         animation-iteration-count: 1 !important;
         transition-duration: 0.001ms !important;
       }
-      .typing-caret { animation: none !important; }
+      .typing-caret { display: none !important; }
       .player-shell.is-loading .player-stage::before { animation: spin 1.6s linear infinite !important; }
     }
 
@@ -3510,16 +3542,28 @@
 
     const navLinks = Array.from(document.querySelectorAll('.nav-link[data-section]'));
     const observedSections = ['top', 'games', 'about', 'contact'].map((id) => document.getElementById(id));
+    const sectionsInBand = new Set();
     const sectionObserver = new IntersectionObserver((entries) => {
-      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (!visible) return;
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) sectionsInBand.add(entry.target);
+        else sectionsInBand.delete(entry.target);
+      });
+      syncNavHighlight();
+    }, { rootMargin: '-40% 0px -59% 0px', threshold: 0 });
+
+    // The current section is the first one crossing a band 40% down the screen; at the very bottom
+    // of the page it is the last section (About and Contact sit side by side on wide screens).
+    function syncNavHighlight() {
+      const atBottom = scrollY + innerHeight >= document.documentElement.scrollHeight - 4;
+      const current = atBottom ? observedSections[observedSections.length - 1] : observedSections.find((section) => sectionsInBand.has(section));
+      if (!current) return;
       navLinks.forEach((link) => {
-        const current = link.dataset.section === visible.target.id;
-        link.classList.toggle('active', current);
-        if (current) link.setAttribute('aria-current', 'location');
+        const isCurrent = link.dataset.section === current.id;
+        link.classList.toggle('active', isCurrent);
+        if (isCurrent) link.setAttribute('aria-current', 'location');
         else link.removeAttribute('aria-current');
       });
-    }, { rootMargin: '-25% 0px -55%', threshold: [0.05, 0.25, 0.55] });
+    }
     observedSections.forEach((section) => sectionObserver.observe(section));
 
     new IntersectionObserver(([entry]) => {
@@ -3576,6 +3620,7 @@
       scrollTopButton.classList.toggle('show', scrollY > 650);
       topbar.classList.toggle('scrolled', scrollY > 8);
       parallaxScroll = scrollY;
+      if (scrollY + innerHeight >= documentHeight - 4) syncNavHighlight();
     }
 
     let scrollTicking = false;
