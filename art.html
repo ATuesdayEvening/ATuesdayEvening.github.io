@@ -637,6 +637,18 @@
       opacity: 0.45;
     }
 
+    /* The owner's four-point star (also on the Dev Favorite badges) marks the Dev Favorite filter. */
+    .filter-chip[data-filter="dev-favorite"]::before {
+      content: "";
+      flex: 0 0 auto;
+      width: 11px;
+      height: 11px;
+      margin-right: 7px;
+      background: var(--gold);
+      -webkit-mask: var(--i-star) center / contain no-repeat;
+      mask: var(--i-star) center / contain no-repeat;
+    }
+
     .filter-count {
       display: inline-grid;
       place-items: center;
@@ -748,6 +760,24 @@
       50% { transform: translateX(calc(100cqw - 100%)) scaleX(-1); }
       99.99% { transform: translateX(0) scaleX(-1); }
       100% { transform: translateX(0) scaleX(1); }
+    }
+
+    /* The Krab from "The Hadal Zone" walks the same line the other way, so the two pass each other. */
+    .walker-krab {
+      opacity: 0.9;
+      animation-name: walkAcrossBack;
+    }
+
+    .walker-krab > img {
+      image-rendering: auto;
+    }
+
+    @keyframes walkAcrossBack {
+      0% { transform: translateX(calc(100cqw - 100%)) scaleX(1); }
+      49.99% { transform: translateX(0) scaleX(1); }
+      50% { transform: translateX(0) scaleX(-1); }
+      99.99% { transform: translateX(calc(100cqw - 100%)) scaleX(-1); }
+      100% { transform: translateX(calc(100cqw - 100%)) scaleX(1); }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1251,10 +1281,42 @@
       color: var(--text-dim);
     }
 
-    /* mind (MulticoloRs NEGATIVE) waits by the way back to the games. */
+    /* A SCARY GAME bear with a microphone hosts the way back to the games: it stands beside the button,
+       bounces now and then, and leans in when the button is hovered. */
+    .gallery-cta {
+      position: relative;
+    }
+
     .cameo-host {
-      width: 50px;
-      margin-bottom: -2px;
+      position: absolute;
+      left: calc(50% + 106px);
+      bottom: 0;
+      width: 34px;
+      transform-origin: 50% 100%;
+      animation: hostBounce 5s ease-in-out infinite;
+      animation-play-state: paused;
+      transition: rotate 0.3s var(--ease-out);
+    }
+
+    .cameo-host.in-view {
+      animation-play-state: running;
+    }
+
+    .gallery-cta:has(.button:hover) .cameo-host {
+      rotate: -8deg;
+    }
+
+    @keyframes hostBounce {
+      0%, 86%, 100% { transform: translateY(0); }
+      90% { transform: translateY(-6px); }
+      94% { transform: translateY(0); }
+      97% { transform: translateY(-3px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cameo-host {
+        animation: none !important;
+      }
     }
 
     /* ---------- Viewer ---------- */
@@ -2121,14 +2183,14 @@
     </section>
 
     <div class="gallery-cta">
-      <span class="cameo cameo-host" aria-hidden="true"><span class="sprite" style="--frames: 7; --fps: 2; --fw: 203; --fh: 327;"><img src="assets/sprites/multicolors-negative-mind.webp" alt="" width="1421" height="327" loading="lazy" decoding="async"></span></span>
+      <span class="cameo cameo-host" aria-hidden="true"><img src="assets/art/scary-game/thumb/char-4.webp" alt="" width="284" height="480" loading="lazy" decoding="async"></span>
       <p>Seen enough art? Twelve games are ready to play on the home page.</p>
       <a class="button primary" href="index.html#games">Play the games <span class="ico ico-arrow" aria-hidden="true"></span></a>
     </div>
   </main>
 
   <footer>
-    <div class="walker-track" aria-hidden="true"><span class="walker" style="--frames: 5; --fps: 8; --fw: 97; --fh: 167;"><img src="assets/sprites/scary-game-you-walk.webp" alt="" width="485" height="167" loading="lazy" decoding="async"></span></div>
+    <div class="walker-track" aria-hidden="true"><span class="walker" style="--frames: 5; --fps: 8; --fw: 97; --fh: 167;"><img src="assets/sprites/scary-game-you-walk.webp" alt="" width="485" height="167" loading="lazy" decoding="async"></span><span class="walker walker-krab" style="--frames: 6; --fps: 8; --fw: 340; --fh: 201;"><img src="assets/sprites/hadal-zone-krab.webp" alt="" width="2040" height="201" loading="lazy" decoding="async"></span></div>
     <div class="footer-top"><span>© 2026 Shayan</span><span aria-hidden="true">•</span><span>🪐</span></div>
     <div class="footer-thanks"><span class="cameo cameo-dance" aria-hidden="true"><span class="sprite" style="--frames: 10; --fps: 10; --fw: 191; --fh: 250;"><img src="assets/sprites/fnaf-deluxe-steven.webp" alt="" width="1910" height="250" loading="lazy" decoding="async"></span></span><span>Thanks for playing.</span></div>
   </footer>

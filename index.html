@@ -980,6 +980,18 @@
       opacity: 0.45;
     }
 
+    /* The owner's four-point star (also on the Dev Favorite badges) marks the Dev Favorite filter. */
+    .filter-chip[data-filter="dev-favorite"]::before {
+      content: "";
+      flex: 0 0 auto;
+      width: 11px;
+      height: 11px;
+      margin-right: 7px;
+      background: var(--gold);
+      -webkit-mask: var(--i-star) center / contain no-repeat;
+      mask: var(--i-star) center / contain no-repeat;
+    }
+
     .filter-count {
       display: inline-grid;
       place-items: center;
@@ -1358,6 +1370,53 @@
 
     .play-overlay:active::before {
       transform: scale(0.96);
+    }
+
+    /* Two cards use their own game's UI for the play button: SCARY GAME's red octagon frame and the big
+       dice from MulticoloRs NEGATIVE. Only styling; the overlay itself comes from the original loader. */
+    #game-scary-game .play-overlay::before {
+      width: 76px;
+      height: 76px;
+      border: 0;
+      border-radius: 0;
+      clip-path: polygon(50% 0, 88.5% 11.5%, 100% 50%, 88.5% 88.5%, 50% 100%, 11.5% 88.5%, 0 50%, 11.5% 11.5%);
+      background: var(--i-play-fill) 56% 50% / 24px no-repeat, url("assets/art/scary-game/octagon.svg") center / 100% 100% no-repeat, rgba(8, 5, 16, 0.66);
+      box-shadow: none;
+    }
+
+    #game-scary-game .play-overlay:hover::before,
+    #game-scary-game .play-overlay:focus-visible::before {
+      background-color: rgba(120, 12, 26, 0.72);
+      box-shadow: none;
+    }
+
+    #game-multicolors-negative .play-overlay::before {
+      width: 92px;
+      height: 92px;
+      border: 0;
+      border-radius: 0;
+      background: var(--i-play-fill) 54% 50% / 22px no-repeat, url("assets/art/multicolors-negative/bg-dice.svg") center / contain no-repeat;
+      box-shadow: none;
+      filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.55));
+    }
+
+    #game-multicolors-negative .play-overlay:hover::before,
+    #game-multicolors-negative .play-overlay:focus-visible::before {
+      background-color: transparent;
+      box-shadow: none;
+      transform: scale(1.1) rotate(-8deg);
+    }
+
+    .games-grid.compact #game-scary-game .play-overlay::before {
+      width: 60px;
+      height: 60px;
+      background-size: 20px, 100% 100%;
+    }
+
+    .games-grid.compact #game-multicolors-negative .play-overlay::before {
+      width: 72px;
+      height: 72px;
+      background-size: 18px, contain;
     }
 
     /* Left in the card while its game plays in the big player. Clicking it jumps up there. */
@@ -2164,32 +2223,66 @@
     }
 
     /* ---------- Cameos on the home page ---------- */
-    /* The Krab from "The Hadal Zone" scuttles across the bottom of the hero now and then. */
-    .cameo-runway {
-      position: relative;
-      z-index: 1;
-      height: 64px;
-      margin-top: -64px;
-      overflow: hidden;
-    }
-
-    .cameo-krab {
+    /* friendbear (SCARY GAME) climbs onto the last letter once the name has finished typing. */
+    .cameo-title {
       position: absolute;
-      left: 0;
-      bottom: 4px;
-      width: 86px;
-      transform: translateX(-120px);
-      animation: krabCross 36s linear 5s infinite;
-      animation-play-state: paused;
+      right: 0.035em;
+      bottom: 0.86em;
+      width: max(0.2em, 15px);
+      opacity: 0;
+      transform: translateY(0.12em);
+      transition: opacity 0.35s ease, transform 0.5s var(--ease-spring);
     }
 
-    .cameo-runway.in-view .cameo-krab {
+    .hero-title.is-typed .cameo-title {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: 0.3s;
+    }
+
+    /* The eye creature from "The Hadal Zone" hangs by a thread beside the games heading. It drops lower
+       when the Horror filter is on. */
+    #games .section-head {
+      position: relative;
+    }
+
+    .cameo-spider {
+      position: absolute;
+      left: 6%;
+      top: -34px;
+      width: 58px;
+      animation: spiderBob 3.4s ease-in-out infinite alternate;
+      animation-play-state: paused;
+      transition: translate 0.6s var(--ease-spring);
+    }
+
+    .cameo-spider::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 62%;
+      width: 1px;
+      height: 150px;
+      background: linear-gradient(transparent, rgba(220, 208, 255, 0.45));
+    }
+
+    .cameo-spider.in-view {
       animation-play-state: running;
     }
 
-    @keyframes krabCross {
-      0% { transform: translateX(-120px); }
-      40%, 100% { transform: translateX(calc(100vw + 20px)); }
+    #games:has(.filter-chip[data-filter="horror"][aria-pressed="true"]) .cameo-spider {
+      translate: 0 34px;
+    }
+
+    @keyframes spiderBob {
+      from { transform: translateY(0); }
+      to { transform: translateY(9px); }
+    }
+
+    @media (max-width: 760px) {
+      .cameo-spider {
+        display: none;
+      }
     }
 
     /* Opila (Survival The Banban Killer 2) perched on the search panel. */
@@ -2225,7 +2318,12 @@
       width: 58px;
       margin: 0 auto 14px;
       transform-origin: 50% 100%;
-      animation: shrug 2.6s ease-in-out infinite;
+      animation: shrugPop 0.4s var(--ease-spring) both, shrug 2.6s ease-in-out 0.4s infinite;
+    }
+
+    @keyframes shrugPop {
+      from { transform: scale(0.6); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
 
     @keyframes shrug {
@@ -2269,12 +2367,10 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .cameo-runway {
-        display: none;
-      }
-
       .cameo-perch,
-      .cameo-shrug {
+      .cameo-shrug,
+      .cameo-spider,
+      .cameo-title {
         animation: none !important;
       }
 
@@ -2448,6 +2544,24 @@
       50% { transform: translateX(calc(100cqw - 100%)) scaleX(-1); }
       99.99% { transform: translateX(0) scaleX(-1); }
       100% { transform: translateX(0) scaleX(1); }
+    }
+
+    /* The Krab from "The Hadal Zone" walks the same line the other way, so the two pass each other. */
+    .walker-krab {
+      opacity: 0.9;
+      animation-name: walkAcrossBack;
+    }
+
+    .walker-krab > img {
+      image-rendering: auto;
+    }
+
+    @keyframes walkAcrossBack {
+      0% { transform: translateX(calc(100cqw - 100%)) scaleX(1); }
+      49.99% { transform: translateX(0) scaleX(1); }
+      50% { transform: translateX(0) scaleX(-1); }
+      99.99% { transform: translateX(calc(100cqw - 100%)) scaleX(-1); }
+      100% { transform: translateX(calc(100cqw - 100%)) scaleX(1); }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -2941,6 +3055,7 @@
       <h1 class="hero-title" aria-label="SHAYAN">
         <span class="hero-ghost" aria-hidden="true">SHAYAN</span>
         <span class="hero-typed" aria-hidden="true"><span id="typed-name"></span><span class="typing-caret" aria-hidden="true">|</span></span>
+        <span class="cameo cameo-title" aria-hidden="true"><span class="sprite is-pixel" style="--frames: 9; --fps: 8; --fw: 190; --fh: 238;"><img src="assets/sprites/scary-game-friendbear.webp" alt="" width="1710" height="238" loading="lazy" decoding="async"></span></span>
       </h1>
     </div>
     <p class="tagline">Original passion projects</p>
@@ -2957,8 +3072,6 @@
       <button class="hint-toggle" id="shortcuts-toggle" type="button">Turn off shortcuts</button>
     </p>
   </header>
-
-  <div class="cameo cameo-runway" aria-hidden="true"><span class="cameo-krab"><span class="sprite" style="--frames: 6; --fps: 8; --fw: 340; --fh: 201;"><img src="assets/sprites/hadal-zone-krab.webp" alt="" width="2040" height="201" loading="lazy" decoding="async"></span></span></div>
 
   <section class="player-shell" id="player-shell" aria-label="Game player">
     <div class="player-meta-row">
@@ -2992,6 +3105,7 @@
   <main>
     <section class="games-section" id="games">
       <div class="section-head">
+        <span class="cameo cameo-spider" aria-hidden="true"><span class="sprite" style="--frames: 2; --fps: 3; --fw: 766; --fh: 562;"><img src="assets/sprites/hadal-zone-eye-spider.webp" alt="" width="1532" height="562" loading="lazy" decoding="async"></span></span>
         <h2 class="section-title">Play My Games</h2>
       </div>
 
@@ -3361,7 +3475,7 @@
   </main>
 
   <footer>
-    <div class="walker-track" aria-hidden="true"><span class="walker" style="--frames: 5; --fps: 8; --fw: 97; --fh: 167;"><img src="assets/sprites/scary-game-you-walk.webp" alt="" width="485" height="167" loading="lazy" decoding="async"></span></div>
+    <div class="walker-track" aria-hidden="true"><span class="walker" style="--frames: 5; --fps: 8; --fw: 97; --fh: 167;"><img src="assets/sprites/scary-game-you-walk.webp" alt="" width="485" height="167" loading="lazy" decoding="async"></span><span class="walker walker-krab" style="--frames: 6; --fps: 8; --fw: 340; --fh: 201;"><img src="assets/sprites/hadal-zone-krab.webp" alt="" width="2040" height="201" loading="lazy" decoding="async"></span></div>
     <div class="footer-top"><span>© 2026 Shayan</span><span aria-hidden="true">•</span><span>🪐</span></div>
     <div class="footer-thanks"><span class="cameo cameo-dance" aria-hidden="true"><span class="sprite" style="--frames: 10; --fps: 10; --fw: 191; --fh: 250;"><img src="assets/sprites/fnaf-deluxe-steven.webp" alt="" width="1910" height="250" loading="lazy" decoding="async"></span></span><span>Thanks for playing.</span></div>
   </footer>
