@@ -3229,7 +3229,7 @@
         return;
       }
 
-      if (event.repeat) return;
+      if (event.repeat || typeof event.key !== 'string') return;
       const key = event.key.toLowerCase();
       if (key === 'r') openRandomGame();
       else if (state.activeCard && event.key === 'ArrowLeft') switchGame(-1);
