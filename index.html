@@ -21,6 +21,7 @@
   <link rel="canonical" href="https://atuesdayevening.github.io/" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3CradialGradient id='p' cx='.35' cy='.32' r='.75'%3E%3Cstop offset='0' stop-color='%23fff'/%3E%3Cstop offset='.35' stop-color='%23d1b0ff'/%3E%3Cstop offset='1' stop-color='%236a2fd6'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='32' r='15' fill='url(%23p)'/%3E%3Cellipse cx='32' cy='33' rx='29' ry='8' fill='none' stroke='%234da8f0' stroke-width='3.5' transform='rotate(-18 32 32)'/%3E%3C/svg%3E" />
   <title>Shayan | Indie Games</title>
+  <noscript><style>.hero-ghost { visibility: visible; } .typing-caret { display: none; }</style></noscript>
   <style>
     /* Unbounded: Copyright 2022 The Unbounded Project Authors (https://github.com/googlefonts/unbounded).
        SIL Open Font License 1.1 (https://openfontlicense.org). Embedded subset: Basic Latin, weights 500-800. */
@@ -106,7 +107,6 @@
       color: var(--text);
       font-family: var(--font-body);
       line-height: 1.55;
-      background: var(--bg);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -490,6 +490,7 @@
     /* ---------- Hero ---------- */
     header {
       width: min(1060px, calc(100% - 2 * var(--gutter)));
+      overflow-x: clip;
       margin: 0 auto;
       padding: clamp(64px, 9vw, 116px) 0 clamp(56px, 7vw, 88px);
       text-align: center;
@@ -517,7 +518,7 @@
       border-radius: 999px;
       background: linear-gradient(90deg, var(--purple), var(--blue));
       color: #fff;
-      font: 700 0.66rem/1 var(--font-mono);
+      font: 700 0.7rem/1 var(--font-mono);
       letter-spacing: 0.12em;
       text-transform: uppercase;
     }
@@ -583,13 +584,63 @@
     }
 
     .typing-caret {
+      position: relative;
       display: inline-block;
-      margin-left: 0.04em;
-      color: var(--purple-soft);
+      margin-left: 0.03em;
+      color: transparent;
       font-weight: 500;
       letter-spacing: 0;
-      text-shadow: 0 0 18px rgba(159, 92, 255, 0.75);
       animation: caretBlink 1s steps(1) infinite;
+    }
+
+    .typing-caret::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0.17em;
+      bottom: 0.14em;
+      width: max(3px, 0.055em);
+      transform: translateX(-50%);
+      border-radius: 999px;
+      background: linear-gradient(180deg, #f3ebff, #9a78ff);
+      box-shadow: 0 0 14px rgba(159, 92, 255, 0.85), 0 0 34px rgba(110, 160, 255, 0.35);
+    }
+
+    /* Two faint orbit rings behind the name, echoing the planet in the logo. */
+    .hero-title-wrap {
+      position: relative;
+    }
+
+    .hero-title-wrap::before,
+    .hero-title-wrap::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 52%;
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%) rotate(-7deg);
+    }
+
+    .hero-title-wrap::before {
+      width: min(1040px, 118%, calc(100vw - 32px));
+      aspect-ratio: 6 / 1;
+      border: 1px solid rgba(110, 185, 255, 0.3);
+      box-shadow: 0 0 28px rgba(77, 168, 240, 0.1), inset 0 0 28px rgba(77, 168, 240, 0.05);
+      -webkit-mask: linear-gradient(90deg, transparent, #000 22%, #000 78%, transparent);
+      mask: linear-gradient(90deg, transparent, #000 22%, #000 78%, transparent);
+    }
+
+    .hero-title-wrap::after {
+      width: min(820px, 94%, calc(100vw - 48px));
+      aspect-ratio: 7 / 1;
+      border: 1px solid rgba(159, 92, 255, 0.24);
+      -webkit-mask: linear-gradient(90deg, transparent, #000 25%, #000 75%, transparent);
+      mask: linear-gradient(90deg, transparent, #000 25%, #000 75%, transparent);
+    }
+
+    .hero-title {
+      z-index: 1;
     }
 
     .tagline {
@@ -658,6 +709,32 @@
       display: inline-flex;
       align-items: center;
       gap: 7px;
+      transition: opacity 0.2s ease;
+    }
+
+    .hint-toggle {
+      padding: 4px 2px;
+      border: 0;
+      background: none;
+      color: var(--text-faint);
+      font-size: 0.82rem;
+      text-decoration: underline;
+      text-decoration-color: rgba(185, 174, 208, 0.35);
+      text-underline-offset: 3px;
+      cursor: pointer;
+    }
+
+    .hint-toggle:hover {
+      color: var(--text);
+    }
+
+    .shortcuts-off .hero-hint span,
+    .shortcuts-off .player-keys .key-letter {
+      opacity: 0.4;
+    }
+
+    .shortcuts-off .search-kbd {
+      display: none;
     }
 
     @media (hover: none), (pointer: coarse) {
@@ -710,7 +787,7 @@
     }
 
     .search-box {
-      flex: 1 1 360px;
+      flex: 1 1 240px;
       min-width: 0;
       display: flex;
       align-items: center;
@@ -731,8 +808,8 @@
 
     .search-box:focus-within {
       background: rgba(177, 114, 255, 0.08);
-      border-color: rgba(219, 181, 255, 0.4);
-      box-shadow: 0 0 0 4px rgba(159, 92, 255, 0.12);
+      border-color: #e2c5ff;
+      box-shadow: 0 0 0 2px #05030a, 0 0 0 4px rgba(226, 197, 255, 0.9);
     }
 
     .search-box:focus-within > .ico {
@@ -795,11 +872,13 @@
       background-color: #170f28;
     }
 
-    .sort-select:focus,
-    .sort-select:focus-visible {
-      border-color: rgba(219, 181, 255, 0.45);
-      box-shadow: 0 0 0 4px rgba(159, 92, 255, 0.12);
+    .sort-select:focus {
       outline: none;
+    }
+
+    .sort-select:focus-visible {
+      border-color: #e2c5ff;
+      box-shadow: 0 0 0 2px #05030a, 0 0 0 4px rgba(226, 197, 255, 0.9);
     }
 
     .sort-select option {
@@ -909,17 +988,38 @@
 
     /* ---------- Game grid ---------- */
     .games-grid {
+      --cols: 1;
+      --gap: 22px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 390px));
+      grid-template-columns: repeat(auto-fit, minmax(0, calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols) - 0.02px)));
       justify-content: center;
-      gap: 22px;
+      gap: var(--gap);
       margin-top: 24px;
       align-items: stretch;
     }
 
     .games-grid.compact {
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 292px));
-      gap: 16px;
+      --gap: 16px;
+    }
+
+    @media (min-width: 641px) {
+      .games-grid,
+      .games-grid.compact { --cols: 2; }
+    }
+
+    @media (min-width: 900px) {
+      .games-grid.compact { --cols: 3; }
+    }
+
+    @media (min-width: 1100px) {
+      .games-grid { --cols: 3; }
+      .games-grid.compact { --cols: 4; }
+    }
+
+    @media (min-width: 1560px) {
+      :root { --max: 1480px; }
+      .games-grid { --cols: 4; }
+      .games-grid.compact { --cols: 5; }
     }
 
     .game-card {
@@ -930,8 +1030,6 @@
       border-radius: var(--radius);
       isolation: isolate;
       min-width: 0;
-      content-visibility: auto;
-      contain-intrinsic-size: auto 320px auto 480px;
       box-shadow: 0 18px 50px rgba(0, 0, 0, 0.42);
       transition: transform 0.35s var(--ease-out), border-color 0.3s ease, box-shadow 0.35s ease;
     }
@@ -979,6 +1077,32 @@
     .game-card.playing {
       border-color: color-mix(in srgb, var(--c1) 60%, transparent);
       box-shadow: 0 26px 70px rgba(0, 0, 0, 0.58), 0 0 52px color-mix(in srgb, var(--c1) 24%, transparent);
+    }
+
+    @supports (grid-template-rows: subgrid) {
+      @media (min-width: 641px) {
+        .games-grid:not(.compact) .game-card:not(.hidden) {
+          display: grid;
+          grid-row: span 5;
+          grid-template-rows: subgrid;
+          row-gap: 0;
+        }
+
+        .games-grid:not(.compact) .card-body {
+          display: grid;
+          grid-row: 1 / -1;
+          grid-template-rows: subgrid;
+          grid-template-columns: minmax(0, 1fr);
+          row-gap: 0;
+        }
+
+        .games-grid:not(.compact) .card-body > .embed-wrapper,
+        .games-grid:not(.compact) .card-body > .embed-placeholder { grid-row: 1; }
+        .games-grid:not(.compact) .card-body > .card-header { grid-row: 2; }
+        .games-grid:not(.compact) .card-body > .meta-row { grid-row: 3; align-self: start; }
+        .games-grid:not(.compact) .card-body > .card-copy { grid-row: 4; }
+        .games-grid:not(.compact) .card-body > .card-actions { grid-row: 5; align-self: end; }
+      }
     }
 
     .card-accent {
@@ -1049,7 +1173,7 @@
       border-color: color-mix(in srgb, var(--c1) 42%, transparent);
       background: color-mix(in srgb, var(--c1) 15%, transparent);
       color: color-mix(in srgb, var(--c1) 40%, #ffffff);
-      font: 700 0.64rem/1 var(--font-mono);
+      font: 700 0.7rem/1 var(--font-mono);
       letter-spacing: 0.13em;
       text-transform: uppercase;
     }
@@ -1064,7 +1188,7 @@
       background: rgba(10, 6, 18, 0.72);
       border-color: rgba(255, 214, 140, 0.4);
       color: #ffe6ad;
-      font: 700 0.62rem/1 var(--font-mono);
+      font: 700 0.68rem/1 var(--font-mono);
       letter-spacing: 0.13em;
       text-transform: uppercase;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 18px rgba(255, 196, 90, 0.12);
@@ -1128,6 +1252,10 @@
       background: #000;
     }
 
+    .embed-wrapper:has(> .play-overlay) > iframe {
+      visibility: hidden;
+    }
+
     .play-overlay {
       position: absolute;
       inset: 0;
@@ -1144,7 +1272,7 @@
       font: 700 0.7rem/1 var(--font-mono);
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+      text-shadow: 0 0 6px rgba(3, 2, 6, 0.95), 0 1px 3px rgba(3, 2, 6, 0.9), 0 2px 16px rgba(3, 2, 6, 0.85);
       background: var(--art, none) center / cover no-repeat, linear-gradient(160deg, #140b26, #05030a);
       background:
         var(--art, none) center / cover no-repeat,
@@ -1170,7 +1298,9 @@
       position: absolute;
       inset: 0;
       z-index: -1;
-      background: linear-gradient(180deg, rgba(3, 2, 6, 0.05) 30%, rgba(3, 2, 6, 0.62) 100%);
+      background:
+        radial-gradient(52% 38% at 50% 64%, rgba(3, 2, 6, 0.58), transparent 72%),
+        linear-gradient(180deg, rgba(3, 2, 6, 0.05) 30%, rgba(3, 2, 6, 0.62) 100%);
       pointer-events: none;
     }
 
@@ -1309,7 +1439,11 @@
     }
 
     .games-grid.compact .action-note {
-      font-size: 0.78rem;
+      display: none;
+    }
+
+    .games-grid.compact .card-actions {
+      justify-content: flex-end;
     }
 
     .empty-state {
@@ -1340,6 +1474,9 @@
     /* ---------- Player ---------- */
     .player-shell {
       display: none;
+      max-width: calc((100vh - var(--nav-height) - 184px) * 640 / 380 + 34px);
+      max-width: calc((100svh - var(--nav-height) - 184px) * 640 / 380 + 34px);
+      min-width: min(calc(100% - 2 * var(--gutter)), 560px);
       margin-bottom: 40px;
       padding: 16px;
       border-radius: 28px;
@@ -1439,9 +1576,7 @@
 
     .player-stage {
       position: relative;
-      width: min(100%, calc((100vh - var(--nav-height) - 172px) * 640 / 380));
-      width: min(100%, calc((100svh - var(--nav-height) - 172px) * 640 / 380));
-      min-width: min(100%, 520px);
+      width: 100%;
       aspect-ratio: 640 / 380;
       margin: 14px auto 0;
       overflow: hidden;
@@ -1482,7 +1617,11 @@
       font: 700 0.7rem/1 var(--font-mono);
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      background: radial-gradient(circle at center, color-mix(in srgb, var(--c1) 24%, transparent), transparent 55%), #050308;
+      background:
+        radial-gradient(circle at center, color-mix(in srgb, var(--c1) 22%, transparent), transparent 60%),
+        linear-gradient(rgba(5, 3, 8, 0.72), rgba(5, 3, 8, 0.9)),
+        var(--art, none) center / cover no-repeat,
+        #050308;
     }
 
     .player-stage::before {
@@ -1545,6 +1684,7 @@
       border-radius: 0;
       background: #000;
       animation: none;
+      min-width: 0;
     }
 
     .player-shell:-webkit-full-screen {
@@ -1568,6 +1708,7 @@
       flex-direction: column;
       width: auto;
       max-width: none;
+      min-width: 0;
       margin: 0;
       padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
       border: 0;
@@ -1578,6 +1719,7 @@
 
     .player-shell:fullscreen .player-stage {
       flex: none;
+      max-width: 100%;
       width: min(100%, calc((100vh - 132px) * 640 / 380));
       min-width: 0;
       margin: auto;
@@ -1585,6 +1727,7 @@
 
     .player-shell:-webkit-full-screen .player-stage {
       flex: none;
+      max-width: 100%;
       width: min(100%, calc((100vh - 132px) * 640 / 380));
       min-width: 0;
       margin: auto;
@@ -1592,6 +1735,7 @@
 
     .player-shell.is-expanded .player-stage {
       flex: none;
+      max-width: 100%;
       width: min(100%, calc((100dvh - 132px) * 640 / 380));
       min-width: 0;
       margin: auto;
@@ -1750,6 +1894,8 @@
     }
 
     .panel-box {
+      display: flex;
+      flex-direction: column;
       height: 100%;
       padding: clamp(24px, 3.4vw, 34px);
       border-radius: 26px;
@@ -1771,12 +1917,13 @@
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
-      margin-top: 24px;
+      margin-top: auto;
+      padding-top: 22px;
       list-style: none;
     }
 
     .stat-row li {
-      padding: 14px 14px 12px;
+      padding: 16px 16px 14px;
       border: 1px solid var(--line);
       border-radius: 16px;
       background: rgba(255, 255, 255, 0.03);
@@ -1785,7 +1932,7 @@
     .stat-row strong {
       display: block;
       font-family: var(--font-display);
-      font-size: 1.6rem;
+      font-size: clamp(1.5rem, 2.6vw, 2.1rem);
       font-weight: 800;
       line-height: 1.1;
       background: linear-gradient(180deg, #fff, #c6abff);
@@ -1795,8 +1942,11 @@
     }
 
     .stat-row span {
+      display: block;
+      margin-top: 2px;
       color: var(--text-faint);
       font-size: 0.84rem;
+      line-height: 1.3;
     }
 
     .links {
@@ -1863,8 +2013,10 @@
       padding: 0;
       background: rgba(16, 10, 28, 0.9);
       opacity: 0;
+      visibility: hidden;
       pointer-events: none;
       transform: translateY(10px);
+      transition: transform 0.2s var(--ease-out), opacity 0.2s ease, background 0.2s ease, border-color 0.2s ease, visibility 0s linear 0.2s;
     }
 
     .scroll-top .ico {
@@ -1874,8 +2026,10 @@
 
     .scroll-top.show {
       opacity: 1;
+      visibility: visible;
       pointer-events: auto;
       transform: translateY(0);
+      transition-delay: 0s;
     }
 
     .toast {
@@ -1908,9 +2062,35 @@
     }
 
     /* ---------- Responsive ---------- */
+    @media (max-width: 1180px) and (min-width: 721px) {
+      .filter-group {
+        flex-basis: 100%;
+      }
+
+      .status-group {
+        justify-content: flex-start;
+      }
+    }
+
     @media (max-width: 960px) {
       .info-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (min-width: 721px) and (max-width: 900px) {
+      #clear-search {
+        padding: 0 15px;
+      }
+
+      #clear-search .btn-text {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        white-space: nowrap;
       }
     }
 
@@ -2023,8 +2203,8 @@
 
       .games-grid,
       .games-grid.compact {
-        grid-template-columns: 1fr;
-        gap: 18px;
+        --cols: 1;
+        --gap: 18px;
       }
 
       .player-shell {
@@ -2065,6 +2245,73 @@
       }
     }
 
+    @media (max-width: 480px) {
+      .mini-player-label {
+        display: none;
+      }
+    }
+
+    @media (max-width: 389px) {
+      .topbar-inner {
+        gap: 6px;
+      }
+
+      .nav-link {
+        padding-left: 7px;
+        padding-right: 7px;
+      }
+
+      .effects-toggle {
+        padding: 0 10px;
+      }
+    }
+
+    @media (max-width: 359px) {
+      .nav-link {
+        padding-left: 6px;
+        padding-right: 6px;
+        font-size: 0.84rem;
+      }
+
+      .effects-toggle {
+        padding: 0 11px;
+      }
+
+      #effects-label {
+        display: none;
+      }
+
+      .sort-select {
+        flex: 1 1 0;
+        padding: 0 34px 0 14px;
+        background-position: right 11px center;
+      }
+
+      .icon-button {
+        padding: 0 13px;
+      }
+    }
+
+    @media (pointer: coarse) {
+      .nav-link {
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+
+      .brand {
+        min-width: 40px;
+        min-height: 40px;
+        justify-content: center;
+      }
+
+      .filter-chip,
+      .share-button,
+      .game-link,
+      .hero-pill {
+        min-height: 42px;
+      }
+    }
+
     @media (max-width: 380px) {
       .hero-pill .pill-tag {
         display: none;
@@ -2096,7 +2343,7 @@
         animation-iteration-count: 1 !important;
         transition-duration: 0.001ms !important;
       }
-      .typing-caret { animation: caretBlink 1.1s steps(1) infinite !important; }
+      .typing-caret { animation: none !important; }
       .player-shell.is-loading .player-stage::before { animation: spin 1.6s linear infinite !important; }
     }
 
@@ -2120,7 +2367,7 @@
     #game-scary-game { --art: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 380' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3CradialGradient id='iris'%3E%3Cstop offset='.45' stop-color='%23ff2e4d' stop-opacity='.15'/%3E%3Cstop offset='.7' stop-color='%23d4243f' stop-opacity='.55'/%3E%3Cstop offset='1' stop-color='%237e263c' stop-opacity='.2'/%3E%3C/radialGradient%3E%3CradialGradient id='white'%3E%3Cstop offset='0' stop-color='%235c1530' stop-opacity='.5'/%3E%3Cstop offset='1' stop-color='%232a0b20' stop-opacity='.3'/%3E%3C/radialGradient%3E%3CradialGradient id='bg'%3E%3Cstop offset='0' stop-color='%233a0e1f' stop-opacity='.4'/%3E%3Cstop offset='1' stop-color='%23050207' stop-opacity='.9'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='640' height='380' fill='url(%23bg)'/%3E%3Cpath d='M40 190 Q320 6 600 190 Q320 374 40 190Z' fill='url(%23white)' stroke='%23ff7a85' stroke-width='2.4' stroke-opacity='.45'/%3E%3Cpath d='M208 169 q -84 17 -117 18' fill='none' stroke='%23ff4d5e' stroke-width='2' opacity='.35'/%3E%3Cpath d='M416 181 q 78 -21 145 2' fill='none' stroke='%23ff4d5e' stroke-width='2' opacity='.35'/%3E%3Cpath d='M198 205 q -48 -9 -110 -10' fill='none' stroke='%23ff4d5e' stroke-width='2' opacity='.35'/%3E%3Cpath d='M427 168 q 63 -8 131 14' fill='none' stroke='%23ff4d5e' stroke-width='2' opacity='.35'/%3E%3Cpath d='M195 221 q -45 -1 -108 -15' fill='none' stroke='%23ff4d5e' stroke-width='1' opacity='.35'/%3E%3Cpath d='M420 181 q 72 10 90 -4' fill='none' stroke='%23ff4d5e' stroke-width='2' opacity='.35'/%3E%3Cpath d='M210 172 q -85 -20 -110 8' fill='none' stroke='%23ff4d5e' stroke-width='1' opacity='.35'/%3E%3Cpath d='M436 196 q 77 -27 146 -4' fill='none' stroke='%23ff4d5e' stroke-width='2' opacity='.35'/%3E%3Cpath d='M220 175 q -88 -5 -97 1' fill='none' stroke='%23ff4d5e' stroke-width='1' opacity='.35'/%3E%3Ccircle cx='320' cy='190' r='104' fill='url(%23iris)'/%3E%3Ccircle cx='320' cy='190' r='104' fill='none' stroke='%23ff8a94' stroke-width='2' opacity='.45'/%3E%3Ccircle cx='320' cy='190' r='60' fill='%23050207' opacity='.7'/%3E%3Cpath d='M36 26 l 30 60' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='.14'/%3E%3Cpath d='M50 26 l 30 60' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='.14'/%3E%3Cpath d='M64 26 l 30 60' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='.14'/%3E%3Cpath d='M78 26 l 30 60' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='.14'/%3E%3Cpath d='M600 290 l -30 60' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='.14'/%3E%3Cpath d='M586 290 l -30 60' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='.14'/%3E%3Cpath d='M572 290 l -30 60' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='.14'/%3E%3Cpath d='M558 290 l -30 60' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='.14'/%3E%3C/svg%3E"); }
     #game-combat { --art: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 380' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3ClinearGradient id='s1' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23e45b65'/%3E%3Cstop offset='1' stop-color='%23ff9aa2'/%3E%3C/linearGradient%3E%3ClinearGradient id='s2' x1='0' y1='0' x2='1' y2='-1'%3E%3Cstop offset='0' stop-color='%237456ff'/%3E%3Cstop offset='1' stop-color='%23b3a4ff'/%3E%3C/linearGradient%3E%3CradialGradient id='gl'%3E%3Cstop offset='0' stop-color='%23ff6d78' stop-opacity='0.4'/%3E%3Cstop offset='1' stop-color='%23ff6d78' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='bg'%3E%3Cstop offset='0' stop-color='%232a0f2e' stop-opacity='.5'/%3E%3Cstop offset='1' stop-color='%230a0716' stop-opacity='.2'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='640' height='380' fill='url(%23bg)'/%3E%3Cpath d='M10 40 Q330 170 630 345 Q320 205 10 40Z' fill='url(%23s1)'/%3E%3Cpath d='M630 30 Q300 175 20 350 Q310 200 630 30Z' fill='url(%23s2)'/%3E%3Cline x1='401' y1='192' x2='451' y2='194' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='0'/%3E%3Cline x1='395' y1='216' x2='440' y2='231' stroke='%23fff' stroke-width='1' stroke-linecap='round' opacity='0'/%3E%3Cline x1='383' y1='231' x2='442' y2='270' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='365' y1='254' x2='400' y2='304' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='0'/%3E%3Cline x1='344' y1='264' x2='371' y2='350' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='327' y1='273' x2='333' y2='339' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='306' y1='271' x2='298' y2='315' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='283' y1='264' x2='260' y2='312' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='262' y1='244' x2='217' y2='286' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='256' y1='229' x2='221' y2='251' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='0'/%3E%3Cline x1='244' y1='211' x2='204' y2='223' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='244' y1='184' x2='190' y2='179' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='244' y1='164' x2='205' y2='150' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='253' y1='140' x2='168' y2='77' stroke='%23fff' stroke-width='1' stroke-linecap='round' opacity='0'/%3E%3Cline x1='270' y1='130' x2='246' y2='102' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='295' y1='118' x2='270' y2='46' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='0'/%3E%3Cline x1='315' y1='107' x2='313' y2='74' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='335' y1='108' x2='345' y2='56' stroke='%23fff' stroke-width='1' stroke-linecap='round' opacity='0'/%3E%3Cline x1='353' y1='122' x2='391' y2='43' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='375' y1='138' x2='402' y2='112' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='0'/%3E%3Cline x1='387' y1='151' x2='457' y2='110' stroke='%23fff' stroke-width='2' stroke-linecap='round' opacity='0'/%3E%3Cline x1='398' y1='173' x2='442' y2='163' stroke='%23fff' stroke-width='1' stroke-linecap='round' opacity='0'/%3E%3Ccircle cx='320' cy='190' r='90' fill='url(%23gl)'/%3E%3Ccircle cx='248' cy='114' r='1' fill='%23ffd4d8' opacity='0'/%3E%3Ccircle cx='286' cy='148' r='1' fill='%23ffd4d8' opacity='1'/%3E%3Ccircle cx='233' cy='259' r='1' fill='%23ffd4d8' opacity='0'/%3E%3Ccircle cx='216' cy='280' r='2' fill='%23ffd4d8' opacity='0'/%3E%3Ccircle cx='439' cy='221' r='2' fill='%23ffd4d8' opacity='0'/%3E%3Ccircle cx='191' cy='157' r='2' fill='%23ffd4d8' opacity='1'/%3E%3Ccircle cx='314' cy='200' r='2' fill='%23ffd4d8' opacity='1'/%3E%3Ccircle cx='309' cy='93' r='2' fill='%23ffd4d8' opacity='0'/%3E%3Ccircle cx='348' cy='97' r='1' fill='%23ffd4d8' opacity='0'/%3E%3Ccircle cx='347' cy='174' r='2' fill='%23ffd4d8' opacity='1'/%3E%3Ccircle cx='350' cy='254' r='1' fill='%23ffd4d8' opacity='0'/%3E%3Ccircle cx='394' cy='105' r='1' fill='%23ffd4d8' opacity='0'/%3E%3C/svg%3E"); }
     #game-old-man-consequences { --art: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 380' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3CradialGradient id='gl'%3E%3Cstop offset='0' stop-color='%23b66142' stop-opacity='0.35'/%3E%3Cstop offset='1' stop-color='%23b66142' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='bg' cx='.3' cy='.9' r='.9'%3E%3Cstop offset='0' stop-color='%233a1420' stop-opacity='.6'/%3E%3Cstop offset='1' stop-color='%230a0716' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='640' height='380' fill='url(%23bg)'/%3E%3Cellipse cx='170' cy='322' rx='190' ry='40' fill='%23b66142' fill-opacity='.12' stroke='%23e09a73' stroke-width='2.4' stroke-opacity='.4'/%3E%3Cpath d='M70 322 l30 -12 l20 10 l26 -14 M230 330 l26 -10 l18 8 M150 336 l-12 14' fill='none' stroke='%23e09a73' stroke-width='2' opacity='.4'/%3E%3Cg transform='translate(520 190)'%3E%3Ccircle r='150' fill='url(%23gl)'/%3E%3Cpath d='M-78 -128 H78 M-78 128 H78' stroke='%23f0b28f' stroke-width='7' stroke-linecap='round' opacity='.6'/%3E%3Cpath d='M-62 -122 C -62 -40, -12 -18, 0 0 C 12 -18, 62 -40, 62 -122Z M-62 122 C -62 40, -12 18, 0 0 C 12 18, 62 40, 62 122Z' fill='%23f0b28f' fill-opacity='.08' stroke='%23f0b28f' stroke-width='3' stroke-opacity='.55'/%3E%3Cpath d='M-22 -46 Q0 -30 22 -46 Q8 -14 0 -2 Q-8 -14 -22 -46Z' fill='%23e08a5e' opacity='.7'/%3E%3Cpath d='M-56 120 Q0 50 56 120Z' fill='%23e08a5e' opacity='.6'/%3E%3Cpath d='M0 2 V96' stroke='%23ffc9a6' stroke-width='2' stroke-dasharray='3 6' opacity='.8'/%3E%3C/g%3E%3Ccircle cx='153' cy='36' r='2' fill='%23ffd2b5' opacity='0'/%3E%3Ccircle cx='245' cy='133' r='1' fill='%23ffd2b5' opacity='1'/%3E%3Ccircle cx='55' cy='38' r='2' fill='%23ffd2b5' opacity='1'/%3E%3Ccircle cx='260' cy='172' r='1' fill='%23ffd2b5' opacity='0'/%3E%3Ccircle cx='55' cy='170' r='1' fill='%23ffd2b5' opacity='0'/%3E%3Ccircle cx='477' cy='231' r='1' fill='%23ffd2b5' opacity='1'/%3E%3Ccircle cx='44' cy='92' r='1' fill='%23ffd2b5' opacity='0'/%3E%3Ccircle cx='475' cy='262' r='2' fill='%23ffd2b5' opacity='0'/%3E%3Ccircle cx='26' cy='317' r='1' fill='%23ffd2b5' opacity='1'/%3E%3Ccircle cx='204' cy='217' r='1' fill='%23ffd2b5' opacity='1'/%3E%3Ccircle cx='523' cy='35' r='2' fill='%23ffd2b5' opacity='1'/%3E%3Ccircle cx='331' cy='59' r='2' fill='%23ffd2b5' opacity='0'/%3E%3C/svg%3E"); }
-    #game-multicolors-negative { --art: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 380' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3C/defs%3E%3Crect width='640' height='380' fill='%2307040d'/%3E%3Ccircle cx='320' cy='420' r='150' fill='none' stroke='%2334a4c5' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='184' fill='none' stroke='%23b056dd' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='218' fill='none' stroke='%23f2d24b' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='252' fill='none' stroke='%23ff5f7e' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='286' fill='none' stroke='%235ff2b0' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='320' fill='none' stroke='%236b7dff' stroke-width='22' opacity='.34'/%3E%3Cg transform='translate(14 -6)' opacity='.5' style='mix-blend-mode:screen'%3E%3Ccircle cx='320' cy='420' r='150' fill='none' stroke='%2334a4c5' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='184' fill='none' stroke='%23b056dd' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='218' fill='none' stroke='%23f2d24b' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='252' fill='none' stroke='%23ff5f7e' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='286' fill='none' stroke='%235ff2b0' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='320' fill='none' stroke='%236b7dff' stroke-width='22' opacity='.34'/%3E%3C/g%3E%3Ccircle cx='320' cy='420' r='136' fill='%23030205'/%3E%3Crect x='135' y='171' width='131' height='3' fill='%2334a4c5' opacity='0'/%3E%3Crect x='192' y='333' width='107' height='3' fill='%23b056dd' opacity='0'/%3E%3Crect x='389' y='231' width='74' height='4' fill='%23f2d24b' opacity='1'/%3E%3Crect x='321' y='251' width='101' height='4' fill='%23ff5f7e' opacity='0'/%3E%3Crect x='285' y='303' width='46' height='3' fill='%235ff2b0' opacity='0'/%3E%3Crect x='5' y='276' width='112' height='8' fill='%236b7dff' opacity='0'/%3E%3Crect x='550' y='33' width='155' height='4' fill='%2334a4c5' opacity='0'/%3E%3Crect x='348' y='266' width='150' height='6' fill='%23b056dd' opacity='0'/%3E%3Crect x='419' y='235' width='152' height='2' fill='%23f2d24b' opacity='1'/%3E%3C/svg%3E"); }
+    #game-multicolors-negative { --art: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 380' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3C/defs%3E%3Crect width='640' height='380' fill='%2307040d'/%3E%3Ccircle cx='320' cy='420' r='150' fill='none' stroke='%2334a4c5' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='184' fill='none' stroke='%23b056dd' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='218' fill='none' stroke='%23f2d24b' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='252' fill='none' stroke='%23ff5f7e' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='286' fill='none' stroke='%235ff2b0' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='320' fill='none' stroke='%236b7dff' stroke-width='22' opacity='.34'/%3E%3Cg transform='translate(14 -6)' opacity='.5' style='mix-blend-mode:screen'%3E%3Ccircle cx='320' cy='420' r='150' fill='none' stroke='%2334a4c5' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='184' fill='none' stroke='%23b056dd' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='218' fill='none' stroke='%23f2d24b' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='252' fill='none' stroke='%23ff5f7e' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='286' fill='none' stroke='%235ff2b0' stroke-width='22' opacity='.34'/%3E%3Ccircle cx='320' cy='420' r='320' fill='none' stroke='%236b7dff' stroke-width='22' opacity='.34'/%3E%3C/g%3E%3Ccircle cx='320' cy='420' r='136' fill='%23030205'/%3E%3Crect x='192' y='333' width='107' height='3' fill='%2334a4c5' opacity='0'/%3E%3Crect x='285' y='303' width='46' height='3' fill='%23b056dd' opacity='0'/%3E%3Crect x='5' y='276' width='112' height='8' fill='%23f2d24b' opacity='0'/%3E%3Crect x='550' y='33' width='155' height='4' fill='%23ff5f7e' opacity='0'/%3E%3Crect x='86' y='105' width='41' height='3' fill='%235ff2b0' opacity='0'/%3E%3Crect x='537' y='339' width='145' height='2' fill='%236b7dff' opacity='1'/%3E%3Crect x='321' y='57' width='50' height='5' fill='%2334a4c5' opacity='0'/%3E%3Crect x='158' y='350' width='87' height='8' fill='%23b056dd' opacity='0'/%3E%3Crect x='480' y='44' width='55' height='2' fill='%23f2d24b' opacity='0'/%3E%3C/svg%3E"); }
     #game-simpsons { --art: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 380' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3Cpattern id='sl' width='6' height='6' patternUnits='userSpaceOnUse'%3E%3Crect width='6' height='2' fill='%23000' opacity='.28'/%3E%3C/pattern%3E%3CradialGradient id='scr'%3E%3Cstop offset='0' stop-color='%23f7e08a' stop-opacity='.32'/%3E%3Cstop offset='.7' stop-color='%236b3b75' stop-opacity='.35'/%3E%3Cstop offset='1' stop-color='%231a0d22' stop-opacity='.7'/%3E%3C/radialGradient%3E%3CradialGradient id='bg'%3E%3Cstop offset='0' stop-color='%236b3b75' stop-opacity='.4'/%3E%3Cstop offset='1' stop-color='%230a0716' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='640' height='380' fill='url(%23bg)'/%3E%3Cpath d='M292 72 L238 14 M348 72 L404 10' stroke='%23ddad3a' stroke-width='4' stroke-linecap='round' opacity='.55'/%3E%3Ccircle cx='238' cy='14' r='6' fill='%23ddad3a' opacity='.6'/%3E%3Ccircle cx='404' cy='10' r='6' fill='%23ddad3a' opacity='.6'/%3E%3Crect x='150' y='72' width='340' height='252' rx='38' fill='%231a1208' fill-opacity='.6' stroke='%23ddad3a' stroke-width='5' stroke-opacity='.55'/%3E%3Crect x='186' y='98' width='268' height='196' rx='30' fill='url(%23scr)'/%3E%3Crect x='256' y='252' width='5' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='373' y='164' width='7' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='235' y='205' width='6' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='251' y='116' width='8' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='273' y='207' width='5' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='264' y='124' width='8' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='198' y='244' width='3' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='251' y='217' width='4' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='381' y='227' width='7' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='238' y='130' width='4' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='364' y='142' width='3' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='283' y='131' width='8' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='285' y='201' width='5' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='384' y='237' width='6' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='401' y='118' width='4' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='236' y='166' width='3' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='441' y='188' width='6' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='289' y='201' width='4' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='273' y='214' width='9' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='409' y='253' width='2' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='402' y='256' width='6' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='359' y='216' width='3' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='316' y='120' width='3' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='345' y='133' width='4' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='379' y='128' width='9' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='411' y='205' width='6' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='327' y='271' width='5' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='399' y='269' width='3' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='329' y='278' width='4' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='241' y='186' width='7' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='382' y='235' width='9' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='326' y='240' width='7' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='282' y='137' width='5' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='203' y='110' width='2' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='418' y='166' width='3' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='350' y='191' width='4' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='412' y='268' width='9' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='289' y='227' width='5' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='312' y='273' width='3' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='254' y='121' width='5' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='379' y='215' width='2' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='211' y='202' width='6' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='206' y='115' width='7' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='442' y='260' width='4' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='394' y='138' width='4' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='221' y='200' width='3' height='2' fill='%23fff' opacity='0'/%3E%3Crect x='186' y='98' width='268' height='196' rx='30' fill='url(%23sl)'/%3E%3Crect x='186' y='98' width='268' height='196' rx='30' fill='none' stroke='%23000' stroke-width='6' opacity='.35'/%3E%3Cpath d='M200 324 l-14 26 M440 324 l14 26' stroke='%23ddad3a' stroke-width='5' stroke-linecap='round' opacity='.45'/%3E%3C/svg%3E"); }
     #game-plinko { --art: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 380' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3Ccircle id='pg' r='4.5' fill='%23cfe6ff' opacity='.5'/%3E%3CradialGradient id='gl'%3E%3Cstop offset='0' stop-color='%2359c7b6' stop-opacity='0.6'/%3E%3Cstop offset='1' stop-color='%2359c7b6' stop-opacity='0'/%3E%3C/radialGradient%3E%3ClinearGradient id='bg' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%230d1a3a' stop-opacity='.5'/%3E%3Cstop offset='1' stop-color='%230b2a2a' stop-opacity='.5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='640' height='380' fill='url(%23bg)'/%3E%3Cuse href='%23pg' x='274' y='36'/%3E%3Cuse href='%23pg' x='320' y='36'/%3E%3Cuse href='%23pg' x='366' y='36'/%3E%3Cuse href='%23pg' x='251' y='72'/%3E%3Cuse href='%23pg' x='297' y='72'/%3E%3Cuse href='%23pg' x='343' y='72'/%3E%3Cuse href='%23pg' x='389' y='72'/%3E%3Cuse href='%23pg' x='228' y='108'/%3E%3Cuse href='%23pg' x='274' y='108'/%3E%3Cuse href='%23pg' x='320' y='108'/%3E%3Cuse href='%23pg' x='366' y='108'/%3E%3Cuse href='%23pg' x='412' y='108'/%3E%3Cuse href='%23pg' x='205' y='144'/%3E%3Cuse href='%23pg' x='251' y='144'/%3E%3Cuse href='%23pg' x='297' y='144'/%3E%3Cuse href='%23pg' x='343' y='144'/%3E%3Cuse href='%23pg' x='389' y='144'/%3E%3Cuse href='%23pg' x='435' y='144'/%3E%3Cuse href='%23pg' x='182' y='180'/%3E%3Cuse href='%23pg' x='228' y='180'/%3E%3Cuse href='%23pg' x='274' y='180'/%3E%3Cuse href='%23pg' x='320' y='180'/%3E%3Cuse href='%23pg' x='366' y='180'/%3E%3Cuse href='%23pg' x='412' y='180'/%3E%3Cuse href='%23pg' x='458' y='180'/%3E%3Cuse href='%23pg' x='159' y='216'/%3E%3Cuse href='%23pg' x='205' y='216'/%3E%3Cuse href='%23pg' x='251' y='216'/%3E%3Cuse href='%23pg' x='297' y='216'/%3E%3Cuse href='%23pg' x='343' y='216'/%3E%3Cuse href='%23pg' x='389' y='216'/%3E%3Cuse href='%23pg' x='435' y='216'/%3E%3Cuse href='%23pg' x='481' y='216'/%3E%3Cuse href='%23pg' x='136' y='252'/%3E%3Cuse href='%23pg' x='182' y='252'/%3E%3Cuse href='%23pg' x='228' y='252'/%3E%3Cuse href='%23pg' x='274' y='252'/%3E%3Cuse href='%23pg' x='320' y='252'/%3E%3Cuse href='%23pg' x='366' y='252'/%3E%3Cuse href='%23pg' x='412' y='252'/%3E%3Cuse href='%23pg' x='458' y='252'/%3E%3Cuse href='%23pg' x='504' y='252'/%3E%3Cuse href='%23pg' x='113' y='288'/%3E%3Cuse href='%23pg' x='159' y='288'/%3E%3Cuse href='%23pg' x='205' y='288'/%3E%3Cuse href='%23pg' x='251' y='288'/%3E%3Cuse href='%23pg' x='297' y='288'/%3E%3Cuse href='%23pg' x='343' y='288'/%3E%3Cuse href='%23pg' x='389' y='288'/%3E%3Cuse href='%23pg' x='435' y='288'/%3E%3Cuse href='%23pg' x='481' y='288'/%3E%3Cuse href='%23pg' x='527' y='288'/%3E%3Cline x1='44' y1='336' x2='44' y2='380' stroke='%239fc4ff' stroke-width='2' opacity='.35'/%3E%3Cline x1='90' y1='336' x2='90' y2='380' stroke='%239fc4ff' stroke-width='2' opacity='.35'/%3E%3Cline x1='136' y1='336' x2='136' y2='380' stroke='%239fc4ff' stroke-width='2' opacity='.35'/%3E%3Cline x1='182' y1='336' x2='182' y2='380' stroke='%239fc4ff' stroke-width='2' opacity='.35'/%3E%3Cline x1='228' y1='336' x2='228' y2='380' stroke='%239fc4ff' stroke-width='2' opacity='.35'/%3E%3Cline x1='274' y1='336' x2='274' y2='380' stroke='%239fc4ff' stroke-width='2' opacity='.35'/%3E%3Cline x1='320' y1='336' x2='320' y2='380' stroke='%239fc4ff' stroke-width='2' opacity='.35'/%3E%3Cline x1='366' y1='336' x2='366' y2='380' stroke='%239fc4ff' stroke-width='2' opacity='.35'/%3E%3Cline x1='412' y1='336' x2='412' y2='380' stroke='%239fc4ff' stroke-width='2' opacity='.35'/%3E%3Cline x1='458' y1='336' x2='458' y2='380' stroke='%239fc4ff' stroke-width='2' opacity='.35'/%3E%3Cline x1='504' y1='336' x2='504' y2='380' stroke='%239fc4ff' stroke-width='2' opacity='.35'/%3E%3Cline x1='550' y1='336' x2='550' y2='380' stroke='%239fc4ff' stroke-width='2' opacity='.35'/%3E%3Crect x='366' y='336' width='46' height='44' fill='%2359c7b6' opacity='.35'/%3E%3Cpath d='M320 14 L297 46 L320 82 L343 118 L366 154 L343 190 L366 226 L389 262 L389 336' fill='none' stroke='%2359c7b6' stroke-width='2.4' stroke-dasharray='4 7' stroke-linecap='round' opacity='.8'/%3E%3Ccircle cx='366' cy='154' r='20' fill='url(%23gl)'/%3E%3Ccircle cx='366' cy='154' r='9' fill='%23fff' opacity='.9'/%3E%3C/svg%3E"); }
     #game-robberfly-roundup { --art: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 380' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3Cg id='fl'%3E%3Cpath d='M-18 0h-16' stroke='%23e8f5d0' stroke-width='1.4' stroke-dasharray='3 4' opacity='.35'/%3E%3Cellipse cx='-2' cy='-6' rx='8' ry='4' fill='%23e8f5d0' opacity='.3' transform='rotate(-25)'/%3E%3Cellipse cx='-2' cy='6' rx='8' ry='4' fill='%23e8f5d0' opacity='.22' transform='rotate(25)'/%3E%3Cellipse rx='7' ry='3' fill='%23f2dc9b' opacity='.75'/%3E%3C/g%3E%3CradialGradient id='bg' cx='.4' cy='.4' r='.9'%3E%3Cstop offset='0' stop-color='%231f3a1c' stop-opacity='.55'/%3E%3Cstop offset='1' stop-color='%232a2208' stop-opacity='.35'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='640' height='380' fill='url(%23bg)'/%3E%3Cuse href='%23fl' transform='translate(30 130) rotate(5)'/%3E%3Cuse href='%23fl' transform='translate(73 177) rotate(-1)'/%3E%3Cuse href='%23fl' transform='translate(116 205) rotate(-16)'/%3E%3Cuse href='%23fl' transform='translate(159 182) rotate(-33)'/%3E%3Cuse href='%23fl' transform='translate(202 158) rotate(-44)'/%3E%3Cuse href='%23fl' transform='translate(245 125) rotate(-43)'/%3E%3Cuse href='%23fl' transform='translate(288 78) rotate(-32)'/%3E%3Cuse href='%23fl' transform='translate(331 79) rotate(-15)'/%3E%3Cuse href='%23fl' transform='translate(374 108) rotate(-1)'/%3E%3Cuse href='%23fl' transform='translate(417 131) rotate(5)'/%3E%3Cuse href='%23fl' transform='translate(460 177) rotate(-1)'/%3E%3Cuse href='%23fl' transform='translate(503 205) rotate(-16)'/%3E%3Cuse href='%23fl' transform='translate(546 181) rotate(-33)'/%3E%3Cuse href='%23fl' transform='translate(589 157) rotate(-44)'/%3E%3Cellipse cx='470' cy='282' rx='96' ry='34' fill='none' stroke='%23d1a44e' stroke-width='3.2' opacity='.6'/%3E%3Cpath d='M560 296 C 600 320, 610 350, 650 360' fill='none' stroke='%23d1a44e' stroke-width='3.2' opacity='.6'/%3E%3Cpath d='M0 380 q 20 -40 30 0 q 14 -52 30 0 q 18 -34 28 0 q 16 -46 30 0 q 12 -30 24 0' fill='%234c9e58' opacity='.3'/%3E%3C/svg%3E"); }
@@ -2174,12 +2421,13 @@
     <div class="hero-buttons">
       <a class="button primary" href="#games">Play now <span class="ico ico-arrow" aria-hidden="true"></span></a>
       <button class="button" id="random-game" type="button"><span class="ico ico-dice" aria-hidden="true"></span>Surprise me</button>
-      <a class="button" href="https://electricevo.itch.io" target="_blank" rel="noopener noreferrer">Visit itch.io <span class="ico ico-external" aria-hidden="true"></span></a>
+      <a class="button" href="https://electricevo.itch.io" target="_blank" rel="noopener noreferrer">Visit itch.io <span class="ico ico-external" aria-hidden="true"></span><span class="visually-hidden"> (opens in a new tab)</span></a>
     </div>
     <p class="hero-hint">
       <span><kbd>/</kbd> search</span>
       <span><kbd>R</kbd> random game</span>
       <span><kbd>Esc</kbd> close the player</span>
+      <button class="hint-toggle" id="shortcuts-toggle" type="button">Turn off shortcuts</button>
     </p>
   </header>
 
@@ -2206,7 +2454,7 @@
       <span id="player-status" role="status">Pick a game and press play.</span>
       <span class="player-keys" aria-hidden="true">
         <span><kbd>←</kbd><kbd>→</kbd> switch games</span>
-        <span><kbd>F</kbd> full screen</span>
+        <span class="key-letter"><kbd>F</kbd> full screen</span>
         <span><kbd>Esc</kbd> close</span>
       </span>
     </div>
@@ -2250,7 +2498,7 @@
             <button class="filter-chip" type="button" data-filter="fighting" aria-pressed="false">Fighting</button>
           </div>
 
-          <div class="status-group" aria-live="polite">
+          <div class="status-group">
             <span class="count-pill" id="result-count">12 games</span>
             <span id="search-status">Showing all games</span>
           </div>
@@ -2484,6 +2732,8 @@
         </article>
       </div>
 
+      <p class="visually-hidden" id="results-announcer" role="status" aria-live="polite" aria-atomic="true"></p>
+
       <div class="empty-state" id="empty-state">
         <p>No games match that search right now.</p>
         <button class="button" id="empty-reset" type="button"><span class="ico ico-reset" aria-hidden="true"></span>Show all games</button>
@@ -2508,9 +2758,9 @@
           <h2>Contact</h2>
           <p>Follow my work and new releases here.</p>
           <div class="links">
-            <a href="https://x.com/ATuesdayEvening" target="_blank" rel="noopener noreferrer"><span class="ico ico-x" aria-hidden="true"></span><span class="link-name">X</span><span class="link-handle">@ATuesdayEvening</span></a>
-            <a href="https://github.com/ATuesdayEvening" target="_blank" rel="noopener noreferrer"><span class="ico ico-github" aria-hidden="true"></span><span class="link-name">GitHub</span><span class="link-handle">ATuesdayEvening</span></a>
-            <a href="https://electricevo.itch.io" target="_blank" rel="noopener noreferrer"><span class="ico ico-pad" aria-hidden="true"></span><span class="link-name">itch.io</span><span class="link-handle">electricevo</span></a>
+            <a href="https://x.com/ATuesdayEvening" target="_blank" rel="noopener noreferrer"><span class="ico ico-x" aria-hidden="true"></span><span class="link-name">X</span><span class="link-handle">@ATuesdayEvening</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+            <a href="https://github.com/ATuesdayEvening" target="_blank" rel="noopener noreferrer"><span class="ico ico-github" aria-hidden="true"></span><span class="link-name">GitHub</span><span class="link-handle">ATuesdayEvening</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+            <a href="https://electricevo.itch.io" target="_blank" rel="noopener noreferrer"><span class="ico ico-pad" aria-hidden="true"></span><span class="link-name">itch.io</span><span class="link-handle">electricevo</span><span class="visually-hidden"> (opens in a new tab)</span></a>
           </div>
         </div>
       </section>
@@ -2563,15 +2813,17 @@
       set(key, value) { try { localStorage.setItem(key, value); } catch { /* not persisted */ } }
     };
 
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let reduceMotion = motionQuery.matches;
     const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
     const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    const lowPowerHardware = Boolean(
+    const detectLowPower = () => Boolean(
       window.innerWidth < 900 ||
       coarsePointer ||
       (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
       (navigator.deviceMemory && navigator.deviceMemory <= 4)
     );
+    let lowPowerHardware = detectLowPower();
 
     if (lowPowerHardware) document.documentElement.classList.add('low-power');
 
@@ -2600,6 +2852,8 @@
     const toast = document.getElementById('toast');
     const heroNewest = document.getElementById('hero-newest');
     const heroNewestTitle = document.getElementById('hero-newest-title');
+    const shortcutsToggle = document.getElementById('shortcuts-toggle');
+    const resultsAnnouncer = document.getElementById('results-announcer');
 
     const playerShell = document.getElementById('player-shell');
     const playerStage = document.getElementById('player-stage');
@@ -2629,7 +2883,8 @@
       activeCard: null,
       activeWrapper: null,
       activePlaceholder: null,
-      activeTrigger: null
+      activeTrigger: null,
+      shortcuts: storage.get('shayan-shortcuts') !== 'off'
     };
 
     const titleOf = (card) => card.querySelector('.card-title')?.textContent.trim() || 'Game';
@@ -2752,6 +3007,18 @@
       else searchStatus.textContent = 'Showing all games';
 
       syncPlayerNav();
+      announceResults();
+    }
+
+    // Screen readers hear the result count once typing pauses, not on every keystroke.
+    let announceTimer = 0;
+    let announceReady = false;
+    function announceResults() {
+      if (!announceReady) return;
+      clearTimeout(announceTimer);
+      announceTimer = setTimeout(() => {
+        resultsAnnouncer.textContent = `${resultCount.textContent}. ${searchStatus.textContent}.`;
+      }, 650);
     }
 
     function setActiveFilter(key) {
@@ -3007,6 +3274,9 @@
         element.style.setProperty('--c1', c1);
         element.style.setProperty('--c2', c2);
       });
+      const art = getComputedStyle(card).getPropertyValue('--art').trim();
+      if (art) playerShell.style.setProperty('--art', art);
+      playerLink.setAttribute('aria-label', `${titleOf(card)} on itch.io (opens in a new tab)`);
       document.title = `${titleOf(card)} · Shayan | Indie Games`;
       miniPlayerTitle.textContent = titleOf(card);
       syncPlayerNav();
@@ -3148,11 +3418,9 @@
       applyFilters();
     });
 
-    const compactLabel = compactToggle.querySelector('.btn-text');
     function syncCompactToggle() {
       gamesGrid.classList.toggle('compact', state.compact);
       compactToggle.setAttribute('aria-pressed', String(state.compact));
-      compactLabel.textContent = state.compact ? 'Standard view' : 'Compact view';
     }
 
     compactToggle.addEventListener('click', () => {
@@ -3221,16 +3489,19 @@
         return;
       }
 
-      if (isTyping || event.ctrlKey || event.metaKey || event.altKey) return;
+      if (isTyping || event.ctrlKey || event.metaKey || event.altKey || typeof event.key !== 'string') return;
+      const key = event.key.toLowerCase();
+      // Single-character shortcuts can be switched off (WCAG 2.1.4); arrows and Escape always work.
+      const characterShortcut = key === '/' || key === 'r' || key === 'f';
+      if (characterShortcut && !state.shortcuts) return;
 
-      if (event.key === '/') {
+      if (key === '/') {
         event.preventDefault();
         searchInput.focus();
         return;
       }
 
-      if (event.repeat || typeof event.key !== 'string') return;
-      const key = event.key.toLowerCase();
+      if (event.repeat) return;
       if (key === 'r') openRandomGame();
       else if (state.activeCard && event.key === 'ArrowLeft') switchGame(-1);
       else if (state.activeCard && event.key === 'ArrowRight') switchGame(1);
@@ -3242,7 +3513,12 @@
     const sectionObserver = new IntersectionObserver((entries) => {
       const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
       if (!visible) return;
-      navLinks.forEach((link) => link.classList.toggle('active', link.dataset.section === visible.target.id));
+      navLinks.forEach((link) => {
+        const current = link.dataset.section === visible.target.id;
+        link.classList.toggle('active', current);
+        if (current) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
     }, { rootMargin: '-25% 0px -55%', threshold: [0.05, 0.25, 0.55] });
     observedSections.forEach((section) => sectionObserver.observe(section));
 
@@ -3654,8 +3930,39 @@
     let resizeTimer;
     addEventListener('resize', () => {
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => resizeCanvas(), 120);
+      resizeTimer = setTimeout(() => {
+        // Auto mode follows the window: a narrow window that is maximised gets full effects.
+        const lowPower = detectLowPower();
+        if (lowPower !== lowPowerHardware) {
+          lowPowerHardware = lowPower;
+          document.documentElement.classList.toggle('low-power', lowPower);
+          if (state.effectMode === 'auto') {
+            effectsLite = lowPower;
+            syncEffectsButton();
+            resizeCanvas(true);
+            return;
+          }
+        }
+        resizeCanvas();
+      }, 120);
     }, { passive: true });
+
+    const onMotionPreference = (event) => {
+      reduceMotion = event.matches;
+      if (reduceMotion) {
+        cancelAnimationFrame(frameRequest);
+        frameRequest = 0;
+        shootingStar = null;
+        particles.length = 0;
+        ripples.length = 0;
+        drawStars(performance.now(), 0);
+      } else if (!frameRequest) {
+        lastFrame = performance.now();
+        animateScene();
+      }
+    };
+    if (motionQuery.addEventListener) motionQuery.addEventListener('change', onMotionPreference);
+    else if (motionQuery.addListener) motionQuery.addListener(onMotionPreference);
 
     addEventListener('pointermove', (event) => {
       mouse.x = event.clientX;
@@ -3707,6 +4014,19 @@
     document.getElementById('stat-games').textContent = gameCards.length;
     document.getElementById('stat-genres').textContent = new Set(gameCards.flatMap(genresOf).filter((genre) => genre !== 'dev-favorite')).size;
     document.getElementById('stat-favorites').textContent = gameCards.filter((card) => genresOf(card).includes('dev-favorite')).length;
+    function syncShortcuts() {
+      document.documentElement.classList.toggle('shortcuts-off', !state.shortcuts);
+      shortcutsToggle.textContent = state.shortcuts ? 'Turn off shortcuts' : 'Turn on shortcuts';
+    }
+
+    shortcutsToggle.addEventListener('click', () => {
+      state.shortcuts = !state.shortcuts;
+      storage.set('shayan-shortcuts', state.shortcuts ? 'on' : 'off');
+      syncShortcuts();
+      showToast(state.shortcuts ? 'Keyboard shortcuts on' : 'Keyboard shortcuts off');
+    });
+
+    syncShortcuts();
     typeHeroName();
     syncEffectsButton();
     syncFullscreenButton();
@@ -3716,6 +4036,7 @@
 
     if (!reduceMotion) animateScene();
     else drawStars(0, 0);
+    announceReady = true;
 
     console.assert(gameCards.length === 12, 'Expected 12 game cards');
     console.assert(document.querySelector('[data-link="https://electricevo.itch.io/game4"]'), 'SCARY GAME should exist');
