@@ -21,7 +21,7 @@
   <link rel="canonical" href="https://atuesdayevening.github.io/" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3CradialGradient id='p' cx='.35' cy='.32' r='.75'%3E%3Cstop offset='0' stop-color='%23fff'/%3E%3Cstop offset='.35' stop-color='%23d1b0ff'/%3E%3Cstop offset='1' stop-color='%236a2fd6'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='32' r='15' fill='url(%23p)'/%3E%3Cellipse cx='32' cy='33' rx='29' ry='8' fill='none' stroke='%234da8f0' stroke-width='3.5' transform='rotate(-18 32 32)'/%3E%3C/svg%3E" />
   <title>Shayan | Indie Games</title>
-  <noscript><style>.hero-ghost { visibility: visible; } .typing-caret { display: none; }</style></noscript>
+  <noscript><style>.hero-ghost { visibility: visible; } .typing-caret { display: none; } .marquee { display: none; }</style></noscript>
   <style>
     /* Unbounded: Copyright 2022 The Unbounded Project Authors (https://github.com/googlefonts/unbounded).
        SIL Open Font License 1.1 (https://openfontlicense.org). Embedded subset: Basic Latin, weights 500-800. */
@@ -2070,6 +2070,39 @@
       }
     }
 
+    /* ---------- Easter egg: a parade of characters (Konami code) ---------- */
+    .parade {
+      position: fixed;
+      inset: auto 0 0 0;
+      z-index: 1300;
+      height: 120px;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .parade .walker {
+      left: 0;
+      bottom: 4px;
+      height: var(--ph, 96px);
+      opacity: 1;
+      animation: paradeWalk 9s linear forwards;
+      animation-play-state: running;
+    }
+
+    .parade .walker > img {
+      animation-play-state: running;
+      image-rendering: auto;
+    }
+
+    .parade .walker.is-pixel > img {
+      image-rendering: pixelated;
+    }
+
+    @keyframes paradeWalk {
+      from { transform: translateX(-160px); }
+      to { transform: translateX(calc(100vw + 40px)); }
+    }
+
     /* ---------- About and contact ---------- */
     .info-grid {
       display: grid;
@@ -3920,6 +3953,40 @@
         observer.disconnect();
       }, { rootMargin: '700px 0px' }).observe(marquee);
     }
+
+    // A small secret: the Konami code sends a parade of characters across the bottom of the screen.
+    const PARADE = [{"sheet":"assets/sprites/fnaf-deluxe-steven.webp","frames":10,"fps":10,"fw":191,"fh":250,"height":118,"pixel":false},{"sheet":"assets/sprites/false-frights-friendbear.webp","frames":9,"fps":8,"fw":190,"fh":238,"height":92,"pixel":true},{"sheet":"assets/sprites/hadal-zone-krab.webp","frames":6,"fps":8,"fw":340,"fh":201,"height":70,"pixel":false},{"sheet":"assets/sprites/false-frights-you-walk.webp","frames":5,"fps":8,"fw":97,"fh":167,"height":72,"pixel":true}];
+    const KONAMI = ['arrowup', 'arrowup', 'arrowdown', 'arrowdown', 'arrowleft', 'arrowright', 'arrowleft', 'arrowright', 'b', 'a'];
+    let konamiStep = 0;
+    function startParade() {
+      if (document.querySelector('.parade')) return;
+      if (reduceMotion || !PARADE.length) { showToast('You found the secret. Thanks for playing!'); return; }
+      const parade = document.createElement('div');
+      parade.className = 'parade';
+      parade.setAttribute('aria-hidden', 'true');
+      PARADE.forEach((sprite, index) => {
+        const walker = document.createElement('span');
+        walker.className = `walker in-view${sprite.pixel ? ' is-pixel' : ''}`;
+        walker.style.cssText = `--frames: ${sprite.frames}; --fps: ${sprite.fps}; --fw: ${sprite.fw}; --fh: ${sprite.fh}; --ph: ${sprite.height}px; animation-delay: ${index * 1.1}s;`;
+        const img = document.createElement('img');
+        img.src = sprite.sheet;
+        img.alt = '';
+        walker.appendChild(img);
+        parade.appendChild(walker);
+      });
+      document.body.appendChild(parade);
+      showToast('You found the secret parade!');
+      setTimeout(() => parade.remove(), (PARADE.length * 1.1 + 9.5) * 1000);
+    }
+    document.addEventListener('keydown', (event) => {
+      if (typeof event.key !== 'string' || state.activeCard || event.target instanceof HTMLInputElement) { konamiStep = 0; return; }
+      const key = event.key.toLowerCase();
+      konamiStep = key === KONAMI[konamiStep] ? konamiStep + 1 : (key === KONAMI[0] ? 1 : 0);
+      if (konamiStep === KONAMI.length) {
+        konamiStep = 0;
+        startParade();
+      }
+    });
 
     // Pointer-following light on cards (mouse only; skipped in Lite mode and for reduced motion).
     if (finePointer && !reduceMotion) {

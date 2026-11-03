@@ -1039,6 +1039,35 @@
       text-transform: uppercase;
     }
 
+    .art-sub {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .art-play {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 32px;
+      padding: 0 12px;
+      border: 1px solid color-mix(in srgb, var(--c1) 55%, transparent);
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--c1) 18%, transparent);
+      color: var(--text);
+      font: 700 0.74rem/1 var(--font-body);
+      letter-spacing: 0.02em;
+      text-transform: none;
+      text-decoration: none;
+      transition: background 0.2s ease, transform 0.2s var(--ease-out);
+    }
+
+    .art-play:hover {
+      background: color-mix(in srgb, var(--c1) 32%, transparent);
+      transform: translateY(-1px);
+    }
+
     .art-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -1335,7 +1364,7 @@
   </nav>
 
   <header class="gallery-hero" id="top">
-    <p class="hero-pill"><span class="pill-tag">Gallery</span><span><strong>140</strong> pieces from 8 projects</span></p>
+    <p class="hero-pill"><span class="pill-tag">Gallery</span><span><strong>139</strong> pieces from 8 projects</span></p>
     <h1 class="gallery-title">Art from the Workshop</h1>
     <p class="tagline">Characters, backgrounds, environments and effects from my Scratch and TurboWarp games.</p>
   </header>
@@ -1349,7 +1378,7 @@
 
   <nav class="project-nav" aria-label="Projects">
     <div class="project-nav-inner" id="project-nav">
-      <a class="filter-chip chip-false-frights" href="#p-false-frights"><span class="dot" aria-hidden="true"></span>false frights<span class="filter-count" aria-hidden="true">40</span></a>
+      <a class="filter-chip chip-false-frights" href="#p-false-frights"><span class="dot" aria-hidden="true"></span>false frights<span class="filter-count" aria-hidden="true">39</span></a>
       <a class="filter-chip chip-multicolors-negative" href="#p-multicolors-negative"><span class="dot" aria-hidden="true"></span>MulticoloRs NEGATIVE<span class="filter-count" aria-hidden="true">17</span></a>
       <a class="filter-chip chip-hadal-zone" href="#p-hadal-zone"><span class="dot" aria-hidden="true"></span>Berbs Exotic Foods - The Hadal Zone<span class="filter-count" aria-hidden="true">19</span></a>
       <a class="filter-chip chip-puppet-theatre" href="#p-puppet-theatre"><span class="dot" aria-hidden="true"></span>PUPPET THEATRE<span class="filter-count" aria-hidden="true">32</span></a>
@@ -1364,9 +1393,15 @@
     <section class="art-project" id="p-false-frights" aria-labelledby="t-false-frights">
       <div class="art-head">
         <h2 id="t-false-frights">false frights</h2>
-        <p class="art-sub">40 pieces · 3 animated</p>
+        <p class="art-sub">39 pieces · 3 animated</p>
       </div>
       <div class="art-grid">
+        <figure class="art-item wide">
+          <button class="art-open" type="button" data-kind="sprite" data-sheet="assets/sprites/false-frights-static.webp" data-frames="8" data-fps="12" data-fw="320" data-fh="180" data-pixel="0" data-label="TV static" data-project="false frights" data-meta="Decor · animated, 8 frames">
+            <span class="art-badge" aria-hidden="true">Animated</span>
+            <span class="sprite" style="--frames: 8; --fps: 12; --fw: 320; --fh: 180;"><img src="assets/sprites/false-frights-static.webp" loading="lazy" alt="TV static, false frights (animation)" width="2560" height="180" decoding="async"></span>
+          </button>
+        </figure>
         <figure class="art-item">
           <button class="art-open" type="button" data-kind="image" data-full="assets/art/false-frights/1987-grayfreddyfull.webp" data-w="729" data-h="1600" data-pixel="0" data-label="1987 grayFreddyFull" data-project="false frights" data-meta="Character · 729 × 1600">
             <img src="assets/art/false-frights/thumb/1987-grayfreddyfull.webp" alt="1987 grayFreddyFull, false frights" width="219" height="480" loading="lazy" decoding="async">
@@ -1554,17 +1589,6 @@
             <img src="assets/art/false-frights/square.svg" alt="Square, false frights" width="196" height="196" loading="lazy" decoding="async">
           </button>
         </figure>
-        <figure class="art-item wide">
-          <button class="art-open" type="button" data-kind="sprite" data-sheet="assets/sprites/false-frights-static.webp" data-frames="8" data-fps="12" data-fw="320" data-fh="180" data-pixel="0" data-label="TV static" data-project="false frights" data-meta="Decor · animated, 8 frames">
-            <span class="art-badge" aria-hidden="true">Animated</span>
-            <span class="sprite" style="--frames: 8; --fps: 12; --fw: 320; --fh: 180;"><img src="assets/sprites/false-frights-static.webp" loading="lazy" alt="TV static, false frights (animation)" width="2560" height="180" decoding="async"></span>
-          </button>
-        </figure>
-        <figure class="art-item">
-          <button class="art-open" type="button" data-kind="image" data-full="assets/art/false-frights/you.svg" data-w="97" data-h="167" data-pixel="0" data-label="You" data-project="false frights" data-meta="Decor · 97 × 167">
-            <img src="assets/art/false-frights/you.svg" alt="You, false frights" width="97" height="167" loading="lazy" decoding="async">
-          </button>
-        </figure>
         <figure class="art-item is-pixel">
           <button class="art-open" type="button" data-kind="image" data-full="assets/art/false-frights/youidle1.svg" data-w="101" data-h="160" data-pixel="1" data-label="YouIdle 1" data-project="false frights" data-meta="Decor · 101 × 160">
             <img src="assets/art/false-frights/youidle1.svg" alt="YouIdle 1, false frights" width="101" height="160" loading="lazy" decoding="async">
@@ -1576,7 +1600,7 @@
     <section class="art-project" id="p-multicolors-negative" aria-labelledby="t-multicolors-negative">
       <div class="art-head">
         <h2 id="t-multicolors-negative">MulticoloRs NEGATIVE</h2>
-        <p class="art-sub">17 pieces · 1 animated</p>
+        <p class="art-sub">17 pieces · 1 animated<a class="art-play" href="index.html#game-multicolors-negative">Play it <span class="ico ico-arrow" aria-hidden="true"></span></a></p>
       </div>
       <div class="art-grid">
         <figure class="art-item">
