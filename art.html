@@ -786,6 +786,10 @@
       .sprite > img {
         animation: none !important;
       }
+
+      .walker-krab {
+        transform: translateX(calc(100cqw - 100%));
+      }
     }
 
     footer {
@@ -833,6 +837,53 @@
       display: block;
       width: 34px;
       margin-bottom: -1px;
+    }
+
+    /* A small way into the 404 page and its night-shift game. */
+    .footer-lost {
+      margin-top: 16px;
+    }
+
+    .lost-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 32px;
+      padding: 0 13px 0 11px;
+      border: 1px solid rgba(255, 91, 122, 0.3);
+      border-radius: 999px;
+      background: rgba(22, 8, 16, 0.6);
+      color: var(--text-dim);
+      font: 700 0.68rem/1 var(--font-mono);
+      letter-spacing: 0.16em;
+      text-decoration: none;
+      transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .lost-link:hover,
+    .lost-link:focus-visible {
+      color: var(--text);
+      border-color: rgba(255, 91, 122, 0.62);
+      background: rgba(42, 10, 24, 0.75);
+    }
+
+    .lost-link .rec-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ff5b7a;
+      box-shadow: 0 0 8px rgba(255, 91, 122, 0.8);
+      animation: recBlink 2s steps(1) infinite;
+    }
+
+    @keyframes recBlink {
+      50% { opacity: 0.25; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .lost-link .rec-dot {
+        animation: none;
+      }
     }
 
     .scroll-top {
@@ -1532,7 +1583,7 @@
   </nav>
 
   <header class="gallery-hero" id="top">
-    <p class="hero-pill"><span class="pill-tag">Gallery</span><span><strong>110</strong> pieces from 7 projects</span></p>
+    <p class="hero-pill"><span class="pill-tag">Gallery</span><span><strong>105</strong> pieces from 7 projects</span></p>
     <h1 class="gallery-title">Art from the Workshop</h1>
     <p class="tagline">Characters, backgrounds, environments and effects from my Scratch and TurboWarp games.</p>
   </header>
@@ -1548,10 +1599,10 @@
   <nav class="project-nav" aria-label="Projects">
     <div class="project-nav-inner" id="project-nav">
       <a class="filter-chip chip-scary-game" href="#p-scary-game"><span class="dot" aria-hidden="true"></span>SCARY GAME<span class="filter-count" aria-hidden="true">35</span></a>
-      <a class="filter-chip chip-multicolors-negative" href="#p-multicolors-negative"><span class="dot" aria-hidden="true"></span>MulticoloRs NEGATIVE<span class="filter-count" aria-hidden="true">10</span></a>
-      <a class="filter-chip chip-hadal-zone" href="#p-hadal-zone"><span class="dot" aria-hidden="true"></span>Berbs Exotic Foods - The Hadal Zone<span class="filter-count" aria-hidden="true">11</span></a>
-      <a class="filter-chip chip-puppet-theatre" href="#p-puppet-theatre"><span class="dot" aria-hidden="true"></span>PUPPET THEATRE<span class="filter-count" aria-hidden="true">28</span></a>
-      <a class="filter-chip chip-fnaf-61" href="#p-fnaf-61"><span class="dot" aria-hidden="true"></span>FNaF 61 BBs Revenge<span class="filter-count" aria-hidden="true">2</span></a>
+      <a class="filter-chip chip-multicolors-negative" href="#p-multicolors-negative"><span class="dot" aria-hidden="true"></span>MulticoloRs NEGATIVE<span class="filter-count" aria-hidden="true">9</span></a>
+      <a class="filter-chip chip-hadal-zone" href="#p-hadal-zone"><span class="dot" aria-hidden="true"></span>Berbs Exotic Foods - The Hadal Zone<span class="filter-count" aria-hidden="true">9</span></a>
+      <a class="filter-chip chip-puppet-theatre" href="#p-puppet-theatre"><span class="dot" aria-hidden="true"></span>PUPPET THEATRE<span class="filter-count" aria-hidden="true">27</span></a>
+      <a class="filter-chip chip-fnaf-61" href="#p-fnaf-61"><span class="dot" aria-hidden="true"></span>FNaF 61 BBs Revenge<span class="filter-count" aria-hidden="true">1</span></a>
       <a class="filter-chip chip-fnaf-deluxe" href="#p-fnaf-deluxe"><span class="dot" aria-hidden="true"></span>Five Nights at Freddie's Deluxe<span class="filter-count" aria-hidden="true">9</span></a>
       <a class="filter-chip chip-banban-killer-2" href="#p-banban-killer-2"><span class="dot" aria-hidden="true"></span>Survival The Banban Killer 2<span class="filter-count" aria-hidden="true">15</span></a>
     </div>
@@ -1738,7 +1789,7 @@
           </button>
         </figure>
         <figure class="art-item is-pixel">
-          <button class="art-open" type="button" data-kind="image" data-full="assets/art/scary-game/youidle1.svg" data-w="101" data-h="160" data-pixel="1" data-label="YouIdle 1" data-project="SCARY GAME" data-meta="Decor · 101 × 160">
+          <button class="art-open" type="button" data-kind="image" data-full="assets/art/scary-game/youidle1.svg" data-w="101" data-h="160" data-pixel="1" data-label="YouIdle 1" data-project="SCARY GAME" data-meta="Character · 101 × 160">
             <img src="assets/art/scary-game/youidle1.svg" alt="YouIdle 1, SCARY GAME" width="101" height="160" loading="lazy" decoding="async">
           </button>
         </figure>
@@ -1748,11 +1799,11 @@
     <section class="art-project" id="p-multicolors-negative" aria-labelledby="t-multicolors-negative">
       <div class="art-head">
         <h2 id="t-multicolors-negative">MulticoloRs NEGATIVE</h2>
-        <p class="art-sub">10 pieces · 1 animated<a class="art-play" href="index.html#game-multicolors-negative">Play it <span class="ico ico-arrow" aria-hidden="true"></span></a></p>
+        <p class="art-sub">9 pieces · 1 animated<a class="art-play" href="index.html#game-multicolors-negative">Play it <span class="ico ico-arrow" aria-hidden="true"></span></a></p>
       </div>
       <div class="art-grid">
         <figure class="art-item">
-          <button class="art-open" type="button" data-kind="image" data-full="assets/art/multicolors-negative/back.svg" data-w="477" data-h="413" data-pixel="0" data-label="Back" data-project="MulticoloRs NEGATIVE" data-meta="Character · 477 × 413">
+          <button class="art-open" type="button" data-kind="image" data-full="assets/art/multicolors-negative/back.svg" data-w="477" data-h="413" data-pixel="0" data-label="Back" data-project="MulticoloRs NEGATIVE" data-meta="Background · 477 × 413">
             <img src="assets/art/multicolors-negative/back.svg" alt="Back, MulticoloRs NEGATIVE" width="477" height="413" loading="lazy" decoding="async">
           </button>
         </figure>
@@ -1778,12 +1829,12 @@
           </button>
         </figure>
         <figure class="art-item wide">
-          <button class="art-open" type="button" data-kind="image" data-full="assets/art/multicolors-negative/room-0.svg" data-w="674" data-h="412" data-pixel="0" data-label="Room 0" data-project="MulticoloRs NEGATIVE" data-meta="Character · 674 × 412">
+          <button class="art-open" type="button" data-kind="image" data-full="assets/art/multicolors-negative/room-0.svg" data-w="674" data-h="412" data-pixel="0" data-label="Room 0" data-project="MulticoloRs NEGATIVE" data-meta="Background · 674 × 412">
             <img src="assets/art/multicolors-negative/room-0.svg" alt="Room 0, MulticoloRs NEGATIVE" width="480" height="293" loading="lazy" decoding="async">
           </button>
         </figure>
         <figure class="art-item wide">
-          <button class="art-open" type="button" data-kind="image" data-full="assets/art/multicolors-negative/room-1.svg" data-w="660" data-h="449" data-pixel="0" data-label="Room 1" data-project="MulticoloRs NEGATIVE" data-meta="Character · 660 × 449">
+          <button class="art-open" type="button" data-kind="image" data-full="assets/art/multicolors-negative/room-1.svg" data-w="660" data-h="449" data-pixel="0" data-label="Room 1" data-project="MulticoloRs NEGATIVE" data-meta="Background · 660 × 449">
             <img src="assets/art/multicolors-negative/room-1.svg" alt="Room 1, MulticoloRs NEGATIVE" width="480" height="326" loading="lazy" decoding="async">
           </button>
         </figure>
@@ -1797,18 +1848,13 @@
             <img src="assets/art/multicolors-negative/bg.svg" alt="BG, MulticoloRs NEGATIVE" width="480" height="346" loading="lazy" decoding="async">
           </button>
         </figure>
-        <figure class="art-item">
-          <button class="art-open" type="button" data-kind="image" data-full="assets/art/multicolors-negative/lighter.svg" data-w="59" data-h="71" data-pixel="0" data-label="Lighter" data-project="MulticoloRs NEGATIVE" data-meta="Decor · 59 × 71">
-            <img src="assets/art/multicolors-negative/lighter.svg" alt="Lighter, MulticoloRs NEGATIVE" width="59" height="71" loading="lazy" decoding="async">
-          </button>
-        </figure>
       </div>
     </section>
 
     <section class="art-project" id="p-hadal-zone" aria-labelledby="t-hadal-zone">
       <div class="art-head">
         <h2 id="t-hadal-zone">Berbs Exotic Foods - The Hadal Zone</h2>
-        <p class="art-sub">11 pieces · 5 animated</p>
+        <p class="art-sub">9 pieces · 5 animated</p>
       </div>
       <div class="art-grid">
         <figure class="art-item wide">
@@ -1856,16 +1902,6 @@
             <img src="assets/art/hadal-zone/tame1.svg" alt="Tame 1, Berbs Exotic Foods - The Hadal Zone" width="365" height="387" loading="lazy" decoding="async">
           </button>
         </figure>
-        <figure class="art-item">
-          <button class="art-open" type="button" data-kind="image" data-full="assets/art/hadal-zone/bg-2.svg" data-w="580" data-h="624" data-pixel="0" data-label="BG 2" data-project="Berbs Exotic Foods - The Hadal Zone" data-meta="Background · 580 × 624">
-            <img src="assets/art/hadal-zone/bg-2.svg" alt="BG 2, Berbs Exotic Foods - The Hadal Zone" width="446" height="480" loading="lazy" decoding="async">
-          </button>
-        </figure>
-        <figure class="art-item">
-          <button class="art-open" type="button" data-kind="image" data-full="assets/art/hadal-zone/backgrounds-costume2.svg" data-w="519" data-h="509" data-pixel="0" data-label="Costume 2" data-project="Berbs Exotic Foods - The Hadal Zone" data-meta="Background · 519 × 509">
-            <img src="assets/art/hadal-zone/backgrounds-costume2.svg" alt="Costume 2, Berbs Exotic Foods - The Hadal Zone" width="480" height="471" loading="lazy" decoding="async">
-          </button>
-        </figure>
         <figure class="art-item wide">
           <button class="art-open" type="button" data-kind="image" data-full="assets/art/hadal-zone/sky.svg" data-w="538" data-h="162" data-pixel="0" data-label="Sky" data-project="Berbs Exotic Foods - The Hadal Zone" data-meta="Background · 538 × 162">
             <img src="assets/art/hadal-zone/sky.svg" alt="Sky, Berbs Exotic Foods - The Hadal Zone" width="480" height="144" loading="lazy" decoding="async">
@@ -1877,7 +1913,7 @@
     <section class="art-project" id="p-puppet-theatre" aria-labelledby="t-puppet-theatre">
       <div class="art-head">
         <h2 id="t-puppet-theatre">PUPPET THEATRE</h2>
-        <p class="art-sub">28 pieces</p>
+        <p class="art-sub">27 pieces</p>
       </div>
       <div class="art-grid">
         <figure class="art-item is-pixel">
@@ -1951,11 +1987,6 @@
           </button>
         </figure>
         <figure class="art-item wide backdrop is-pixel">
-          <button class="art-open" type="button" data-kind="image" data-full="assets/art/puppet-theatre/environments-parking-lot-day.webp" data-w="880" data-h="484" data-pixel="1" data-label="Parking lot day" data-project="PUPPET THEATRE" data-meta="Environment · 880 × 484">
-            <img src="assets/art/puppet-theatre/thumb/environments-parking-lot-day.webp" alt="Parking lot day, PUPPET THEATRE" width="480" height="264" loading="lazy" decoding="async">
-          </button>
-        </figure>
-        <figure class="art-item wide backdrop is-pixel">
           <button class="art-open" type="button" data-kind="image" data-full="assets/art/puppet-theatre/environments-parking-lot.webp" data-w="860" data-h="484" data-pixel="1" data-label="Parking lot" data-project="PUPPET THEATRE" data-meta="Environment · 860 × 484">
             <img src="assets/art/puppet-theatre/thumb/environments-parking-lot.webp" alt="Parking lot, PUPPET THEATRE" width="480" height="270" loading="lazy" decoding="async">
           </button>
@@ -2026,14 +2057,9 @@
     <section class="art-project" id="p-fnaf-61" aria-labelledby="t-fnaf-61">
       <div class="art-head">
         <h2 id="t-fnaf-61">FNaF 61 BBs Revenge</h2>
-        <p class="art-sub">2 pieces · 1 animated</p>
+        <p class="art-sub">1 piece · 1 animated</p>
       </div>
       <div class="art-grid">
-        <figure class="art-item">
-          <button class="art-open" type="button" data-kind="image" data-full="assets/art/fnaf-61/firework.svg" data-w="172" data-h="172" data-pixel="0" data-label="FIREWORK" data-project="FNaF 61 BBs Revenge" data-meta="Decor · 172 × 172">
-            <img src="assets/art/fnaf-61/firework.svg" alt="FIREWORK, FNaF 61 BBs Revenge" width="172" height="172" loading="lazy" decoding="async">
-          </button>
-        </figure>
         <figure class="art-item wide">
           <button class="art-open" type="button" data-kind="sprite" data-sheet="assets/sprites/fx-static.webp" data-frames="8" data-fps="12" data-fw="240" data-fh="182" data-pixel="0" data-label="TV static" data-project="FNaF 61 BBs Revenge" data-meta="Decor · animated, 8 frames">
             <span class="art-badge" aria-hidden="true">Animated</span>
@@ -2193,6 +2219,7 @@
     <div class="walker-track" aria-hidden="true"><span class="walker" style="--frames: 5; --fps: 8; --fw: 97; --fh: 167;"><img src="assets/sprites/scary-game-you-walk.webp" alt="" width="485" height="167" loading="lazy" decoding="async"></span><span class="walker walker-krab" style="--frames: 6; --fps: 8; --fw: 340; --fh: 201;"><img src="assets/sprites/hadal-zone-krab.webp" alt="" width="2040" height="201" loading="lazy" decoding="async"></span></div>
     <div class="footer-top"><span>© 2026 Shayan</span><span aria-hidden="true">•</span><span>🪐</span></div>
     <div class="footer-thanks"><span class="cameo cameo-dance" aria-hidden="true"><span class="sprite" style="--frames: 10; --fps: 10; --fw: 191; --fh: 250;"><img src="assets/sprites/fnaf-deluxe-steven.webp" alt="" width="1910" height="250" loading="lazy" decoding="async"></span></span><span>Thanks for playing.</span></div>
+    <div class="footer-lost"><a class="lost-link" href="404.html" rel="nofollow" aria-label="CAM 404: the lost page and its night-shift game"><span class="rec-dot" aria-hidden="true"></span>CAM 404</a></div>
   </footer>
 
   <dialog class="lightbox" id="lightbox" aria-labelledby="lb-title">
@@ -2441,7 +2468,6 @@
     // chip stays lit; at the very bottom the last project is current; above the gallery none is.
     const chips = Array.from(document.querySelectorAll('.project-nav .filter-chip'));
     const projectSections = chips.map((chip) => document.querySelector(chip.getAttribute('href')));
-    const inBand = new Set();
     function setActiveChip(current) {
       chips.forEach((chip, index) => {
         const active = projectSections[index] === current;
@@ -2456,23 +2482,32 @@
         } else chip.removeAttribute('aria-current');
       });
     }
+    // The current project is the last one whose heading has reached the line just under the sticky
+    // bars (where chip jumps land). At the very bottom it is the last project; above the gallery, none.
+    let chipLine = 0;
+    let lastChipSection;
+    const measureChipLine = () => { chipLine = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) + 16; };
+    measureChipLine();
+    addEventListener('resize', () => { measureChipLine(); syncChips(); });
     function syncChips() {
       const atBottom = scrollY + innerHeight >= document.documentElement.scrollHeight - 4;
-      const current = atBottom ? projectSections[projectSections.length - 1] : projectSections.find((section) => inBand.has(section));
-      if (current) return setActiveChip(current);
-      if (projectSections[0] && projectSections[0].getBoundingClientRect().top > innerHeight * 0.3) setActiveChip(null);
+      let current = null;
+      for (const section of projectSections) if (section && section.getBoundingClientRect().top <= chipLine) current = section;
+      if (atBottom) current = projectSections[projectSections.length - 1];
+      if (current === lastChipSection) return;
+      // Back above the gallery: show the chip row from its start again.
+      if (!current) chips[0]?.parentElement.scrollTo({ left: 0, behavior: 'auto' });
+      lastChipSection = current;
+      setActiveChip(current);
     }
-    const projectObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => (entry.isIntersecting ? inBand.add(entry.target) : inBand.delete(entry.target)));
-      syncChips();
-    }, { rootMargin: '-30% 0px -69% 0px', threshold: 0 });
     let chipTicking = false;
     addEventListener('scroll', () => {
       if (chipTicking) return;
       chipTicking = true;
       requestAnimationFrame(() => { chipTicking = false; syncChips(); });
     }, { passive: true });
-    projectSections.forEach((section) => section && projectObserver.observe(section));
+    syncChips();
+    addEventListener('load', syncChips, { once: true });
 
     function sceneBusy() { return false; }
     function sceneHidden() { return lightbox.open; }
@@ -2531,6 +2566,18 @@
       effectsToggle.title = `${effectLabel()} (click to switch Auto, Full, Lite)`;
       document.documentElement.classList.toggle('fx-lite', effectsLite);
     }
+
+    // The Back button can restore a page from the browser's cache with the effects mode it had then;
+    // pick up a mode that was changed on another page in the meantime.
+    addEventListener('pageshow', (event) => {
+      if (!event.persisted) return;
+      const stored = storage.get('shayan-effects');
+      if (!EFFECT_MODES.includes(stored) || stored === state.effectMode) return;
+      state.effectMode = stored;
+      effectsLite = state.effectMode === 'lite' || (state.effectMode === 'auto' && lowPowerHardware);
+      syncEffectsButton();
+      resizeCanvas(true);
+    });
 
     effectsToggle.addEventListener('click', () => {
       state.effectMode = state.effectMode === 'auto' ? 'full' : state.effectMode === 'full' ? 'lite' : 'auto';

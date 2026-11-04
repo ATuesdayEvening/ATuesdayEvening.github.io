@@ -1966,6 +1966,10 @@
       transition: transform 0.45s var(--ease-out), opacity 0.3s ease;
     }
 
+    body:has(.mini-player.show) footer {
+      padding-bottom: calc(112px + env(safe-area-inset-bottom));
+    }
+
     .mini-player.show {
       opacity: 1;
       pointer-events: auto;
@@ -2242,14 +2246,15 @@
 
     /* The eye creature from "The Hadal Zone" hangs by a thread beside the games heading. It drops lower
        when the Horror filter is on. */
-    #games .section-head {
+    #games .section-title {
       position: relative;
+      display: inline-block;
     }
 
     .cameo-spider {
       position: absolute;
-      left: 6%;
-      top: -34px;
+      right: calc(100% + 26px);
+      top: -22px;
       width: 58px;
       animation: spiderBob 3.4s ease-in-out infinite alternate;
       animation-play-state: paused;
@@ -2262,12 +2267,17 @@
       left: 50%;
       bottom: 62%;
       width: 1px;
-      height: 150px;
+      height: 84px;
       background: linear-gradient(transparent, rgba(220, 208, 255, 0.45));
     }
 
     .cameo-spider.in-view {
       animation-play-state: running;
+    }
+
+    /* Out of the way while a game is open above it. */
+    .player-shell.show ~ main .cameo-spider {
+      visibility: hidden;
     }
 
     #games:has(.filter-chip[data-filter="horror"][aria-pressed="true"]) .cameo-spider {
@@ -2319,6 +2329,11 @@
       margin: 0 auto 14px;
       transform-origin: 50% 100%;
       animation: shrugPop 0.4s var(--ease-spring) both, shrug 2.6s ease-in-out 0.4s infinite;
+      animation-play-state: paused;
+    }
+
+    .cameo-shrug.in-view {
+      animation-play-state: running;
     }
 
     @keyframes shrugPop {
@@ -2570,6 +2585,10 @@
       .sprite > img {
         animation: none !important;
       }
+
+      .walker-krab {
+        transform: translateX(calc(100cqw - 100%));
+      }
     }
 
     footer {
@@ -2617,6 +2636,53 @@
       display: block;
       width: 34px;
       margin-bottom: -1px;
+    }
+
+    /* A small way into the 404 page and its night-shift game. */
+    .footer-lost {
+      margin-top: 16px;
+    }
+
+    .lost-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 32px;
+      padding: 0 13px 0 11px;
+      border: 1px solid rgba(255, 91, 122, 0.3);
+      border-radius: 999px;
+      background: rgba(22, 8, 16, 0.6);
+      color: var(--text-dim);
+      font: 700 0.68rem/1 var(--font-mono);
+      letter-spacing: 0.16em;
+      text-decoration: none;
+      transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .lost-link:hover,
+    .lost-link:focus-visible {
+      color: var(--text);
+      border-color: rgba(255, 91, 122, 0.62);
+      background: rgba(42, 10, 24, 0.75);
+    }
+
+    .lost-link .rec-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ff5b7a;
+      box-shadow: 0 0 8px rgba(255, 91, 122, 0.8);
+      animation: recBlink 2s steps(1) infinite;
+    }
+
+    @keyframes recBlink {
+      50% { opacity: 0.25; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .lost-link .rec-dot {
+        animation: none;
+      }
     }
 
     .scroll-top {
@@ -2707,7 +2773,7 @@
       }
     }
 
-    @media (max-width: 359px) {
+    @media (max-width: 480px) {
       .cameo-perch {
         display: none;
       }
@@ -2969,9 +3035,14 @@
       .ico,
       .share-button::before,
       .featured-badge::before,
+      .filter-chip[data-filter="dev-favorite"]::before,
       .embed-placeholder::after {
         forced-color-adjust: none;
         background: CanvasText;
+      }
+
+      .ico-dice {
+        background: var(--owner-dice) center / contain no-repeat;
       }
     }
 
@@ -3105,8 +3176,7 @@
   <main>
     <section class="games-section" id="games">
       <div class="section-head">
-        <span class="cameo cameo-spider" aria-hidden="true"><span class="sprite" style="--frames: 2; --fps: 3; --fw: 766; --fh: 562;"><img src="assets/sprites/hadal-zone-eye-spider.webp" alt="" width="1532" height="562" loading="lazy" decoding="async"></span></span>
-        <h2 class="section-title">Play My Games</h2>
+        <h2 class="section-title"><span class="cameo cameo-spider" aria-hidden="true"><span class="sprite" style="--frames: 2; --fps: 3; --fw: 766; --fh: 562;"><img src="assets/sprites/hadal-zone-eye-spider.webp" alt="" width="1532" height="562" loading="lazy" decoding="async"></span></span>Play My Games</h2>
       </div>
 
       <div class="control-panel">
@@ -3478,6 +3548,7 @@
     <div class="walker-track" aria-hidden="true"><span class="walker" style="--frames: 5; --fps: 8; --fw: 97; --fh: 167;"><img src="assets/sprites/scary-game-you-walk.webp" alt="" width="485" height="167" loading="lazy" decoding="async"></span><span class="walker walker-krab" style="--frames: 6; --fps: 8; --fw: 340; --fh: 201;"><img src="assets/sprites/hadal-zone-krab.webp" alt="" width="2040" height="201" loading="lazy" decoding="async"></span></div>
     <div class="footer-top"><span>© 2026 Shayan</span><span aria-hidden="true">•</span><span>🪐</span></div>
     <div class="footer-thanks"><span class="cameo cameo-dance" aria-hidden="true"><span class="sprite" style="--frames: 10; --fps: 10; --fw: 191; --fh: 250;"><img src="assets/sprites/fnaf-deluxe-steven.webp" alt="" width="1910" height="250" loading="lazy" decoding="async"></span></span><span>Thanks for playing.</span></div>
+    <div class="footer-lost"><a class="lost-link" href="404.html" rel="nofollow" aria-label="CAM 404: the lost page and its night-shift game"><span class="rec-dot" aria-hidden="true"></span>CAM 404</a></div>
   </footer>
 
   <div class="mini-player" id="mini-player" aria-hidden="true" inert>
@@ -4247,9 +4318,23 @@
 
     // The current section is the first one crossing a band 40% down the screen; at the very bottom
     // of the page it is the last section (About and Contact sit side by side on wide screens).
+    // A section picked in the nav stays lit while it is on screen, even at the page bottom.
+    let navPicked = null;
+    let navPickedSeen = false;
+    navLinks.forEach((link) => link.addEventListener('click', () => {
+      navPicked = document.getElementById(link.dataset.section);
+      navPickedSeen = false;
+    }));
     function syncNavHighlight() {
       const atBottom = scrollY + innerHeight >= document.documentElement.scrollHeight - 4;
-      const current = atBottom ? observedSections[observedSections.length - 1] : observedSections.find((section) => sectionsInBand.has(section));
+      let pickedVisible = false;
+      if (navPicked) {
+        const r = navPicked.getBoundingClientRect();
+        pickedVisible = r.bottom > 0 && r.top < innerHeight;
+        if (pickedVisible) navPickedSeen = true;
+        else if (navPickedSeen) navPicked = null; // the visitor has scrolled away from it
+      }
+      const current = atBottom && pickedVisible ? navPicked : atBottom ? observedSections[observedSections.length - 1] : observedSections.find((section) => sectionsInBand.has(section));
       if (!current) return;
       navLinks.forEach((link) => {
         const isCurrent = link.dataset.section === current.id;
@@ -4288,6 +4373,13 @@
       entries.forEach((entry) => entry.target.classList.toggle('in-view', entry.isIntersecting));
     }, { rootMargin: '80px 0px' });
     document.querySelectorAll('.walker, .marquee, .peeker, .cameo').forEach((element) => inViewObserver.observe(element));
+
+    // On the narrowest phones the full placeholder gets cut off mid-word.
+    const searchField = document.getElementById('game-search');
+    const narrowSearch = window.matchMedia('(max-width: 380px)');
+    const fitSearchPlaceholder = () => { searchField.placeholder = narrowSearch.matches ? 'Search games' : 'Search title, genre, or tag'; };
+    fitSearchPlaceholder();
+    narrowSearch.addEventListener?.('change', fitSearchPlaceholder);
 
     const marquee = document.querySelector('.marquee');
     if (marquee) {
@@ -4455,6 +4547,18 @@
       effectsToggle.title = `${effectLabel()} (click to switch Auto, Full, Lite)`;
       document.documentElement.classList.toggle('fx-lite', effectsLite);
     }
+
+    // The Back button can restore a page from the browser's cache with the effects mode it had then;
+    // pick up a mode that was changed on another page in the meantime.
+    addEventListener('pageshow', (event) => {
+      if (!event.persisted) return;
+      const stored = storage.get('shayan-effects');
+      if (!EFFECT_MODES.includes(stored) || stored === state.effectMode) return;
+      state.effectMode = stored;
+      effectsLite = state.effectMode === 'lite' || (state.effectMode === 'auto' && lowPowerHardware);
+      syncEffectsButton();
+      resizeCanvas(true);
+    });
 
     effectsToggle.addEventListener('click', () => {
       state.effectMode = state.effectMode === 'auto' ? 'full' : state.effectMode === 'full' ? 'lite' : 'auto';

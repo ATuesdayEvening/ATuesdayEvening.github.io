@@ -7,7 +7,7 @@
   <meta name="color-scheme" content="dark" />
   <meta name="robots" content="noindex" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3CradialGradient id='p' cx='.35' cy='.32' r='.75'%3E%3Cstop offset='0' stop-color='%23fff'/%3E%3Cstop offset='.35' stop-color='%23d1b0ff'/%3E%3Cstop offset='1' stop-color='%236a2fd6'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='32' r='15' fill='url(%23p)'/%3E%3Cellipse cx='32' cy='33' rx='29' ry='8' fill='none' stroke='%234da8f0' stroke-width='3.5' transform='rotate(-18 32 32)'/%3E%3C/svg%3E" />
-  <title>Lost signal · Shayan | Indie Games</title>
+  <title>Page not found · Shayan | Indie Games</title>
   <style>
     
     /* Unbounded: Copyright 2022 The Unbounded Project Authors (https://github.com/googlefonts/unbounded).
@@ -774,6 +774,10 @@
       .sprite > img {
         animation: none !important;
       }
+
+      .walker-krab {
+        transform: translateX(calc(100cqw - 100%));
+      }
     }
 
     footer {
@@ -821,6 +825,53 @@
       display: block;
       width: 34px;
       margin-bottom: -1px;
+    }
+
+    /* A small way into the 404 page and its night-shift game. */
+    .footer-lost {
+      margin-top: 16px;
+    }
+
+    .lost-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 32px;
+      padding: 0 13px 0 11px;
+      border: 1px solid rgba(255, 91, 122, 0.3);
+      border-radius: 999px;
+      background: rgba(22, 8, 16, 0.6);
+      color: var(--text-dim);
+      font: 700 0.68rem/1 var(--font-mono);
+      letter-spacing: 0.16em;
+      text-decoration: none;
+      transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .lost-link:hover,
+    .lost-link:focus-visible {
+      color: var(--text);
+      border-color: rgba(255, 91, 122, 0.62);
+      background: rgba(42, 10, 24, 0.75);
+    }
+
+    .lost-link .rec-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ff5b7a;
+      box-shadow: 0 0 8px rgba(255, 91, 122, 0.8);
+      animation: recBlink 2s steps(1) infinite;
+    }
+
+    @keyframes recBlink {
+      50% { opacity: 0.25; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .lost-link .rec-dot {
+        animation: none;
+      }
     }
 
     .scroll-top {
@@ -881,80 +932,1497 @@
 
     
 
+    /* ---------- 404 night shift ---------- */
+    /* The lost page is a security monitor from the horror games: CAM 404 has no signal, the other
+       cameras show rooms from the games. "Start the night shift" turns it into a tiny game: watch
+       the cameras, close the door when someone is at it, last until 6 AM. Everything that moves is
+       a transform, an opacity change or a steps() sprite strip, and it all stops off screen, in a
+       hidden tab, with Pause, and for reduced motion. */
     .lost {
       display: grid;
-      justify-items: center;
-      gap: 18px;
-      width: min(760px, calc(100% - 2 * var(--gutter)));
-      min-height: calc(100svh - var(--nav-height) - 160px);
-      margin: 0 auto;
-      padding: clamp(36px, 6vw, 70px) 0 40px;
+      grid-template-columns: minmax(0, 1fr);
       align-content: center;
+      align-items: center;
+      gap: clamp(26px, 4vw, 56px);
+      width: min(var(--max), calc(100% - 2 * var(--gutter)));
+      min-height: calc(100svh - var(--nav-height) - 150px);
+      margin: 0 auto;
+      padding: clamp(22px, 5vw, 60px) 0 clamp(44px, 6vw, 76px);
+    }
+
+    .lost-copy {
+      justify-self: center;
+      max-width: 560px;
       text-align: center;
+      animation: riseIn 0.8s var(--ease-out) 0.05s backwards;
     }
 
-    .lost-tv {
-      position: relative;
-      width: min(420px, 100%);
-      aspect-ratio: 4 / 3;
-      overflow: hidden;
-      border: 6px solid #1b1428;
-      border-radius: 28px;
-      background: #0a0a0c;
-      box-shadow: 0 0 0 1px var(--line-strong), 0 24px 70px rgba(0, 0, 0, 0.6), 0 0 60px rgba(159, 92, 255, 0.18), inset 0 0 40px rgba(0, 0, 0, 0.9);
+    .lost-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 14px;
+      color: #ffc2cd;
+      font: 700 0.72rem/1 var(--font-mono);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
     }
 
-    .lost-tv .static {
-      position: absolute;
-      inset: 0;
-      background: url("/assets/sprites/fx-static.webp") 0 0 / 800% 100%;
-      opacity: 0.85;
-      animation: staticRun 0.6s steps(8, jump-none) infinite;
-    }
-
-    .lost-tv::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.28) 0 2px, transparent 2px 4px),
-        radial-gradient(120% 90% at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.75));
-      pointer-events: none;
-    }
-
-    .lost-tv .figure {
-      position: absolute;
-      left: 50%;
-      bottom: 14%;
-      height: 36%;
-      transform: translateX(-50%);
-      filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.9));
-    }
-
-    @keyframes staticRun {
-      to { background-position: 100% 0; }
+    .lost-eyebrow .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ff5b7a;
+      box-shadow: 0 0 12px rgba(255, 91, 122, 0.75);
     }
 
     .lost-code {
       font-family: var(--font-display);
-      font-size: clamp(3.2rem, 12vw, 6rem);
+      font-size: clamp(4.6rem, 14vw, 8.6rem);
       font-weight: 800;
-      line-height: 1;
-      letter-spacing: -0.04em;
+      line-height: 0.92;
+      letter-spacing: -0.05em;
       background: linear-gradient(180deg, #ffffff 15%, #e6d8ff 55%, #a98bff 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      /* A faint colour split, like a misaligned CRT. Painted once. */
+      filter: drop-shadow(-3px 0 0 rgba(255, 74, 112, 0.34)) drop-shadow(3px 0 0 rgba(77, 168, 240, 0.34));
     }
 
-    .lost p {
-      max-width: 46ch;
+    .lost-lead {
+      margin-top: 16px;
+      color: var(--text);
+      font-size: clamp(1.15rem, 2.2vw, 1.4rem);
+      font-weight: 650;
+      letter-spacing: -0.005em;
+    }
+
+    .lost-sub {
+      max-width: 40ch;
+      margin: 8px auto 0;
       color: var(--text-dim);
-      font-size: 1.05rem;
+      font-size: 1rem;
     }
 
-    .lost .hero-buttons {
-      margin-top: 6px;
+    .lost-copy .hero-buttons {
+      margin-top: 26px;
+      animation: none;
+    }
+
+    @media (min-width: 1180px) {
+      .lost {
+        grid-template-columns: minmax(340px, 0.85fr) minmax(0, 1.5fr);
+      }
+
+      .lost-copy {
+        justify-self: start;
+        text-align: left;
+      }
+
+      .lost-sub {
+        margin-left: 0;
+      }
+
+      .lost-copy .hero-buttons {
+        justify-content: flex-start;
+      }
+    }
+
+    /* The console: a screen, the camera map, and the shift bar with the door. */
+    .cctv {
+      position: relative;
+      justify-self: center;
+      width: 100%;
+      max-width: 860px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(19, 13, 33, 0.94), rgba(10, 8, 18, 0.95));
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.62), 0 0 90px rgba(159, 92, 255, 0.12);
+      animation: cardIn 0.8s var(--ease-out) 0.12s backwards;
+    }
+
+    .cctv [hidden] {
+      display: none !important;
+    }
+
+    .cctv-screen {
+      position: relative;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      border-radius: 18px;
+      background: #050309;
+      box-shadow: 0 0 0 1px rgba(212, 180, 255, 0.14);
+      container-type: size;
+      isolation: isolate;
+      color: #f4efff;
+    }
+
+    .tube,
+    .feed,
+    .noise,
+    .screen-roll,
+    .screen-fx,
+    .osd,
+    .nosig,
+    .powerout,
+    .result {
+      position: absolute;
+      inset: 0;
+    }
+
+    .noise,
+    .screen-roll,
+    .screen-fx,
+    .osd,
+    .nosig {
+      pointer-events: none;
+    }
+
+    /* The picture tube: it opens from a line when the monitor turns on and collapses
+       back to a line when the power runs out. */
+    .cctv-screen.is-booting .tube {
+      animation: tubeOn 0.7s var(--ease-out) var(--boot-delay, 0s) both;
+    }
+
+    .cctv-screen.is-off .tube {
+      animation: tubeOff 0.55s cubic-bezier(0.55, 0, 0.8, 0.2) forwards;
+    }
+
+    @keyframes tubeOn {
+      0% { opacity: 0; transform: scale(0.3, 0.006); }
+      35% { opacity: 1; transform: scale(1, 0.006); }
+      100% { opacity: 1; transform: none; }
+    }
+
+    @keyframes tubeOff {
+      0% { opacity: 1; transform: none; }
+      55% { opacity: 1; transform: scale(1, 0.006); }
+      100% { opacity: 0; transform: scale(0, 0.006); }
+    }
+
+    /* A scene keeps its picture's proportions and covers the screen, so a visitor placed in
+       picture coordinates stays in its doorway at any screen size. */
+    .scene {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 100%;
+      height: 100%;
+      width: max(100cqw, calc(100cqh * var(--ar, 1.6)));
+      height: auto;
+      aspect-ratio: var(--ar, 1.6);
+      transform: translate(-50%, -50%);
+      visibility: hidden;
+    }
+
+    .scene.is-live {
+      visibility: visible;
+    }
+
+    /* Rooms warmed up ahead of time stay still until they are on screen. */
+    .scene:not(.is-live) * {
+      animation-play-state: paused !important;
+    }
+
+    .scene-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.55) contrast(1.06) brightness(0.8);
+    }
+
+    .lurk-clip {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      clip-path: var(--clip, none);
+    }
+
+    .lurker {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      height: var(--h);
+      aspect-ratio: var(--lar);
+      opacity: var(--op, 1);
+      transform: translate(-50%, -100%) scaleX(var(--flip, 1));
+    }
+
+    .lurk-body {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .lurk-body > img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      filter: brightness(var(--dim, 0.6)) saturate(0.7);
+    }
+
+    /* Someone who just walked in steps out of the dark. */
+    .lurker.arrives .lurk-body {
+      animation: lurkArrive 0.9s var(--ease-out) both;
+    }
+
+    @keyframes lurkArrive {
+      from { opacity: 0; transform: translateX(var(--from, 0)); }
+      to { opacity: 1; transform: none; }
+    }
+
+    /* Your door: the office from the games, with a shutter in the doorway and the red
+       DOOR button on the wall that lights up while it is shut. */
+    .door-gap {
+      position: absolute;
+      left: 33.4%;
+      top: 49.6%;
+      width: 13.2%;
+      height: 31.6%;
+      z-index: 2;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .door-shutter {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent 10%, transparent 86%, rgba(0, 0, 0, 0.55)),
+        repeating-linear-gradient(180deg, #4b4358 0 6.5%, #2b2535 6.5% 8%, #3c3548 8% 12.5%);
+      box-shadow: inset 0 -3px 0 #ffd36e, inset 0 -8px 0 #2b2535;
+      transform: translateY(-101%);
+      transition: transform 0.3s var(--ease-out);
+    }
+
+    .cctv-screen.door-closed .door-shutter {
+      transform: none;
+      transition: transform 0.18s cubic-bezier(0.55, 0, 0.9, 0.4);
+    }
+
+    .door-gap.is-bang .door-shutter {
+      animation: shutterBang 0.42s steps(6) both;
+    }
+
+    @keyframes shutterBang {
+      0% { transform: translateX(0); }
+      20% { transform: translateX(-4%); }
+      40% { transform: translateX(3.5%); }
+      60% { transform: translateX(-2.5%); }
+      80% { transform: translateX(1.5%); }
+      100% { transform: translateX(0); }
+    }
+
+    .door-lamp {
+      position: absolute;
+      left: 23.5%;
+      top: 55.4%;
+      width: 3.9%;
+      height: 6.8%;
+      z-index: 3;
+      border-radius: 3px;
+      background: #ff4d63;
+      box-shadow: 0 0 10px 3px rgba(255, 77, 99, 0.7);
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      pointer-events: none;
+    }
+
+    .cctv-screen.door-closed .door-lamp {
+      opacity: 0.92;
+    }
+
+    /* CAM 404: the lost page itself, a faint wireframe of a page behind the static. */
+    .scene-lost {
+      inset: 0;
+      left: 0;
+      top: 0;
+      width: 100%;
+      aspect-ratio: auto;
+      height: 100%;
+      transform: none;
+      background: radial-gradient(80% 70% at 50% 45%, #120c22, #050309 75%);
+    }
+
+    .ghost {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      display: grid;
+      align-content: start;
+      gap: 5.5cqh;
+      width: 74cqw;
+      height: 74cqh;
+      padding: 4cqh 4cqw;
+      border: 1.5px solid rgba(209, 176, 255, 0.3);
+      border-radius: 12px;
+      transform: translate(-50%, -50%);
+      animation: ghostSync 6.5s steps(1) infinite;
+    }
+
+    @keyframes ghostSync {
+      0%, 88%, 100% { transform: translate(-50%, -50%); }
+      90% { transform: translate(-52.5%, -50%); }
+      92% { transform: translate(-48.5%, -50.6%); }
+      94% { transform: translate(-50.8%, -50%); }
+    }
+
+    .ghost-bar {
+      display: flex;
+      align-items: center;
+      gap: 1.2cqw;
+    }
+
+    .ghost-bar i {
+      flex: 0 0 auto;
+      width: 1.4cqw;
+      height: 1.4cqw;
+      border-radius: 50%;
+      background: rgba(209, 176, 255, 0.3);
+    }
+
+    .ghost-url {
+      flex: 1 1 auto;
+      min-width: 0;
+      margin-left: 1cqw;
+      padding: 0.9cqh 1.8cqw;
+      overflow: hidden;
+      border: 1px solid rgba(209, 176, 255, 0.3);
+      border-radius: 999px;
+      color: rgba(232, 218, 255, 0.72);
+      font: 700 clamp(9px, 1.9cqw, 13px)/1.2 var(--font-mono);
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .ghost-nav {
+      display: flex;
+      gap: 2cqw;
+    }
+
+    .ghost-nav i,
+    .ghost-line,
+    .ghost-btns i {
+      display: block;
+      border-radius: 999px;
+      background: rgba(209, 176, 255, 0.18);
+    }
+
+    .ghost-nav i {
+      width: 9cqw;
+      height: 2.6cqh;
+    }
+
+    .ghost-nav i:first-child {
+      width: 13cqw;
+      background: rgba(209, 176, 255, 0.3);
+    }
+
+    .ghost-title {
+      justify-self: center;
+      width: 46cqw;
+      height: 13cqh;
+      border-radius: 10px;
+      background: rgba(209, 176, 255, 0.16);
+    }
+
+    .ghost-lines {
+      display: grid;
+      justify-items: center;
+      gap: 2.2cqh;
+    }
+
+    .ghost-line {
+      width: 52cqw;
+      height: 2.4cqh;
+    }
+
+    .ghost-line:nth-child(2) {
+      width: 40cqw;
+    }
+
+    .ghost-btns {
+      display: flex;
+      justify-content: center;
+      gap: 2cqw;
+    }
+
+    .ghost-btns i {
+      width: 14cqw;
+      height: 5cqh;
+      background: rgba(209, 176, 255, 0.24);
+    }
+
+    .nosig {
+      display: grid;
+      place-content: center;
+      justify-items: center;
+      gap: clamp(6px, 1.6cqh, 12px);
+      text-align: center;
+      transition: opacity 0.2s ease;
+    }
+
+    .nosig-box {
+      display: grid;
+      justify-items: center;
+      gap: clamp(6px, 1.4cqh, 10px);
+      padding: clamp(10px, 2.6cqh, 18px) clamp(16px, 3.6cqw, 30px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 8px;
+      background: rgba(5, 3, 10, 0.84);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.55);
+    }
+
+    .nosig-bars {
+      width: clamp(96px, 22cqw, 160px);
+      height: auto;
+      opacity: 0.9;
+    }
+
+    .nosig-title {
+      margin-right: -0.3em;
+      font: 800 clamp(1rem, 3.6cqw, 1.6rem)/1 var(--font-mono);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+    }
+
+    .nosig-hint {
+      color: #d9c8ff;
+      font: 600 clamp(0.68rem, 1.7cqw, 0.82rem)/1.2 var(--font-mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* Static: a strip of eight noise frames. Moderate contrast, only inside the screen. */
+    .noise {
+      overflow: hidden;
+      opacity: 0.08;
+      transition: opacity 0.18s ease;
+    }
+
+    .noise > img,
+    .result-static > img {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 800%;
+      max-width: none;
+      height: 100%;
+      animation: spriteRun 0.8s steps(8) infinite;
+    }
+
+    .cctv-screen[data-mode="lost"] .noise {
+      opacity: 0.44;
+    }
+
+    .cctv-screen.is-tuning .noise,
+    .cctv-screen.is-glitch .noise {
+      opacity: 0.72;
+      transition: none;
+    }
+
+    .cctv-screen.is-tuning .noise > img,
+    .cctv-screen.is-glitch .noise > img {
+      animation-duration: 0.32s;
+    }
+
+    .cctv-screen.is-tuning .feed,
+    .cctv-screen.is-glitch .feed {
+      animation: feedRoll 0.36s steps(3) both;
+    }
+
+    @keyframes feedRoll {
+      from { transform: translateY(-7%); }
+      to { transform: translateY(4%); }
+    }
+
+    /* Lite effects keep the grain on room feeds but stop it moving. */
+    .fx-lite .cctv-screen[data-mode="room"]:not(.is-tuning):not(.is-glitch) .noise > img {
+      animation-play-state: paused;
+    }
+
+    .screen-roll {
+      inset: 0 0 auto;
+      height: 30%;
+      background: linear-gradient(180deg, transparent, rgba(226, 210, 255, 0.05) 40%, rgba(226, 210, 255, 0.085) 50%, rgba(226, 210, 255, 0.05) 60%, transparent);
+      transform: translateY(-100%);
+      animation: screenRoll 7.5s linear infinite;
+    }
+
+    @keyframes screenRoll {
+      to { transform: translateY(340%); }
+    }
+
+    .fx-lite .screen-roll {
+      display: none;
+    }
+
+    /* Scanlines, a vignette, and darker bands under the on-screen text so it stays readable. */
+    .screen-fx,
+    .result::after {
+      background:
+        repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.24) 0 1px, transparent 1px 3px),
+        linear-gradient(180deg, rgba(3, 2, 6, 0.55), transparent 24%, transparent 74%, rgba(3, 2, 6, 0.62)),
+        radial-gradient(125% 100% at 50% 50%, transparent 56%, rgba(0, 0, 0, 0.66) 100%);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04), inset 0 0 70px rgba(0, 0, 0, 0.5);
+      border-radius: inherit;
+    }
+
+    /* On-screen display: REC, camera name, clock, power. */
+    .osd {
+      --pad: 18px;
+      --pad: clamp(12px, 3.2cqw, 24px);
+      font: 700 clamp(0.66rem, 1.8cqw, 0.86rem)/1.1 var(--font-mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.95), 0 0 10px rgba(0, 0, 0, 0.7);
+    }
+
+    .osd > * {
+      position: absolute;
+    }
+
+    .osd-frame {
+      inset: clamp(7px, 1.8cqw, 13px);
+      --c: rgba(255, 255, 255, 0.5);
+      --l: clamp(14px, 3.4cqw, 26px);
+      background:
+        linear-gradient(var(--c), var(--c)) left top / var(--l) 2px,
+        linear-gradient(var(--c), var(--c)) left top / 2px var(--l),
+        linear-gradient(var(--c), var(--c)) right top / var(--l) 2px,
+        linear-gradient(var(--c), var(--c)) right top / 2px var(--l),
+        linear-gradient(var(--c), var(--c)) left bottom / var(--l) 2px,
+        linear-gradient(var(--c), var(--c)) left bottom / 2px var(--l),
+        linear-gradient(var(--c), var(--c)) right bottom / var(--l) 2px,
+        linear-gradient(var(--c), var(--c)) right bottom / 2px var(--l);
+      background-repeat: no-repeat;
+    }
+
+    .osd-rec {
+      left: var(--pad);
+      top: var(--pad);
+      display: flex;
+      align-items: center;
+      gap: 0.55em;
+    }
+
+    .osd-rec i {
+      width: 0.85em;
+      height: 0.85em;
+      border-radius: 50%;
+      background: #ff3b55;
+      box-shadow: 0 0 10px rgba(255, 59, 85, 0.85);
+      animation: recBlink 1.6s steps(1, end) infinite;
+    }
+
+    .osd-rec .paused-label {
+      display: none;
+    }
+
+    @keyframes recBlink {
+      0%, 64% { opacity: 1; }
+      65%, 100% { opacity: 0.15; }
+    }
+
+    .osd-cam {
+      right: var(--pad);
+      top: var(--pad);
+      display: grid;
+      justify-items: end;
+      gap: 0.4em;
+      text-align: right;
+    }
+
+    .osd-cam b {
+      font-size: 1.35em;
+      letter-spacing: 0.1em;
+    }
+
+    .osd-cam span {
+      color: #e1d4ff;
+      font-size: 0.92em;
+    }
+
+    .osd-time {
+      left: var(--pad);
+      bottom: var(--pad);
+    }
+
+    /* During the night the corner shows the hour instead of the date. */
+    .cctv-screen.is-night .osd-time {
+      font-size: 1.7em;
+      letter-spacing: 0.06em;
+      line-height: 1;
+    }
+
+    .osd-batt {
+      right: var(--pad);
+      bottom: var(--pad);
+      display: flex;
+      align-items: center;
+      gap: 0.6em;
+    }
+
+    /* The power meter: the BATTERY strip from FNaF 61, twelve frames from full to empty. */
+    .battery {
+      position: relative;
+      display: block;
+      width: clamp(34px, 7.4cqw, 54px);
+      aspect-ratio: 150 / 74;
+      overflow: hidden;
+      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.9));
+    }
+
+    .battery > img {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1200%;
+      max-width: none;
+      height: 100%;
+      image-rendering: pixelated;
+      transform: translateX(calc(var(--frame, 0) * -100% / 12));
+    }
+
+    .osd-batt.is-low #osd-batt {
+      color: #ff9aaa;
+    }
+
+    .osd-door {
+      display: none;
+      padding: 0.3em 0.5em 0.25em;
+      border: 1px solid rgba(255, 140, 158, 0.75);
+      border-radius: 4px;
+      background: rgba(60, 8, 20, 0.82);
+      color: #ffd5dc;
+      font-size: 0.86em;
+      text-shadow: none;
+    }
+
+    .cctv-screen.door-closed .osd-door {
+      display: inline-block;
+    }
+
+    /* Warnings in the middle of the top edge: someone at the door, or a bang on the shutter. */
+    .osd-alert {
+      left: 50%;
+      top: var(--pad);
+      max-width: 46%;
+      padding: 0.45em 0.7em 0.4em;
+      overflow: hidden;
+      border: 1px solid rgba(255, 140, 158, 0.85);
+      border-radius: 5px;
+      background: rgba(72, 8, 22, 0.9);
+      color: #ffe3e7;
+      text-shadow: none;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+
+    .osd-alert.is-on {
+      opacity: 1;
+    }
+
+    /* A slow pulse: one cycle every 1.6 s, well under two flashes a second. */
+    .osd-alert.is-warn {
+      animation: warnPulse 1.6s ease-in-out infinite;
+    }
+
+    .osd-alert.is-bang {
+      border-color: rgba(255, 211, 110, 0.85);
+      background: rgba(60, 40, 6, 0.92);
+      color: #fff0c9;
+    }
+
+    @keyframes warnPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .osd-wait {
+      left: 50%;
+      top: 50%;
+      padding: 0.6em 0.9em;
+      border-radius: 6px;
+      background: rgba(5, 3, 10, 0.8);
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+
+    .cctv-screen.is-waiting .osd-wait {
+      opacity: 1;
+    }
+
+    .cctv-screen.is-waiting .nosig {
+      opacity: 0;
+    }
+
+    .cctv-screen:not([data-mode="lost"]) .nosig,
+    .cctv-screen.is-tuning .nosig {
+      opacity: 0;
+    }
+
+    /* Power out: the picture collapses, the door is open, and someone is in the dark. */
+    .powerout {
+      z-index: 5;
+      display: grid;
+      align-content: end;
+      justify-items: center;
+      padding: clamp(14px, 4cqh, 28px);
+      background: #030205;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.7s ease, visibility 0s linear 0.7s;
+    }
+
+    .powerout-figure {
+      position: absolute;
+      inset: 0;
+    }
+
+    .powerout-figure img {
+      position: absolute;
+      left: 50%;
+      top: 14%;
+      height: 112%;
+      width: auto;
+      max-width: none;
+      opacity: 0;
+      filter: brightness(var(--dark, 0.16)) saturate(0.4);
+      transform: translateX(-50%);
+      transition: opacity 2.4s ease 0.9s;
+    }
+
+    .powerout-title {
+      position: relative;
+      color: #ffc2cd;
+      font: 700 clamp(0.72rem, 1.9cqw, 0.9rem)/1 var(--font-mono);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .cctv-screen.is-off .powerout {
+      visibility: visible;
+      opacity: 1;
+      transition: opacity 0.6s ease 0.45s, visibility 0s;
+    }
+
+    .cctv-screen.is-off .powerout-figure img[src] {
+      opacity: 1;
+    }
+
+    /* Caught, or 6 AM. Only the monitor changes: no zoom, no flash, nothing outside it. */
+    .result {
+      z-index: 6;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: center;
+      overflow: hidden;
+      border-radius: inherit;
+      background:
+        radial-gradient(60% 85% at 28% 62%, rgba(118, 18, 40, 0.5), transparent 72%),
+        #060309;
+    }
+
+    .result::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .result-figure {
+      position: relative;
+      align-self: stretch;
+      min-width: 0;
+    }
+
+    .result-figure img {
+      position: absolute;
+      left: 50%;
+      bottom: -7%;
+      height: 110%;
+      width: auto;
+      max-width: none;
+      filter: brightness(var(--lit, 0.92)) saturate(0.85) contrast(1.05);
+      transform: translateX(-50%);
+      animation: caughtIn 0.6s var(--ease-out) 0.12s both;
+    }
+
+    @keyframes caughtIn {
+      from { opacity: 0; transform: translate(-50%, 3%); }
+      to { opacity: 1; transform: translateX(-50%); }
+    }
+
+    .result-static {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+      opacity: 0.14;
+      pointer-events: none;
+    }
+
+    .result.is-caught .result-static {
+      animation: staticBurst 0.7s steps(7) both;
+    }
+
+    .result.is-caught .result-static > img {
+      animation-duration: 0.35s;
+      animation-iteration-count: 2;
+    }
+
+    @keyframes staticBurst {
+      from { opacity: 0.86; }
+      to { opacity: 0.14; }
+    }
+
+    .result-box {
+      position: relative;
+      z-index: 3;
+      display: grid;
+      justify-items: start;
+      align-content: center;
+      gap: clamp(6px, 1.8cqh, 12px);
+      padding: clamp(12px, 4cqw, 32px) clamp(14px, 5cqw, 40px) clamp(12px, 4cqw, 32px) clamp(4px, 1cqw, 10px);
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.35s ease, visibility 0s linear 0.35s;
+    }
+
+    .result.show-box .result-box {
+      visibility: visible;
+      opacity: 1;
+      transition: opacity 0.35s ease, visibility 0s;
+    }
+
+    .result-kicker {
+      color: #ffb3c0;
+      font: 700 clamp(0.62rem, 1.7cqw, 0.8rem)/1 var(--font-mono);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .result-title {
+      color: #fff;
+      font: 800 clamp(1.05rem, 4.4cqw, 2.1rem)/1.08 var(--font-display);
+      letter-spacing: -0.01em;
+    }
+
+    .result-sub {
+      max-width: 26ch;
+      color: #e4d9f5;
+      font-size: clamp(0.8rem, 2.1cqw, 1rem);
+      line-height: 1.35;
+    }
+
+    .result .button {
+      min-height: 44px;
+      margin-top: clamp(2px, 0.8cqh, 6px);
+      padding: 0 18px;
+      font-size: clamp(0.86rem, 2cqw, 0.98rem);
+    }
+
+    .result-best {
+      color: #d4c6ea;
+      font: 700 clamp(0.62rem, 1.6cqw, 0.78rem)/1.2 var(--font-mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .result-clock {
+      display: none;
+      align-items: flex-end;
+      gap: 0.18em;
+      color: #fff;
+      font: 800 clamp(2.4rem, 13cqw, 5.6rem)/1 var(--font-display);
+      letter-spacing: -0.02em;
+    }
+
+    .result-clock small {
+      font-size: 0.42em;
+      letter-spacing: 0.04em;
+      padding-bottom: 0.12em;
+    }
+
+    /* The 5 rolls over to a 6. The resting state is the 6, so without motion it is just there. */
+    .roll {
+      display: inline-block;
+      height: 1em;
+      overflow: hidden;
+    }
+
+    .roll > span {
+      display: block;
+      transform: translateY(-50%);
+      animation: rollOver 0.9s var(--ease-out) 0.35s backwards;
+    }
+
+    .roll i {
+      display: block;
+      height: 1em;
+      font-style: normal;
+    }
+
+    @keyframes rollOver {
+      from { transform: translateY(0); }
+    }
+
+    .result.is-won {
+      grid-template-columns: minmax(0, 1fr);
+      background:
+        radial-gradient(90% 62% at 50% 112%, rgba(255, 186, 110, 0.5), rgba(255, 140, 90, 0.16) 48%, transparent 72%),
+        radial-gradient(70% 55% at 50% 36%, rgba(159, 92, 255, 0.2), transparent 72%),
+        linear-gradient(180deg, #0a0614, #150b1c);
+    }
+
+    .result.is-won .result-static {
+      opacity: 0.07;
+    }
+
+    .result.is-won .result-figure {
+      display: none;
+    }
+
+    .result.is-won .result-box {
+      justify-items: center;
+      padding: clamp(12px, 4cqw, 32px);
+      text-align: center;
+    }
+
+    .result.is-won .result-clock {
+      display: flex;
+    }
+
+    .result.is-won .result-kicker {
+      display: none;
+    }
+
+    /* The camera map. */
+    .cctv-deck {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: stretch;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .cam-map {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-areas:
+        "party hall hall living lost"
+        "portal woods door door lost";
+      gap: 6px;
+      padding: 7px;
+      border: 1px solid rgba(198, 158, 255, 0.12);
+      border-radius: 16px;
+      background:
+        linear-gradient(rgba(198, 158, 255, 0.05) 1px, transparent 1px) 0 0 / 12px 12px,
+        linear-gradient(90deg, rgba(198, 158, 255, 0.05) 1px, transparent 1px) 0 0 / 12px 12px,
+        rgba(6, 4, 12, 0.6);
+    }
+
+    .room {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 4px;
+      min-width: 0;
+      min-height: 54px;
+      padding: 7px 10px;
+      border: 1.5px solid rgba(214, 190, 255, 0.24);
+      border-radius: 6px;
+      background: rgba(13, 9, 24, 0.94);
+      color: var(--text);
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .room:focus-visible {
+      outline-offset: 2px;
+    }
+
+    .room-cam {
+      color: var(--purple-soft);
+      font: 700 0.64rem/1 var(--font-mono);
+      letter-spacing: 0.14em;
+    }
+
+    .room-name {
+      max-width: 100%;
+      color: var(--text-dim);
+      font-size: 0.8rem;
+      font-weight: 650;
+      line-height: 1.15;
+    }
+
+    .room-party { grid-area: party; }
+    .room-hall { grid-area: hall; }
+    .room-living { grid-area: living; }
+    .room-portal { grid-area: portal; }
+    .room-woods { grid-area: woods; }
+    .room-door { grid-area: door; padding-right: 54px; }
+    .room-lost { grid-area: lost; border-style: dashed; }
+
+    .room-you {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      display: grid;
+      justify-items: center;
+      gap: 3px;
+      color: var(--text-faint);
+      font: 700 0.56rem/1 var(--font-mono);
+      letter-spacing: 0.14em;
+      transform: translateY(-50%);
+    }
+
+    .room-you img {
+      width: 11px;
+      height: auto;
+      image-rendering: pixelated;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .room:hover {
+        border-color: rgba(220, 185, 255, 0.5);
+        background: rgba(34, 22, 58, 0.96);
+      }
+    }
+
+    .room[aria-pressed="true"] {
+      border-color: rgba(230, 206, 255, 0.66);
+      background: linear-gradient(135deg, rgba(122, 63, 242, 0.62), rgba(42, 111, 216, 0.42));
+      box-shadow: 0 0 22px rgba(159, 92, 255, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+    }
+
+    .room[aria-pressed="true"] .room-cam,
+    .room[aria-pressed="true"] .room-name,
+    .room[aria-pressed="true"] .room-you {
+      color: #fff;
+    }
+
+    .room[aria-pressed="true"]::after {
+      content: "";
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ff5b7a;
+      box-shadow: 0 0 8px rgba(255, 91, 122, 0.85);
+    }
+
+    /* Someone at the door: the door camera turns red and pulses slowly. */
+    .room-warn {
+      display: none;
+      max-width: 100%;
+      color: #ffd0d8;
+      font-size: 0.8rem;
+      font-weight: 750;
+      line-height: 1.15;
+    }
+
+    .room-door.is-warning {
+      border-color: rgba(255, 120, 140, 0.85);
+    }
+
+    .room-door.is-warning .room-warn {
+      display: block;
+    }
+
+    /* The name stays in the button's label; only the picture of it changes. */
+    .room-door.is-warning .room-name {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .room-door::before {
+      content: "";
+      position: absolute;
+      inset: -1.5px;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgba(255, 70, 100, 0.42), rgba(150, 20, 50, 0.3));
+      box-shadow: 0 0 18px rgba(255, 70, 100, 0.45);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .room-door.is-warning::before {
+      animation: warnGlow 1.6s ease-in-out infinite;
+    }
+
+    @keyframes warnGlow {
+      0%, 100% { opacity: 0.25; }
+      50% { opacity: 1; }
+    }
+
+    .room-door > span {
+      position: relative;
+    }
+
+    .room-door[aria-pressed="true"]::after {
+      right: 38px;
+    }
+
+    .room-door .room-you {
+      position: absolute;
+    }
+
+    .deck-side {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: stretch;
+      gap: 10px;
+      width: 120px;
+      padding: 4px 0;
+    }
+
+    .deck-hint {
+      color: var(--text-faint);
+      font-size: 0.8rem;
+      line-height: 1.35;
+    }
+
+    .deck-hint kbd {
+      margin-right: 2px;
+    }
+
+    .hint-keys {
+      display: none;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .hint-touch { display: none; }
+      .hint-keys { display: inline; }
+    }
+
+    .deck-pause {
+      width: 100%;
+    }
+
+    .deck-pause .ico {
+      width: 0.95em;
+      height: 0.95em;
+    }
+
+    .ico-pause { --i: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='6' y='5' width='4.2' height='14' rx='1.3'/%3E%3Crect x='13.8' y='5' width='4.2' height='14' rx='1.3'/%3E%3C/svg%3E"); }
+    .ico-play { --i: var(--i-play-fill); }
+
+    /* The shift bar: the rule and the Start button, then the status line and the Door button. */
+    .shift-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px 14px;
+      margin-top: 12px;
+      padding: 8px 8px 8px 16px;
+      border: 1px solid rgba(198, 158, 255, 0.12);
+      border-radius: 16px;
+      background: rgba(6, 4, 12, 0.6);
+    }
+
+    .shift-status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1 1 auto;
+      min-width: 0;
+      color: var(--text);
+      font-size: 0.92rem;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+
+    .shift-dot {
+      flex: 0 0 auto;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #8f7bb3;
+    }
+
+    .cctv.is-night .shift-dot {
+      background: #7be0a2;
+      box-shadow: 0 0 10px rgba(123, 224, 162, 0.55);
+    }
+
+    .shift-status.is-warn {
+      color: #ffc9d2;
+    }
+
+    .cctv .shift-status.is-warn .shift-dot {
+      background: #ff5b7a;
+      box-shadow: 0 0 10px rgba(255, 91, 122, 0.8);
+      animation: warnDot 1.6s ease-in-out infinite;
+    }
+
+    @keyframes warnDot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+
+    .shift-best {
+      flex: 0 0 auto;
+      color: var(--text-dim);
+      font: 700 0.7rem/1.2 var(--font-mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .shift-start {
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
+
+    .shift-start .ico {
+      width: 0.9em;
+      height: 0.9em;
+    }
+
+    /* The big Door button. Lit red while the door is shut, like the DOOR button on the wall. */
+    .door-button {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 0 0 auto;
+      width: 244px;
+      min-height: 56px;
+      padding: 0 14px;
+      border: 1.5px solid rgba(220, 190, 255, 0.4);
+      border-radius: 14px;
+      background: linear-gradient(180deg, rgba(48, 32, 78, 0.98), rgba(28, 18, 48, 0.98));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 8px 22px rgba(0, 0, 0, 0.32);
+      color: #fff;
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .door-button:hover {
+        border-color: rgba(236, 214, 255, 0.7);
+        background: linear-gradient(180deg, rgba(62, 42, 100, 0.98), rgba(34, 22, 58, 0.98));
+      }
+    }
+
+    .door-button[aria-pressed="true"] {
+      border-color: rgba(255, 160, 175, 0.9);
+      background: linear-gradient(180deg, #8f1c33, #5a0f22);
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.45), 0 0 22px rgba(255, 77, 99, 0.35);
+    }
+
+    .door-button[aria-disabled="true"] {
+      border-color: rgba(198, 158, 255, 0.2);
+      background: rgba(16, 11, 28, 0.96);
+      box-shadow: none;
+      color: var(--text-dim);
+      cursor: default;
+    }
+
+    .door-glyph {
+      position: relative;
+      flex: 0 0 auto;
+      width: 24px;
+      height: 30px;
+      overflow: hidden;
+      border: 2px solid currentColor;
+      border-bottom-width: 3px;
+      border-radius: 3px 3px 1px 1px;
+      background: #07040d;
+    }
+
+    .door-glyph i {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(180deg, #d7cde6 0 3px, #8b7fa1 3px 4px);
+      transform: translateY(-101%);
+      transition: transform 0.18s ease;
+    }
+
+    .door-button[aria-pressed="true"] .door-glyph i {
+      transform: none;
+    }
+
+    .door-text {
+      display: grid;
+      gap: 3px;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .door-label {
+      font-size: 1.02rem;
+      font-weight: 750;
+      line-height: 1.1;
+    }
+
+    .door-state {
+      color: #d6c9ec;
+      font: 700 0.64rem/1.2 var(--font-mono);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .door-button[aria-pressed="true"] .door-state {
+      color: #ffe1e6;
+    }
+
+    .door-key {
+      display: none;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .door-key { display: inline-grid; }
+    }
+
+    /* Someone at the door and it is still open: the button asks to be pressed. */
+    .door-button.is-urgent:not([aria-pressed="true"]) {
+      border-color: rgba(255, 140, 158, 0.95);
+    }
+
+    /* Frozen: off screen, hidden tab, or paused by the visitor. */
+    .cctv.is-paused :not(.tube),
+    .cctv.is-idle * {
+      animation-play-state: paused !important;
+    }
+
+    .cctv.is-paused .osd-rec i {
+      animation: none;
+      opacity: 1;
+      background: #ffd36e;
+      box-shadow: 0 0 10px rgba(255, 211, 110, 0.7);
+    }
+
+    .cctv.is-paused .osd-rec .rec-label { display: none; }
+    .cctv.is-paused .osd-rec .paused-label { display: inline; }
+
+    @media (max-width: 640px) {
+      .cctv {
+        padding: 10px;
+        border-radius: 24px;
+      }
+
+      .cctv-screen {
+        aspect-ratio: 4 / 3;
+        border-radius: 15px;
+      }
+
+      .cctv-deck {
+        grid-template-columns: minmax(0, 1fr);
+        margin-top: 10px;
+        gap: 10px;
+      }
+
+      .cam-map {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-areas:
+          "party hall hall"
+          "living portal woods"
+          "door door lost";
+        border-radius: 14px;
+      }
+
+      .room {
+        min-height: 50px;
+      }
+
+      .deck-side {
+        flex-direction: row;
+        align-items: center;
+        width: auto;
+        padding: 0 2px 0 6px;
+      }
+
+      .deck-pause {
+        width: auto;
+      }
+
+      .shift-bar {
+        flex-wrap: wrap;
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 14px;
+      }
+
+      /* Room for two lines, so the bar never changes height while the text changes. */
+      .shift-status {
+        flex-basis: 100%;
+        min-height: calc(2 * 1.35em);
+        padding: 0 4px;
+      }
+
+      .shift-best {
+        order: 3;
+        flex-basis: 100%;
+        padding: 0 4px;
+      }
+
+      .shift-start,
+      .door-button {
+        flex: 1 1 100%;
+        justify-content: center;
+        width: auto;
+        min-height: 56px;
+      }
+
+      .door-button {
+        justify-content: flex-start;
+      }
+
+      .result-box {
+        padding-right: 12px;
+      }
+    }
+
+    @media (max-width: 359px) {
+      .cam-map { gap: 5px; padding: 6px; }
+      .room { padding: 6px 7px; min-height: 48px; }
+      .room-name { font-size: 0.74rem; }
+      .room-door { padding-right: 46px; }
+      .lost-code { font-size: 4.2rem; }
+      .door-button { gap: 10px; padding: 0 12px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cctv *,
+      .cctv *::before,
+      .cctv *::after,
+      .lost-copy,
+      .cctv {
+        animation: none !important;
+        transition: none !important;
+      }
+
+      .screen-roll {
+        display: none;
+      }
+
+      /* Without the pulse, the warnings stay fully lit. */
+      .room-door.is-warning::before {
+        opacity: 0.8;
+      }
     }
 
     @media (max-width: 880px) {
@@ -1028,16 +2496,93 @@
   </nav>
 
   <main class="lost" id="top">
-    <div class="lost-tv" aria-hidden="true">
-      <div class="static"></div>
-      <img class="figure" src="/assets/art/scary-game/thumb/char-21.webp" alt="" width="206" height="480">
+    <div class="lost-copy">
+      <p class="lost-eyebrow"><span class="dot" aria-hidden="true"></span>Signal lost</p>
+      <h1 class="lost-code">404</h1>
+      <p class="lost-lead">This page isn't here.</p>
+      <p class="lost-sub">It may have moved, or the link is out of date. The cameras still work, if you want to take the night shift.</p>
+      <div class="hero-buttons">
+        <a class="button primary" href="/#games">Play the games <span class="ico ico-arrow" aria-hidden="true"></span></a>
+        <a class="button" href="/art.html">Open the gallery</a>
+      </div>
     </div>
-    <h1 class="lost-code">404</h1>
-    <p>Lost signal. This page isn't here, but all twelve games still are.</p>
-    <div class="hero-buttons">
-      <a class="button primary" href="/#games">Play the games <span class="ico ico-arrow" aria-hidden="true"></span></a>
-      <a class="button" href="/art.html">Open the gallery</a>
-    </div>
+
+    <section class="cctv" id="cctv" aria-label="Night shift: security cameras">
+      <div class="cctv-screen is-booting" id="cctv-screen" data-mode="lost" style="--boot-delay: 0.35s">
+        <div class="tube" id="cctv-tube">
+          <div class="feed" id="cctv-feed" aria-hidden="true">
+            <div class="scene scene-lost is-live" data-cam="lost">
+              <div class="ghost">
+                <div class="ghost-bar"><i></i><i></i><i></i><span class="ghost-url" id="ghost-url">/</span></div>
+                <div class="ghost-nav"><i></i><i></i><i></i><i></i></div>
+                <div class="ghost-title"></div>
+                <div class="ghost-lines"><span class="ghost-line"></span><span class="ghost-line"></span></div>
+                <div class="ghost-btns"><i></i><i></i></div>
+              </div>
+            </div>
+          </div>
+          <div class="noise" aria-hidden="true"><img src="/assets/sprites/fx-static.webp" alt="" width="1920" height="182" decoding="async"></div>
+          <div class="screen-roll" aria-hidden="true"></div>
+          <div class="nosig" aria-hidden="true">
+            <div class="nosig-box">
+              <img class="nosig-bars" src="/assets/art/fnaf-61/thumb/ui-blinker.webp" alt="" width="480" height="71" decoding="async">
+              <span class="nosig-title">No signal</span>
+              <span class="nosig-hint">Try another camera</span>
+            </div>
+          </div>
+          <div class="screen-fx" aria-hidden="true"></div>
+          <div class="osd" aria-hidden="true">
+            <span class="osd-frame"></span>
+            <span class="osd-rec"><i></i><span class="rec-label">Rec</span><span class="paused-label">Paused</span></span>
+            <span class="osd-cam"><b id="osd-code">CAM 404</b><span id="osd-name">This page</span></span>
+            <span class="osd-alert" id="osd-alert"></span>
+            <span class="osd-time" id="osd-time">--:--:--</span>
+            <span class="osd-batt" id="osd-batt-wrap"><span class="osd-door">Door shut</span><span class="battery" id="battery"><img src="/assets/sprites/fnaf-61-battery.webp" alt="" width="1800" height="74" decoding="async"></span><span id="osd-batt">100%</span></span>
+            <span class="osd-wait">Searching</span>
+          </div>
+        </div>
+        <div class="powerout" aria-hidden="true">
+          <span class="powerout-figure"><img id="powerout-figure" alt="" decoding="async"></span>
+          <p class="powerout-title" id="powerout-title">Out of power</p>
+        </div>
+        <div class="result" id="night-result" hidden>
+          <div class="result-figure" aria-hidden="true"><img id="result-img" alt="" decoding="async"></div>
+          <div class="result-static" aria-hidden="true"><img src="/assets/sprites/fx-static.webp" alt="" width="1920" height="182" decoding="async"></div>
+          <div class="result-box">
+            <p class="result-clock" aria-hidden="true"><span class="roll"><span><i>5</i><i>6</i></span></span><small>AM</small></p>
+            <p class="result-kicker" id="result-kicker">Caught</p>
+            <h2 class="result-title" id="result-title">Caught at 12 AM</h2>
+            <p class="result-sub" id="result-sub"></p>
+            <button class="button primary result-again" type="button" id="result-again">Try again</button>
+            <p class="result-best" id="result-best"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cctv-deck">
+        <div class="cam-map" role="group" aria-label="Cameras">
+          <button class="room room-party" type="button" data-cam="party" aria-pressed="false"><span class="room-cam">CAM 01</span><span class="room-name">Party room</span></button>
+          <button class="room room-hall" type="button" data-cam="hall" aria-pressed="false"><span class="room-cam">CAM 02</span><span class="room-name">Hallway</span></button>
+          <button class="room room-living" type="button" data-cam="living" aria-pressed="false"><span class="room-cam">CAM 03</span><span class="room-name">Living room</span></button>
+          <button class="room room-portal" type="button" data-cam="portal" aria-pressed="false"><span class="room-cam">CAM 04</span><span class="room-name">Portal room</span></button>
+          <button class="room room-woods" type="button" data-cam="woods" aria-pressed="false"><span class="room-cam">CAM 05</span><span class="room-name">Woods</span></button>
+          <button class="room room-door" type="button" data-cam="door" aria-pressed="false" id="door-cam"><span class="room-cam">CAM 06</span><span class="room-name">Your door</span><span class="room-warn" aria-hidden="true">Someone's here</span><span class="room-you" aria-hidden="true"><img src="/assets/art/scary-game/livesguy.svg" alt="" width="91" height="148">You</span></button>
+          <button class="room room-lost" type="button" data-cam="lost" aria-pressed="true"><span class="room-cam">CAM 404</span><span class="room-name">This page</span></button>
+        </div>
+        <div class="deck-side">
+          <p class="deck-hint"><span class="hint-touch">Tap a camera to look.</span><span class="hint-keys"><kbd>1</kbd>–<kbd>6</kbd> cameras, <kbd>D</kbd> door</span></p>
+          <button class="player-button deck-pause" type="button" id="cctv-pause"><span class="ico ico-pause" aria-hidden="true"></span><span class="pause-label">Pause</span></button>
+        </div>
+      </div>
+
+      <div class="shift-bar">
+        <p class="shift-status" id="shift-status" aria-live="polite"><span class="shift-dot" aria-hidden="true"></span><span id="shift-text">Watch the cameras, close the door when someone is at it, and last until 6 AM.</span></p>
+        <p class="shift-best" id="shift-best" hidden></p>
+        <button class="button primary shift-start" type="button" id="shift-start"><span class="ico ico-play" aria-hidden="true"></span>Start the night shift</button>
+        <button class="door-button" type="button" id="door-button" aria-pressed="false" hidden><span class="door-glyph" aria-hidden="true"><i></i></span><span class="door-text"><span class="door-label">Close door</span><span class="door-state" id="door-state" aria-hidden="true">Open</span></span><kbd class="door-key" aria-hidden="true">D</kbd></button>
+      </div>
+      <p class="visually-hidden" id="cctv-live" aria-live="polite"></p>
+    </section>
   </main>
 
   <footer>
@@ -1203,6 +2748,18 @@
       effectsToggle.title = `${effectLabel()} (click to switch Auto, Full, Lite)`;
       document.documentElement.classList.toggle('fx-lite', effectsLite);
     }
+
+    // The Back button can restore a page from the browser's cache with the effects mode it had then;
+    // pick up a mode that was changed on another page in the meantime.
+    addEventListener('pageshow', (event) => {
+      if (!event.persisted) return;
+      const stored = storage.get('shayan-effects');
+      if (!EFFECT_MODES.includes(stored) || stored === state.effectMode) return;
+      state.effectMode = stored;
+      effectsLite = state.effectMode === 'lite' || (state.effectMode === 'auto' && lowPowerHardware);
+      syncEffectsButton();
+      resizeCanvas(true);
+    });
 
     effectsToggle.addEventListener('click', () => {
       state.effectMode = state.effectMode === 'auto' ? 'full' : state.effectMode === 'full' ? 'lite' : 'auto';
@@ -1559,6 +3116,875 @@
     updateScrollUI();
     if (!reduceMotion) animateScene();
     else drawStars(0, 0);
+  </script>
+  <script>
+    'use strict';
+
+    // ---------- 404 night shift ----------
+    // CAM 404 is the lost page: no signal. The other cameras are rooms from the games. Before the
+    // shift starts they can be browsed freely. "Start the night shift" starts a short night:
+    // 12 AM to 6 AM, one hour every 13 seconds. Two visitors walk their routes toward your door
+    // (a third wakes up at 3 AM). When one reaches the door it waits a few seconds: if the door is
+    // shut, it bangs and goes back to the start; if it is open, you are caught. The door drains
+    // power faster while it is shut, and at 0% it opens on its own. The game runs on a 250 ms
+    // interval and stops completely while the tab is hidden, the monitor is off screen, or Pause is on.
+    (function nightShift() {
+      const cctv = document.getElementById('cctv');
+      const screen = document.getElementById('cctv-screen');
+      if (!cctv || !screen) return;
+
+      const $ = (id) => document.getElementById(id);
+      const feed = $('cctv-feed');
+      const tube = $('cctv-tube');
+      const live = $('cctv-live');
+      const osdCode = $('osd-code');
+      const osdName = $('osd-name');
+      const osdTime = $('osd-time');
+      const osdAlert = $('osd-alert');
+      const osdBattWrap = $('osd-batt-wrap');
+      const osdBatt = $('osd-batt');
+      const battery = $('battery');
+      const poweroutFigure = $('powerout-figure');
+      const poweroutTitle = $('powerout-title');
+      const result = $('night-result');
+      const resultImg = $('result-img');
+      const resultKicker = $('result-kicker');
+      const resultTitle = $('result-title');
+      const resultSub = $('result-sub');
+      const resultAgain = $('result-again');
+      const resultBest = $('result-best');
+      const status = $('shift-status');
+      const statusText = $('shift-text');
+      const shiftBest = $('shift-best');
+      const startButton = $('shift-start');
+      const doorButton = $('door-button');
+      const doorState = $('door-state');
+      const doorCam = $('door-cam');
+      const pauseButton = $('cctv-pause');
+      const pauseIcon = pauseButton.querySelector('.ico');
+      const pauseLabel = pauseButton.querySelector('.pause-label');
+      const ghostUrl = $('ghost-url');
+      const roomButtons = Array.from(document.querySelectorAll('.room[data-cam]'));
+      const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      // Spots are where a visitor's feet are, in percent of the picture (x, y), with its height
+      // (h) in percent of the picture, how lit it is (dim), and optionally the doorway it stands
+      // in (clip: left, top, right, bottom). A room holds up to three visitors.
+      const CAMS = [
+        { key: 'lost', code: 'CAM 404', name: 'This page' },
+        {
+          key: 'party', code: 'CAM 01', name: 'Party room', ar: 480 / 360,
+          bg: '/assets/art/fnaf-deluxe/thumb/2.webp',
+          spots: [
+            { x: 15, y: 57, h: 34, dim: 0.62 },
+            { x: 84, y: 54, h: 27, dim: 0.44 },
+            { x: 31, y: 96, h: 54, dim: 0.52 }
+          ]
+        },
+        {
+          key: 'hall', code: 'CAM 02', name: 'Hallway', ar: 1280 / 701,
+          bg: '/assets/art/banban-killer-2/bg-doors.webp',
+          spots: [
+            { x: 48.2, y: 76, h: 42, dim: 0.5, clip: [40.6, 27, 55.8, 76] },
+            { x: 73.7, y: 76, h: 42, dim: 0.5, clip: [66.4, 27, 81, 76] },
+            { x: 22.6, y: 76, h: 42, dim: 0.5, clip: [15.2, 27, 30, 76] }
+          ]
+        },
+        {
+          key: 'living', code: 'CAM 03', name: 'Living room', ar: 480 / 344,
+          bg: '/assets/art/fnaf-deluxe/thumb/hut.webp',
+          spots: [
+            { x: 70, y: 62.5, h: 24, dim: 0.34, clip: [64.4, 38.5, 75.8, 62.5] },
+            { x: 22, y: 76, h: 40, dim: 0.44 },
+            { x: 52, y: 93, h: 56, dim: 0.46 }
+          ]
+        },
+        {
+          key: 'portal', code: 'CAM 04', name: 'Portal room', ar: 674 / 412,
+          bg: '/assets/art/multicolors-negative/room-0.svg',
+          spots: [
+            { x: 50, y: 80, h: 38, dim: 0.7 },
+            { x: 90.2, y: 84, h: 38, dim: 0.64, clip: [84, 29, 96.4, 84] },
+            { x: 31, y: 80, h: 38, dim: 0.66 }
+          ]
+        },
+        {
+          key: 'woods', code: 'CAM 05', name: 'Woods', ar: 480 / 360,
+          bg: '/assets/art/fnaf-deluxe/thumb/3.webp',
+          spots: [
+            { x: 56, y: 85, h: 30, dim: 0.62, op: 0.92 },
+            { x: 85, y: 91, h: 42, dim: 0.46 },
+            { x: 25, y: 95, h: 48, dim: 0.44 }
+          ]
+        },
+        {
+          key: 'door', code: 'CAM 06', name: 'Your door', ar: 480 / 356,
+          bg: '/assets/art/fnaf-deluxe/thumb/power-out.webp',
+          spots: [
+            { x: 40, y: 82.5, h: 34, dim: 0.9, clip: [33.4, 49.6, 46.6, 81.2] }
+          ]
+        }
+      ];
+
+      // The visitors: animatronics from SCARY GAME, and Banana Man from FNaF Deluxe, who wakes
+      // up at 3 AM. Each walks its own route; pace scales how often it tries to move.
+      const REGULARS = [
+        { key: 'bear', name: 'the golden bear', src: '/assets/art/scary-game/thumb/char-4.webp', w: 284, h: 480, route: ['party', 'hall', 'living', 'door'], pace: 1 },
+        { key: 'chicken', name: 'the white chicken', src: '/assets/art/scary-game/thumb/char-2.webp', w: 301, h: 480, route: ['portal', 'woods', 'door'], pace: 0.92, light: 0.85 },
+        { key: 'gray', name: 'the gray bear', src: '/assets/art/scary-game/thumb/1987-grayfreddyfull.webp', w: 219, h: 480, route: ['party', 'portal', 'woods', 'door'], pace: 1.08, light: 1.7, dark: 0.4 },
+        { key: 'brown', name: 'the brown bear', src: '/assets/art/scary-game/thumb/char-25.webp', w: 333, h: 480, route: ['hall', 'woods', 'door'], pace: 0.92 }
+      ];
+      const LATE = { key: 'banana', name: 'Banana Man', src: '/assets/art/fnaf-deluxe/thumb/banana-man.webp', w: 337, h: 480, route: ['woods', 'hall', 'living', 'door'], pace: 1.12, light: 0.9 };
+
+      const RULES = {
+        hour: 13,                               // seconds per in-game hour: a 78 s night
+        tick: 0.25,                             // seconds per game step (a 250 ms interval)
+        drain: 0.4,                             // power used per second
+        doorDrain: 1.35,                        // extra power per second while the door is shut
+        low: 25,                                // the battery turns red below this
+        every: (hour) => 5.2 - 0.3 * hour,      // seconds between a visitor's tries to move
+        jitter: 1.2,
+        chance: (hour) => 0.5 + 0.08 * hour,    // how likely a try turns into a move
+        back: 0.12,                             // how often a move goes one room back instead
+        wait: (hour) => 5.2 - 0.3 * hour,       // seconds at the door before coming in
+        waitJitter: 0.4,
+        grace: [5, 8],                          // the first move of the night
+        rest: [4, 6],                           // back at the start after a bang
+        lateHour: 3,
+        dark: [4, 6]                            // seconds in the dark after the power runs out
+      };
+      const HOURS = ['12 AM', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM'].map((hour) => hour.replace(' ', '\u00a0'));
+      const HOUR_NOTES = ['', '1 AM. Five hours to go.', '2 AM. Four hours to go.', '3 AM.', '4 AM. Two hours to go.', '5 AM. Almost there.'];
+      const RULE_TEXT = 'Watch the cameras, close the door when someone is at it, and last until 6 AM.';
+
+      const rand = (a, b) => a + Math.random() * (b - a);
+      const cap = (text) => text.charAt(0).toUpperCase() + text.slice(1);
+      const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+      const indexOf = (key) => CAMS.findIndex((cam) => cam.key === key);
+      const camOf = (key) => CAMS[indexOf(key)];
+      const DOOR = indexOf('door');
+      const lostScene = feed.querySelector('.scene-lost');
+
+      // ---------- Best result (kept in this browser only) ----------
+      const BEST_KEY = 'shayan-night-shift';
+      const record = { best: -1, nights: 0 };
+      try {
+        const saved = JSON.parse(localStorage.getItem(BEST_KEY) || 'null');
+        if (saved && Number.isFinite(saved.best)) record.best = Math.max(-1, Math.min(6, Math.floor(saved.best)));
+        if (saved && Number.isFinite(saved.nights)) record.nights = Math.max(0, Math.floor(saved.nights));
+      } catch { /* no saved result */ }
+
+      function saveRecord(hour, won) {
+        record.best = Math.max(record.best, hour);
+        if (won) record.nights += 1;
+        try { localStorage.setItem(BEST_KEY, JSON.stringify(record)); } catch { /* not saved */ }
+      }
+
+      function recordText() {
+        if (record.nights > 0) return `Nights survived: ${record.nights}`;
+        return record.best >= 0 ? `Best: ${HOURS[record.best]}` : '';
+      }
+
+      // ---------- Game state ----------
+      const game = {
+        phase: 'idle',        // idle, night, caught, won
+        t: 0,
+        hour: 0,
+        power: 100,
+        doorClosed: false,
+        out: false,
+        outTimer: 0,
+        catcher: null,
+        cast: [],
+        note: null,
+        lowNoted: false,
+        paused: false,
+        hidden: document.hidden,
+        offscreen: false
+      };
+
+      function makeCast() {
+        const pool = REGULARS.slice();
+        for (let i = pool.length - 1; i > 0; i -= 1) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [pool[i], pool[j]] = [pool[j], pool[i]];
+        }
+        return [pool[0], pool[1], LATE].map((v, i) => ({ v, pos: 0, timer: rand(...RULES.grace), door: 0, active: i < 2 }));
+      }
+
+      let planned = makeCast();
+      const roomOf = (c) => c.v.route[c.pos];
+      const visitorsIn = (key) => (game.phase === 'idle' ? planned : game.cast).filter((c) => c.active && roomOf(c) === key);
+      const atDoor = () => (game.phase === 'night' ? game.cast.find((c) => c.active && roomOf(c) === 'door') : null);
+
+      // ---------- Rooms ----------
+      const state = { index: 0, busy: false, queued: -1, inView: true };
+
+      // The address the visitor asked for, shown in the ghost page's address bar.
+      let path = location.pathname + location.search;
+      try { path = decodeURI(path); } catch { /* keep it encoded */ }
+      ghostUrl.textContent = path.length > 64 ? `${path.slice(0, 61)}...` : path;
+
+      function loadImage(img) {
+        if (img.complete && img.naturalWidth) return Promise.resolve();
+        const loaded = img.decode ? img.decode() : new Promise((resolve, reject) => {
+          img.addEventListener('load', resolve, { once: true });
+          img.addEventListener('error', reject, { once: true });
+        });
+        return loaded.catch(() => { /* a missing picture just leaves the room dark */ });
+      }
+
+      // Builds a room the first time it is needed, so its pictures only load on demand.
+      function ensureScene(cam) {
+        if (cam.key === 'lost' || cam.el) return;
+        const el = document.createElement('div');
+        el.className = 'scene';
+        el.dataset.cam = cam.key;
+        el.style.setProperty('--ar', String(cam.ar));
+        const bg = document.createElement('img');
+        bg.className = 'scene-bg';
+        bg.alt = '';
+        bg.decoding = 'async';
+        bg.src = cam.bg;
+        el.append(bg);
+        if (cam.key === 'door') {
+          cam.gap = document.createElement('div');
+          cam.gap.className = 'door-gap';
+          const shutter = document.createElement('div');
+          shutter.className = 'door-shutter';
+          cam.gap.append(shutter);
+          const lamp = document.createElement('span');
+          lamp.className = 'door-lamp';
+          el.append(cam.gap, lamp);
+        }
+        feed.append(el);
+        cam.el = el;
+        cam.lurkers = new Map();
+        cam.ready = loadImage(bg);
+      }
+
+      function lurkerFor(cam, v) {
+        let lurker = cam.lurkers.get(v.key);
+        if (lurker) return lurker;
+        const clip = document.createElement('div');
+        clip.className = 'lurk-clip';
+        clip.hidden = true;
+        const el = document.createElement('div');
+        el.className = 'lurker';
+        el.style.setProperty('--lar', String(v.w / v.h));
+        const body = document.createElement('div');
+        body.className = 'lurk-body';
+        const img = document.createElement('img');
+        img.alt = '';
+        img.decoding = 'async';
+        img.src = v.src;
+        body.append(img);
+        el.append(body);
+        clip.append(el);
+        cam.el.append(clip);
+        lurker = { clip, el, img, spot: -1 };
+        cam.lurkers.set(v.key, lurker);
+        return lurker;
+      }
+
+      function placeLurker(lurker, spot, v) {
+        const { style } = lurker.el;
+        style.setProperty('--x', `${spot.x}%`);
+        style.setProperty('--y', `${spot.y}%`);
+        style.setProperty('--h', `${spot.h}%`);
+        style.setProperty('--dim', String(Math.min(1.4, (spot.dim ?? 0.6) * (v.light ?? 1))));
+        style.setProperty('--op', String(spot.op ?? 1));
+        style.setProperty('--from', spot.x > 50 ? '14%' : '-14%');
+        const [l, t, r, b] = spot.clip || [0, 0, 100, 100];
+        lurker.clip.style.setProperty('--clip', spot.clip ? `inset(${t}% ${100 - r}% ${100 - b}% ${l}%)` : 'none');
+      }
+
+      // Shows who is in a room right now. Visitors keep their spot while they stay.
+      function renderRoom(cam, arrivals = []) {
+        if (!cam || !cam.el || !cam.spots) return;
+        const here = visitorsIn(cam.key);
+        const used = new Set();
+        cam.lurkers.forEach((lurker, key) => {
+          if (here.some((c) => c.v.key === key)) {
+            if (lurker.spot >= 0) used.add(lurker.spot);
+          } else {
+            lurker.clip.hidden = true;
+            lurker.spot = -1;
+          }
+        });
+        here.forEach((c) => {
+          const lurker = lurkerFor(cam, c.v);
+          if (lurker.spot < 0) {
+            let spot = 0;
+            while (used.has(spot) && spot < cam.spots.length - 1) spot += 1;
+            used.add(spot);
+            lurker.spot = spot;
+            placeLurker(lurker, cam.spots[spot], c.v);
+          }
+          lurker.el.classList.toggle('arrives', arrivals.includes(c));
+          lurker.clip.hidden = false;
+        });
+      }
+
+      function describe(cam) {
+        if (cam.key === 'lost') return 'No signal.';
+        const here = visitorsIn(cam.key);
+        if (cam.key === 'door') {
+          if (game.out) return 'The door is open. No power.';
+          const door = game.doorClosed ? 'The door is shut.' : 'The door is open.';
+          if (!here.length) return `${door} Nobody is there.`;
+          return `${door} ${cap(here[0].v.name)} is ${game.doorClosed ? 'outside' : 'in the doorway'}!`;
+        }
+        if (!here.length) return 'Nobody is here.';
+        const names = here.map((c) => c.v.name);
+        const list = names.length === 1 ? names[0] : `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
+        return `${cap(list)} ${names.length === 1 ? 'is' : 'are'} here.`;
+      }
+
+      let announceTimer = 0;
+      function announce(message) {
+        clearTimeout(announceTimer);
+        live.textContent = '';
+        announceTimer = setTimeout(() => { live.textContent = message; }, 60);
+      }
+
+      function show(index) {
+        const cam = CAMS[index];
+        ensureScene(cam);
+        renderRoom(cam);
+        lostScene.classList.toggle('is-live', cam.key === 'lost');
+        CAMS.forEach((other) => other.el?.classList.toggle('is-live', other === cam));
+        screen.dataset.mode = cam.key === 'lost' ? 'lost' : 'room';
+        osdCode.textContent = cam.code;
+        osdName.textContent = cam.name;
+        state.index = index;
+        announce(`${cam.code}, ${cam.name}. ${describe(cam)}`);
+      }
+
+      function markPressed(index) {
+        roomButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.cam === CAMS[index].key)));
+      }
+
+      async function switchTo(index, { force = false } = {}) {
+        if (game.phase === 'caught' || game.phase === 'won') {
+          backToIdle();
+          force = true;
+        }
+        if (game.out) {
+          announce('No power. The cameras are off.');
+          return;
+        }
+        if (state.busy) {
+          state.queued = index;
+          markPressed(index);
+          return;
+        }
+        if (index === state.index && !force) return;
+        state.busy = true;
+        markPressed(index);
+        const cam = CAMS[index];
+        ensureScene(cam);
+        const burst = !motion.matches && !game.paused;
+        if (burst) screen.classList.add('is-tuning');
+        const waitingTimer = setTimeout(() => screen.classList.add('is-waiting'), burst ? 450 : 200);
+        await Promise.race([Promise.all([cam.ready, wait(burst ? 180 : 0)]), wait(3000)]);
+        clearTimeout(waitingTimer);
+        screen.classList.remove('is-waiting');
+        if (!game.out) show(index);
+        if (burst) {
+          await wait(110);
+          screen.classList.remove('is-tuning');
+        }
+        state.busy = false;
+        if (state.queued !== -1) {
+          const next = state.queued;
+          state.queued = -1;
+          if (next !== state.index) switchTo(next);
+        }
+      }
+
+      // A short burst of static on the camera that is showing when someone walks in or out.
+      let glitchTimer = 0;
+      function glitch() {
+        screen.classList.remove('is-glitch');
+        void screen.offsetWidth;
+        screen.classList.add('is-glitch');
+        clearTimeout(glitchTimer);
+        glitchTimer = setTimeout(() => screen.classList.remove('is-glitch'), 380);
+      }
+
+      // ---------- Status line, door, power ----------
+      let lastStatus = '';
+      function setStatus(text, warn = false) {
+        status.classList.toggle('is-warn', warn);
+        if (text === lastStatus) return;
+        lastStatus = text;
+        statusText.textContent = text;
+      }
+
+      function note(text, seconds = 3) {
+        game.note = { text, until: game.t + seconds };
+      }
+
+      function renderStatus() {
+        if (game.phase !== 'night') return;
+        const visitor = atDoor();
+        if (game.paused) setStatus('Paused. Press Resume to carry on.');
+        else if (game.out) setStatus("Out of power. The door won't close.", true);
+        else if (visitor && !game.doorClosed) setStatus("Someone's at your door. Close it!", true);
+        else if (visitor) setStatus("Someone's outside. Keep the door shut.", true);
+        else if (game.note && game.t < game.note.until) setStatus(game.note.text);
+        else if (game.doorClosed) setStatus('Door shut. It uses power faster.');
+        else setStatus(game.power < RULES.low ? 'Power is low. All quiet at your door.' : 'All quiet at your door.');
+      }
+
+      let alertTimer = 0;
+      function renderAlert() {
+        const visitor = atDoor();
+        if (game.phase === 'night' && visitor && !game.out) {
+          clearTimeout(alertTimer);
+          osdAlert.textContent = game.doorClosed ? 'Someone outside' : 'At your door';
+          osdAlert.className = 'osd-alert is-on is-warn';
+        } else if (!osdAlert.classList.contains('is-bang')) {
+          osdAlert.className = 'osd-alert';
+        }
+      }
+
+      function renderDoor() {
+        const night = game.phase === 'night';
+        const visitor = atDoor();
+        screen.classList.toggle('door-closed', game.doorClosed);
+        doorButton.setAttribute('aria-pressed', String(game.doorClosed));
+        const usable = night && !game.out;
+        if (usable) doorButton.removeAttribute('aria-disabled');
+        else doorButton.setAttribute('aria-disabled', 'true');
+        doorState.textContent = game.out ? 'No power' : !night ? 'Shift over' : game.doorClosed ? 'Shut. Press to open' : 'Open';
+        doorButton.classList.toggle('is-urgent', Boolean(visitor) && !game.doorClosed && usable);
+        doorCam.classList.toggle('is-warning', Boolean(visitor) && !game.out);
+        renderAlert();
+      }
+
+      let shownPower = -1;
+      function renderPower() {
+        const power = Math.max(0, game.power);
+        const percent = Math.ceil(power);
+        if (percent === shownPower) return;
+        shownPower = percent;
+        const frame = Math.min(11, Math.floor(((100 - power) / 100) * 12));
+        battery.style.setProperty('--frame', String(frame));
+        osdBatt.textContent = `${percent}%`;
+        osdBattWrap.classList.toggle('is-low', power < RULES.low);
+      }
+
+      function renderClock() {
+        if (game.phase === 'idle') return;
+        osdTime.textContent = HOURS[game.hour];
+      }
+
+      // ---------- The night ----------
+      let timer = 0;
+      function syncTimer() {
+        const run = game.phase === 'night' && !game.paused && !game.hidden && !game.offscreen;
+        if (run && !timer) timer = setInterval(step, RULES.tick * 1000);
+        else if (!run && timer) {
+          clearInterval(timer);
+          timer = 0;
+        }
+      }
+
+      // The star field behind the page drops its frame rate while a night is running.
+      window.sceneBusy = () => game.phase === 'night' && !game.paused && !game.hidden;
+
+      function step() {
+        if (game.phase !== 'night') return;
+        const dt = RULES.tick;
+        game.t += dt;
+        const hour = Math.min(6, Math.floor(game.t / RULES.hour));
+        if (hour !== game.hour) {
+          game.hour = hour;
+          if (hour >= 6) {
+            win();
+            return;
+          }
+          onHour();
+        }
+
+        if (game.out) {
+          game.outTimer -= dt;
+          if (game.outTimer <= 0) caught(game.catcher, true);
+          return;
+        }
+
+        game.power = Math.max(0, game.power - (RULES.drain + (game.doorClosed ? RULES.doorDrain : 0)) * dt);
+        renderPower();
+        if (game.power <= 0) {
+          powerOut();
+          return;
+        }
+        if (game.power < RULES.low && !game.lowNoted) {
+          game.lowNoted = true;
+          note(game.doorClosed ? 'Power is low. Open the door when you can.' : 'Power is low.', 4);
+        }
+
+        for (const c of game.cast) {
+          if (!c.active) continue;
+          if (roomOf(c) === 'door') {
+            c.door -= dt;
+            if (c.door > 0) continue;
+            if (game.doorClosed) bang(c);
+            else {
+              caught(c, false);
+              return;
+            }
+            continue;
+          }
+          c.timer -= dt;
+          if (c.timer > 0) continue;
+          c.timer = (RULES.every(game.hour) + rand(-RULES.jitter, RULES.jitter)) / c.v.pace;
+          if (Math.random() > RULES.chance(game.hour)) continue;
+          if (c.pos > 0 && Math.random() < RULES.back) {
+            move(c, c.pos - 1);
+            continue;
+          }
+          const next = c.v.route[c.pos + 1];
+          if (next === 'door' && atDoor()) continue;
+          move(c, c.pos + 1);
+        }
+        renderStatus();
+      }
+
+      function onHour() {
+        renderClock();
+        const late = game.cast.find((c) => !c.active);
+        if (game.hour >= RULES.lateHour && late) {
+          late.active = true;
+          late.pos = 0;
+          late.timer = rand(3, 5);
+          note(`${HOURS[game.hour]}. ${cap(late.v.name)} is awake.`, 4);
+          visitorMoved(late, null, roomOf(late));
+        } else if (HOUR_NOTES[game.hour]) {
+          note(HOUR_NOTES[game.hour], 3);
+        }
+        if (game.out) poweroutTitle.textContent = `Out of power · ${HOURS[game.hour]}`;
+        renderStatus();
+      }
+
+      // Keeps the camera that is on screen up to date when someone walks in or out of it.
+      function visitorMoved(c, from, to) {
+        const cam = CAMS[state.index];
+        if (!cam || !cam.spots || game.out) return;
+        if (cam.key !== from && cam.key !== to) return;
+        glitch();
+        renderRoom(cam, cam.key === to ? [c] : []);
+        if (cam.key === to) announce(cam.key === 'door' ? `${cap(c.v.name)} is at your door!` : `${cap(c.v.name)} walked in.`);
+        else announce(`${cap(c.v.name)} left.`);
+      }
+
+      function move(c, pos) {
+        const from = roomOf(c);
+        c.pos = pos;
+        const to = roomOf(c);
+        if (to === 'door') c.door = RULES.wait(game.hour) + rand(-RULES.waitJitter, RULES.waitJitter);
+        visitorMoved(c, from, to);
+        if (from === 'door' || to === 'door') renderDoor();
+      }
+
+      // The door held: a bang on the shutter, and the visitor goes back to the start of its route.
+      let bangTimer = 0;
+      function bang(c) {
+        const name = cap(c.v.name);
+        const back = camOf(c.v.route[0]).name.toLowerCase();
+        c.pos = 0;
+        c.timer = rand(...RULES.rest);
+        visitorMoved(c, 'door', roomOf(c));
+        note(`Bang! ${name} went back to the ${back}.`, 3.5);
+        announce(`Bang! ${name} went back.`);
+        const door = camOf('door');
+        if (door.gap) {
+          door.gap.classList.remove('is-bang');
+          void door.gap.offsetWidth;
+          door.gap.classList.add('is-bang');
+        }
+        clearTimeout(alertTimer);
+        osdAlert.textContent = 'Bang!';
+        osdAlert.className = 'osd-alert is-on is-bang';
+        alertTimer = setTimeout(() => {
+          osdAlert.classList.remove('is-bang');
+          renderAlert();
+        }, 1600);
+        renderDoor();
+      }
+
+      function closestVisitor() {
+        const active = game.cast.filter((c) => c.active);
+        const progress = (c) => c.pos / (c.v.route.length - 1) + Math.random() * 0.01;
+        return active.sort((a, b) => progress(b) - progress(a))[0] || game.cast[0];
+      }
+
+      function powerOut() {
+        game.out = true;
+        game.doorClosed = false;
+        game.outTimer = rand(...RULES.dark);
+        game.catcher = closestVisitor();
+        poweroutFigure.style.setProperty('--dark', String(game.catcher.v.dark ?? 0.11));
+        poweroutFigure.src = game.catcher.v.src;
+        poweroutTitle.textContent = `Out of power · ${HOURS[game.hour]}`;
+        screen.classList.remove('is-tuning', 'is-waiting', 'is-booting', 'is-glitch');
+        screen.classList.add('is-off');
+        renderPower();
+        renderDoor();
+        renderStatus();
+        announce('The power is out. The screen went dark and the door is open.');
+      }
+
+      function toggleDoor() {
+        if (game.phase !== 'night' || game.out) return;
+        game.doorClosed = !game.doorClosed;
+        renderDoor();
+        renderStatus();
+        if (CAMS[state.index].key === 'door') renderRoom(CAMS[state.index]);
+      }
+
+      // ---------- Results ----------
+      let resultTimer = 0;
+      function showResult(kind, c) {
+        clearTimeout(resultTimer);
+        const takeFocus = cctv.contains(document.activeElement) || document.activeElement === document.body;
+        result.classList.remove('is-caught', 'is-won', 'show-box');
+        result.classList.add(kind === 'won' ? 'is-won' : 'is-caught');
+        if (c) {
+          resultImg.src = c.v.src;
+          resultImg.style.setProperty('--lit', String(Math.min(1.25, 0.92 * (c.v.light ?? 1))));
+        }
+        resultAgain.textContent = kind === 'won' ? 'Play again' : 'Try again';
+        resultBest.textContent = recordText();
+        result.hidden = false;
+        resultTimer = setTimeout(() => {
+          result.classList.add('show-box');
+          if (takeFocus) resultAgain.focus({ preventScroll: true });
+        }, motion.matches ? 250 : kind === 'won' ? 900 : 1300);
+        renderDoor();
+        syncTimer();
+      }
+
+      function caught(c, inDark) {
+        if (game.phase !== 'night') return;
+        game.phase = 'caught';
+        saveRecord(game.hour, false);
+        const name = cap(c.v.name);
+        resultKicker.textContent = inDark ? 'Lights out' : 'Caught';
+        resultTitle.textContent = `Caught at ${HOURS[game.hour]}`;
+        resultSub.textContent = inDark ? `${name} found you in the dark.` : `${name} got in.`;
+        setStatus(`Caught at ${HOURS[game.hour]}. ${resultSub.textContent}`, true);
+        osdAlert.className = 'osd-alert';
+        showResult('caught', c);
+      }
+
+      function win() {
+        game.phase = 'won';
+        saveRecord(6, true);
+        resultTitle.innerHTML = '<span class="visually-hidden">6 AM. </span>You made it.';
+        resultSub.textContent = game.out ? 'Just in time. The lights are coming back on.' : `${Math.ceil(game.power)}% power left. Nice shift.`;
+        setStatus('6 AM. You made it.');
+        osdTime.textContent = HOURS[6];
+        osdAlert.className = 'osd-alert';
+        doorCam.classList.remove('is-warning');
+        showResult('won');
+      }
+
+      // ---------- Starting and stopping ----------
+      function bringIntoView() {
+        const navHeight = document.getElementById('topbar')?.offsetHeight || 0;
+        const rect = cctv.getBoundingClientRect();
+        if (rect.top >= navHeight - 1 && rect.bottom <= innerHeight + 1) return;
+        const fits = rect.height + navHeight + 16 <= innerHeight;
+        const top = fits && rect.top < navHeight ? rect.top - navHeight - 8 : fits ? rect.bottom - innerHeight + 8 : rect.top - navHeight - 8;
+        window.scrollTo({ top: Math.max(0, scrollY + top), behavior: motion.matches ? 'auto' : 'smooth' });
+      }
+
+      function startNight() {
+        const takeFocus = !document.activeElement || document.activeElement === document.body || cctv.contains(document.activeElement);
+        clearTimeout(resultTimer);
+        result.hidden = true;
+        result.classList.remove('show-box', 'is-caught', 'is-won');
+        screen.classList.remove('is-off', 'is-glitch');
+        poweroutFigure.removeAttribute('src');
+        if (!motion.matches) {
+          screen.style.removeProperty('--boot-delay');
+          screen.classList.remove('is-booting');
+          void screen.offsetWidth;
+          screen.classList.add('is-booting');
+        }
+
+        game.cast = planned || makeCast();
+        planned = null;
+        game.cast.forEach((c, i) => {
+          c.pos = 0;
+          c.door = 0;
+          c.timer = rand(...RULES.grace);
+          c.active = i < 2;
+        });
+        Object.assign(game, { phase: 'night', t: 0, hour: 0, power: 100, doorClosed: false, out: false, outTimer: 0, catcher: null, note: null, lowNoted: false });
+        if (game.paused) setPaused(false);
+
+        // Everything the night needs starts loading now.
+        CAMS.forEach(ensureScene);
+        game.cast.forEach((c) => {
+          const img = new Image();
+          img.decoding = 'async';
+          img.src = c.v.src;
+        });
+        CAMS.forEach((cam) => cam.lurkers?.forEach((lurker) => {
+          lurker.clip.hidden = true;
+          lurker.spot = -1;
+        }));
+
+        cctv.classList.add('is-night');
+        screen.classList.add('is-night');
+        clearTimeout(clockTimer);
+        renderClock();
+        renderPower();
+        renderDoor();
+        startButton.hidden = true;
+        doorButton.hidden = false;
+        shiftBest.hidden = true;
+        note('12 AM. Your shift starts now.', 4);
+        renderStatus();
+        if (takeFocus) doorButton.focus({ preventScroll: true });
+        state.index = -1;
+        switchTo(DOOR, { force: true });
+        bringIntoView();
+        syncTimer();
+      }
+
+      // Picking a camera after a result goes back to browsing, with a fresh cast in the rooms.
+      function backToIdle() {
+        clearTimeout(resultTimer);
+        result.hidden = true;
+        result.classList.remove('show-box', 'is-caught', 'is-won');
+        screen.classList.remove('is-off', 'is-night', 'door-closed');
+        cctv.classList.remove('is-night');
+        poweroutFigure.removeAttribute('src');
+        Object.assign(game, { phase: 'idle', power: 100, doorClosed: false, out: false });
+        planned = makeCast();
+        CAMS.forEach((cam) => cam.lurkers?.forEach((lurker) => {
+          lurker.clip.hidden = true;
+          lurker.spot = -1;
+        }));
+        const focusStart = document.activeElement === doorButton || document.activeElement === resultAgain;
+        doorButton.hidden = true;
+        startButton.hidden = false;
+        renderPower();
+        renderDoor();
+        renderBest();
+        setStatus(RULE_TEXT);
+        if (focusStart) startButton.focus({ preventScroll: true });
+        syncClock();
+      }
+
+      function renderBest() {
+        const text = recordText();
+        shiftBest.textContent = text;
+        shiftBest.hidden = !text || game.phase !== 'idle';
+      }
+
+      // ---------- Clock, pause, visibility ----------
+      // Before the shift the corner shows the real date and time, once a second while on screen.
+      let clockTimer = 0;
+      const pad = (n) => String(n).padStart(2, '0');
+      function tick() {
+        const d = new Date();
+        osdTime.textContent = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+        clockTimer = setTimeout(tick, 1000 - (Date.now() % 1000) + 8);
+      }
+
+      function syncClock() {
+        clearTimeout(clockTimer);
+        cctv.classList.toggle('is-idle', game.offscreen || game.hidden);
+        if (game.phase === 'idle' && !game.paused && !game.offscreen && !game.hidden) tick();
+        syncTimer();
+      }
+
+      function setPaused(paused) {
+        game.paused = paused;
+        cctv.classList.toggle('is-paused', paused);
+        pauseLabel.textContent = paused ? 'Resume' : 'Pause';
+        pauseIcon.classList.toggle('ico-pause', !paused);
+        pauseIcon.classList.toggle('ico-play', paused);
+        renderStatus();
+        syncClock();
+      }
+
+      // ---------- Controls ----------
+      roomButtons.forEach((button) => {
+        const index = indexOf(button.dataset.cam);
+        button.addEventListener('click', () => switchTo(index));
+        // Warm the room up while the pointer is on its way, so the switch is quick.
+        const warm = () => ensureScene(CAMS[index]);
+        button.addEventListener('pointerenter', warm, { passive: true });
+        button.addEventListener('focus', warm);
+      });
+
+      startButton.addEventListener('click', startNight);
+      resultAgain.addEventListener('click', startNight);
+      doorButton.addEventListener('click', toggleDoor);
+      pauseButton.addEventListener('click', () => setPaused(!game.paused));
+      // The tube opens once (on load, and when a night starts), then the class goes away.
+      tube.addEventListener('animationend', (event) => {
+        if (event.target === tube && event.animationName === 'tubeOn') screen.classList.remove('is-booting');
+      });
+
+      // Keys: 1 to 6 pick a camera, D works the door, the arrows flip through the cameras.
+      // The letter and number keys only act while focus is in the monitor (or nowhere in particular).
+      document.addEventListener('keydown', (event) => {
+        if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) return;
+        if (event.target.closest?.('input, textarea, select, [contenteditable]')) return;
+        const focusInMap = roomButtons.includes(document.activeElement);
+        const follow = (index) => {
+          if (focusInMap) roomButtons.find((button) => button.dataset.cam === CAMS[index].key)?.focus();
+        };
+
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+          if (event.shiftKey || game.offscreen) return;
+          event.preventDefault();
+          const step = event.key === 'ArrowRight' ? 1 : -1;
+          const from = state.queued !== -1 ? state.queued : state.index < 0 ? 0 : state.index;
+          const next = (from + step + CAMS.length) % CAMS.length;
+          switchTo(next);
+          follow(next);
+          return;
+        }
+
+        const active = document.activeElement;
+        if (active && active !== document.body && !cctv.contains(active)) return;
+        if (/^[1-6]$/.test(event.key)) {
+          event.preventDefault();
+          const index = Number(event.key);
+          switchTo(index);
+          follow(index);
+        } else if ((event.key === 'd' || event.key === 'D') && game.phase === 'night') {
+          event.preventDefault();
+          toggleDoor();
+        }
+      });
+
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver((entries) => {
+          game.offscreen = !entries[entries.length - 1].isIntersecting;
+          syncClock();
+        }).observe(cctv);
+      }
+      document.addEventListener('visibilitychange', () => {
+        game.hidden = document.hidden;
+        syncClock();
+      });
+
+      if (motion.matches) screen.classList.remove('is-booting');
+      renderPower();
+      renderDoor();
+      renderBest();
+      syncClock();
+    })();
   </script>
 </body>
 </html>
